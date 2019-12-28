@@ -19,5 +19,5 @@ func initAPI() {
 		)
 	beego.AddNamespace(ns)
 
-	beego.Router("/api/upload-trace", &controllers.ApiController{}, "POST:UploadTrace")
+	beego.Router("/api/list-testsets", &controllers.ApiController{}, "GET:ListTestsets")
 }
