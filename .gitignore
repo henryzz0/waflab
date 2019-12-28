@@ -16,3 +16,9 @@
 
 .idea/
 *.iml
+
+tmp/
+*.tmp
+logs/
+lastupdate.tmp
+commentsRouter*.go
