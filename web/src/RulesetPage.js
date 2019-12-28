@@ -41,6 +41,11 @@ class RulesetPage extends React.Component {
   renderTable(title, rulefiles) {
     const columns = [
       {
+        title: 'No',
+        dataIndex: 'no',
+        key: 'no',
+      },
+      {
         title: 'Id',
         dataIndex: 'id',
         key: 'id',
@@ -51,14 +56,14 @@ class RulesetPage extends React.Component {
         key: 'type',
       },
       {
-        title: 'No',
-        dataIndex: 'no',
-        key: 'no',
+        title: 'Name',
+        dataIndex: 'name',
+        key: 'name',
       },
       {
-        title: 'Suffix',
-        dataIndex: 'suffix',
-        key: 'suffix',
+        title: 'Description',
+        dataIndex: 'desc',
+        key: 'desc',
       },
       {
         title: 'Rule Count',
