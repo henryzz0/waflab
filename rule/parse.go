@@ -12,8 +12,7 @@ func removeComment(s string) string {
 	return re.ReplaceAllString(s, "")
 }
 
-func parseRules() []string {
-	text := util.ReadStringFromPath(util.CrsRuleDir + "REQUEST-920-PROTOCOL-ENFORCEMENT.conf")
+func parseRules(text string) []string {
 	text = removeComment(text)
 	text = strings.ReplaceAll(text, "\\\n", "")
 
@@ -44,7 +43,8 @@ func printRules(rules []string) {
 }
 
 func parse() {
-	rules := parseRules()
+	text := util.ReadStringFromPath(util.CrsRuleDir + "REQUEST-920-PROTOCOL-ENFORCEMENT.conf")
+	rules := parseRules(text)
 	printRules(rules)
 
 	//scaner := parser.NewSecLangScannerFromString(text)

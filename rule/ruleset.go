@@ -5,6 +5,8 @@ type Ruleset struct {
 	Name    string `json:"name"`
 	Version string `json:"version"`
 	Count   int    `json:"count"`
+
+	Rulefiles []*Rulefile `json:"rulefiles"`
 }
 
 func newRuleset(id string) *Ruleset {
