@@ -44,7 +44,7 @@ class App extends Component {
             style={{ lineHeight: '64px' }}
             inlineCollapsed={false}
           >
-            <Text>WAF Lab</Text>
+            <Text style={{marginRight: '30px'}}>WAF Lab</Text>
 
             <Menu.Item key="1">
               <a href="/">

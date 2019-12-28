@@ -15,8 +15,8 @@ code {
 .logo {
   background: url("logo.svg");
   width: 33px;
-  height: 33px;
+  height: 25px;
   /*background: rgba(0, 0, 0, 0.2);*/
-  margin: 18px 10px 16px 10px;
+  margin: 22px 10px 16px 10px;
   float: left;
 }
