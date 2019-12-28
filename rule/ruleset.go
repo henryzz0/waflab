@@ -1,14 +1,14 @@
 package rule
 
-type Testset struct {
+type Ruleset struct {
 	Id      string `json:"id"`
 	Name    string `json:"name"`
 	Version string `json:"version"`
 	Count   int    `json:"count"`
 }
 
-func newTestset(id string) *Testset {
-	ts := Testset{}
-	ts.Id = id
-	return &ts
+func newRuleset(id string) *Ruleset {
+	rs := Ruleset{}
+	rs.Id = id
+	return &rs
 }

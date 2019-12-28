@@ -9,29 +9,29 @@ class HomePage extends React.Component {
     super(props);
     this.state = {
       classes: props,
-      testsets: [],
+      rulesets: [],
     };
   }
 
   componentDidMount() {
-    this.listTestSets();
+    this.listRulesets();
   }
 
-  listTestSets() {
-    fetch(`${Setting.ServerUrl}/api/list-testsets`, {
+  listRulesets() {
+    fetch(`${Setting.ServerUrl}/api/list-rulesets`, {
       method: "GET",
       credentials: "include"
     })
       .then(res => res.json())
       .then((res) => {
           this.setState({
-            testsets: res,
+            rulesets: res,
           });
         }
       );
   }
 
-  renderTable(testsets) {
+  renderTable(rulesets) {
     const columns = [
       {
         title: 'Id',
@@ -52,8 +52,8 @@ class HomePage extends React.Component {
 
     return (
       <div>
-        <Table columns={columns} dataSource={testsets} size="small" bordered pagination={{pageSize: 100}} scroll={{y: 'calc(95vh - 450px)'}}
-               title={() => 'Testsets'} />
+        <Table columns={columns} dataSource={rulesets} size="small" bordered pagination={{pageSize: 100}} scroll={{y: 'calc(95vh - 450px)'}}
+               title={() => 'Rulesets'} />
       </div>
     );
   }
@@ -62,7 +62,7 @@ class HomePage extends React.Component {
     return (
       <div>
         {
-          this.renderTable(this.state.testsets)
+          this.renderTable(this.state.rulesets)
         }
       </div>
     );
