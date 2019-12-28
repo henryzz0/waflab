@@ -6,3 +6,9 @@ type Testset struct {
 	Version string `json:"version"`
 	Count   int    `json:"count"`
 }
+
+func newTestset(id string) *Testset {
+	ts := Testset{}
+	ts.Id = id
+	return &ts
+}
