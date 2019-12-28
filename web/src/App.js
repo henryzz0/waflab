@@ -5,6 +5,7 @@ import {Layout, Menu, Typography} from 'antd';
 
 import {Switch, Route} from 'react-router-dom'
 import HomePage from "./HomePage";
+import RulesetPage from "./RulesetPage";
 import RulefilePage from "./RulefilePage";
 
 const { Header, Footer } = Layout;
@@ -22,10 +23,10 @@ class App extends Component {
   componentWillMount() {
     // eslint-disable-next-line no-restricted-globals
     const uri = location.pathname;
-    if (uri.includes('ruleset')) {
-      this.setState({ selectedMenuKey: 2 });
-    } else if (uri.includes('page2')) {
+    if (uri.includes('rulefile')) {
       this.setState({ selectedMenuKey: 3 });
+    } else if (uri.includes('ruleset')) {
+      this.setState({ selectedMenuKey: 2 });
     } else {
       this.setState({ selectedMenuKey: 1 });
     }
@@ -53,20 +54,21 @@ class App extends Component {
               </a>
             </Menu.Item>
             <Menu.Item key="2">
-              <a href="/rulefile">
-                Rulefile
+              <a href="/ruleset">
+                Ruleset
               </a>
             </Menu.Item>
             <Menu.Item key="3">
-              <a href="/page2">
-                Page2
+              <a href="/rulefile">
+                Rulefile
               </a>
             </Menu.Item>
           </Menu>
         </Header>
         <Switch>
           <Route exact path="/" component={HomePage}/>
-          <Route path="/ruleset/:rulesetId" component={RulefilePage}/>
+          <Route path="/ruleset/:rulesetId/rulefile/:rulefileId" component={RulefilePage}/>
+          <Route path="/ruleset/:rulesetId" component={RulesetPage}/>
         </Switch>
         {/*<Footer style={{ textAlign: 'center' }}>WAF Lab</Footer>*/}
       </div>

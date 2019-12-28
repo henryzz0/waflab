@@ -1,10 +1,10 @@
 import React from "react";
-import {Table, Tag, Typography} from "antd";
+import {Button, Table, Tag, Typography} from "antd";
 import * as Setting from "./Setting";
 
 const {Text} = Typography;
 
-class RulefilePage extends React.Component {
+class RulesetPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -30,6 +30,12 @@ class RulefilePage extends React.Component {
           });
         }
       );
+  }
+
+  onClick(link) {
+    // this.props.history.push(link);
+    const w = window.open('about:blank');
+    w.location.href = link;
   }
 
   renderTable(title, rulefiles) {
@@ -59,6 +65,12 @@ class RulefilePage extends React.Component {
         dataIndex: 'count',
         key: 'count',
       },
+      {
+        title: 'Action',
+        dataIndex: '',
+        key: 'action',
+        render: (text, record, index) => <Button type="primary" onClick={() => this.onClick.bind(this)(`/ruleset/${this.state.rulesetId}/rulefile/${record.id}`)}>View</Button>
+      },
     ];
 
     return (
@@ -81,4 +93,4 @@ class RulefilePage extends React.Component {
 
 }
 
-export default RulefilePage;
+export default RulesetPage;

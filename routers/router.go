@@ -21,4 +21,5 @@ func initAPI() {
 
 	beego.Router("/api/list-rulesets", &controllers.ApiController{}, "GET:ListRulesets")
 	beego.Router("/api/list-rulefiles", &controllers.ApiController{}, "GET:ListRulefiles")
+	beego.Router("/api/list-rules", &controllers.ApiController{}, "GET:ListRules")
 }

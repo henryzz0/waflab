@@ -9,7 +9,7 @@ type Rulefile struct {
 	Suffix string `json:"suffix"`
 	Count  int    `json:"count"`
 
-	Rules []string `json:"rules"`
+	Rules []*Rule `json:"rules"`
 }
 
 func newRulefile(id string) *Rulefile {
