@@ -3,9 +3,12 @@ package rule
 import (
 	"errors"
 	"regexp"
+
+	"github.com/waflab/waflab/util"
 )
 
 var reRuleId *regexp.Regexp
+var reParanoiaLevel *regexp.Regexp
 
 func init() {
 	var err error
@@ -13,12 +16,18 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
+
+	reParanoiaLevel, err = regexp.Compile("TX:EXECUTING_PARANOIA_LEVEL \"@lt (\\d)\"")
+	if err != nil {
+		panic(err)
+	}
 }
 
 type Rule struct {
-	No   int    `json:"no"`
-	Id   string `json:"id"`
-	Text string `json:"text"`
+	No            int    `json:"no"`
+	Id            string `json:"id"`
+	ParanoiaLevel int    `json:"paranoiaLevel"`
+	Text          string `json:"text"`
 
 	ChainRules []*Rule `json:"chainRules"`
 }
@@ -38,12 +47,25 @@ func newChainRule(no int, text string) *Rule {
 	return &r
 }
 
-func (r *Rule) parseText() {
-	res := reRuleId.FindStringSubmatch(r.Text)
+func parseRuleId(text string) string {
+	res := reRuleId.FindStringSubmatch(text)
 	if res == nil {
-		panic(errors.New("parseText() error: cannot find rule Id in rule text: " + r.Text))
+		panic(errors.New("parseRuleId() error: cannot find rule Id in rule text: " + text))
 	}
-	r.Id = res[1]
+	return res[1]
+}
+
+func parseParanoiaLevel(text string) int {
+	res := reParanoiaLevel.FindStringSubmatch(text)
+	if res == nil {
+		return 0
+	}
+	return util.ParseInt(res[1])
+}
+
+func (r *Rule) parseText() {
+	r.Id = parseRuleId(r.Text)
+	r.ParanoiaLevel = parseParanoiaLevel(r.Text)
 }
 
 func (r *Rule) addChainRule(text string) {

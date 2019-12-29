@@ -3,12 +3,13 @@ package rule
 import "strings"
 
 type Rulefile struct {
-	No    int    `json:"no"`
-	Id    string `json:"id"`
-	Type  string `json:"type"`
-	Name  string `json:"name"`
-	Desc  string `json:"desc"`
-	Count int    `json:"count"`
+	No      int    `json:"no"`
+	Id      string `json:"id"`
+	Type    string `json:"type"`
+	Name    string `json:"name"`
+	Desc    string `json:"desc"`
+	Count   int    `json:"count"`
+	PlCount int    `json:"plCount"`
 
 	Rules []*Rule `json:"rules"`
 }

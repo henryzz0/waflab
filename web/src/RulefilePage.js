@@ -72,6 +72,12 @@ class RulefilePage extends React.Component {
         width: 80,
       },
       {
+        title: 'Paranoia Level',
+        dataIndex: 'paranoiaLevel',
+        key: 'paranoiaLevel',
+        width: 80,
+      },
+      {
         title: 'Text',
         dataIndex: 'text',
         key: 'text',

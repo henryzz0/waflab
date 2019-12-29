@@ -68,11 +68,17 @@ class RulesetPage extends React.Component {
         title: 'Description',
         dataIndex: 'desc',
         key: 'desc',
+        width: 300,
       },
       {
         title: 'Rule Count',
         dataIndex: 'count',
         key: 'count',
+      },
+      {
+        title: 'Rule Count (PL <= 2)',
+        dataIndex: 'plCount',
+        key: 'plCount',
       },
       {
         title: 'Action',
