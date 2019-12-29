@@ -1,5 +1,5 @@
 import React from "react";
-import {Table, Tag, Typography} from "antd";
+import {Icon, Table, Tag, Typography} from "antd";
 import * as Setting from "./Setting";
 
 const {Text} = Typography;
@@ -34,12 +34,42 @@ class RulefilePage extends React.Component {
   }
 
   renderTable(title, title2, rules) {
+    const expandedRowRender = (record, index, indent, expanded) => {
+      const columns = [
+        {
+          title: 'No',
+          dataIndex: 'no',
+          key: 'no',
+          width: 60,
+        },
+        {
+          title: 'Id',
+          dataIndex: 'id',
+          key: 'id',
+          width: 80,
+        },
+        {
+          title: 'Text',
+          dataIndex: 'text',
+          key: 'text',
+        },
+      ];
+
+      return <Table columns={columns} dataSource={record.chainRules} pagination={false} />;
+    };
+
     const columns = [
       {
         title: 'No',
         dataIndex: 'no',
         key: 'no',
-        width: 50,
+        width: 60,
+      },
+      {
+        title: 'Id',
+        dataIndex: 'id',
+        key: 'id',
+        width: 80,
       },
       {
         title: 'Text',
@@ -48,10 +78,20 @@ class RulefilePage extends React.Component {
       },
     ];
 
+    function expandIcon({ expanded, expandable, record, onExpand }) {
+      if (!expandable || record.chainRules === null) return null;
+
+      return (
+        <a onClick={e => onExpand(record, e)}>
+          {expanded ? <Icon type="minus-square" /> : <Icon type="plus-square" />}
+        </a>
+      );
+    }
+
     return (
       <div>
         <Table columns={columns} dataSource={rules} size="small" bordered pagination={{pageSize: 100}} scroll={{y: 'calc(95vh - 170px)'}}
-               title={() => <div><Text>Rules for: </Text><Tag color="#108ee9">{title}</Tag> => <Tag color="#108ee9">{title2}</Tag></div>} />
+               expandIcon={expandIcon} expandedRowRender={expandedRowRender} title={() => <div><Text>Rules for: </Text><Tag color="#108ee9">{title}</Tag> => <Tag color="#108ee9">{title2}</Tag></div>} />
       </div>
     );
   }

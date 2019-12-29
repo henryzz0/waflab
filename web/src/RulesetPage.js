@@ -44,21 +44,25 @@ class RulesetPage extends React.Component {
         title: 'No',
         dataIndex: 'no',
         key: 'no',
+        width: 60,
       },
       {
         title: 'Id',
         dataIndex: 'id',
         key: 'id',
+        width: 400,
       },
       {
         title: 'Type',
         dataIndex: 'type',
         key: 'type',
+        width: 100,
       },
       {
         title: 'Name',
         dataIndex: 'name',
         key: 'name',
+        width: 100,
       },
       {
         title: 'Description',

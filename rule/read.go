@@ -33,10 +33,7 @@ func ReadRulefile(no int, id string) *Rulefile {
 	rf := newRulefile(no, id)
 
 	text := util.ReadStringFromPath(util.CrsRuleDir + id + ".conf")
-	ruleTexts := parseRules(text)
-	for _, ruleText := range ruleTexts {
-		rf.Rules = append(rf.Rules, newRule(len(rf.Rules), ruleText))
-	}
+	parseRules(rf, text)
 	rf.Count = len(rf.Rules)
 
 	return rf

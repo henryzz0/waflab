@@ -12,40 +12,41 @@ func removeComment(s string) string {
 	return re.ReplaceAllString(s, "")
 }
 
-func parseRules(text string) []string {
+func parseRules(rf *Rulefile, text string) {
 	text = removeComment(text)
 	text = strings.ReplaceAll(text, "\\\n", "")
 
-	tokens := strings.Split(text, "\n")
+	lines := strings.Split(text, "\n")
 
-	res := []string{}
-	for _, token := range tokens {
-		if token == "" {
+	for _, line := range lines {
+		if line == "" {
 			continue
 		}
 
-		if strings.HasPrefix(token, "SecMarker") {
+		if strings.HasPrefix(line, "SecMarker") || strings.HasPrefix(line, "SecComponentSignature") {
 			continue
 		}
 
-		token = strings.Trim(token, " ")
-		res = append(res, token)
+		if strings.HasPrefix(line, "SecRule") {
+			rf.Rules = append(rf.Rules, newRule(len(rf.Rules), line))
+		} else if strings.HasPrefix(line, "    SecRule") {
+			line = strings.Trim(line, " ")
+			rf.Rules[len(rf.Rules) - 1].addChainRule(line)
+		}
 	}
-
-	//text = strings.ReplaceAll(text, "\n\n", "\n")
-	return res
 }
 
-func printRules(rules []string) {
-	for _, rule := range rules {
-		println(rule)
+func printRules(rf *Rulefile) {
+	for _, rule := range rf.Rules {
+		println(rule.Text)
 	}
 }
 
 func parse() {
+	rf := newRulefile(0, "REQUEST-920-PROTOCOL-ENFORCEMENT")
 	text := util.ReadStringFromPath(util.CrsRuleDir + "REQUEST-920-PROTOCOL-ENFORCEMENT.conf")
-	rules := parseRules(text)
-	printRules(rules)
+	parseRules(rf, text)
+	printRules(rf)
 
 	//scaner := parser.NewSecLangScannerFromString(text)
 	//d, err := scaner.AllDirective()
