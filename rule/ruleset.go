@@ -1,10 +1,11 @@
 package rule
 
 type Ruleset struct {
-	Id      string `json:"id"`
-	Name    string `json:"name"`
-	Version string `json:"version"`
-	Count   int    `json:"count"`
+	Id        string `json:"id"`
+	Name      string `json:"name"`
+	Version   string `json:"version"`
+	FileCount int    `json:"fileCount"`
+	RuleCount int    `json:"ruleCount"`
 
 	Rulefiles   []*Rulefile          `json:"rulefiles"`
 	RulefileMap map[string]*Rulefile `json:"-"`

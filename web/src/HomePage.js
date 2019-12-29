@@ -57,8 +57,13 @@ class HomePage extends React.Component {
       },
       {
         title: 'File Count',
-        dataIndex: 'count',
-        key: 'count',
+        dataIndex: 'fileCount',
+        key: 'fileCount',
+      },
+      {
+        title: 'Rule Count',
+        dataIndex: 'ruleCount',
+        key: 'ruleCount',
       },
       {
         title: 'Action',

@@ -20,8 +20,9 @@ func ReadRuleset(id string) *Ruleset {
 		rf := ReadRulefile(len(rs.Rulefiles), filename)
 		rs.Rulefiles = append(rs.Rulefiles, rf)
 		rs.RulefileMap[filename] = rf
+		rs.RuleCount += rf.Count
 	}
-	rs.Count = len(rs.Rulefiles)
+	rs.FileCount = len(rs.Rulefiles)
 
 	return rs
 }
