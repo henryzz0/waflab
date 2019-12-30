@@ -74,11 +74,9 @@ class RulesetPage extends React.Component {
         title: 'Rule Count',
         dataIndex: 'count',
         key: 'count',
-      },
-      {
-        title: 'Rule Count (PL <= 2)',
-        dataIndex: 'plCount',
-        key: 'plCount',
+        render: (text, record, index) => {
+          return `${record.count} (${record.pl1Count} + ${record.pl2Count} + ${record.pl3Count} + ${record.pl4Count})`;
+        }
       },
       {
         title: 'Action',

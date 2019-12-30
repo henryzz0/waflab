@@ -3,13 +3,16 @@ package rule
 import "strings"
 
 type Rulefile struct {
-	No      int    `json:"no"`
-	Id      string `json:"id"`
-	Type    string `json:"type"`
-	Name    string `json:"name"`
-	Desc    string `json:"desc"`
-	Count   int    `json:"count"`
-	PlCount int    `json:"plCount"`
+	No       int    `json:"no"`
+	Id       string `json:"id"`
+	Type     string `json:"type"`
+	Name     string `json:"name"`
+	Desc     string `json:"desc"`
+	Count    int    `json:"count"`
+	Pl1Count int    `json:"pl1Count"`
+	Pl2Count int    `json:"pl2Count"`
+	Pl3Count int    `json:"pl3Count"`
+	Pl4Count int    `json:"pl4Count"`
 
 	Rules []*Rule `json:"rules"`
 }
@@ -47,4 +50,17 @@ func (rf *Rulefile) syncPls() {
 		}
 	}
 	rf.Rules = newRules
+
+	rf.Count = len(rf.Rules)
+	for _, r := range rf.Rules {
+		if r.ParanoiaLevel == 1 {
+			rf.Pl1Count += 1
+		} else if r.ParanoiaLevel == 2 {
+			rf.Pl2Count += 1
+		} else if r.ParanoiaLevel == 3 {
+			rf.Pl3Count += 1
+		} else if r.ParanoiaLevel == 4 {
+			rf.Pl4Count += 1
+		}
+	}
 }
