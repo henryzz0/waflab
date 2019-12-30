@@ -9,16 +9,21 @@ import (
 )
 
 type Rulefile struct {
-	No       int    `json:"no"`
-	Id       string `json:"id"`
-	Type     string `json:"type"`
-	Name     string `json:"name"`
-	Desc     string `json:"desc"`
-	Count    int    `json:"count"`
-	Pl1Count int    `json:"pl1Count"`
-	Pl2Count int    `json:"pl2Count"`
-	Pl3Count int    `json:"pl3Count"`
-	Pl4Count int    `json:"pl4Count"`
+	No           int    `json:"no"`
+	Id           string `json:"id"`
+	Type         string `json:"type"`
+	Name         string `json:"name"`
+	Desc         string `json:"desc"`
+	Count        int    `json:"count"`
+	Pl1Count     int    `json:"pl1Count"`
+	Pl2Count     int    `json:"pl2Count"`
+	Pl3Count     int    `json:"pl3Count"`
+	Pl4Count     int    `json:"pl4Count"`
+	TestCount    int    `json:"testCount"`
+	Pl1TestCount int    `json:"pl1TestCount"`
+	Pl2TestCount int    `json:"pl2TestCount"`
+	Pl3TestCount int    `json:"pl3TestCount"`
+	Pl4TestCount int    `json:"pl4TestCount"`
 
 	Rules []*Rule `json:"rules"`
 }
@@ -57,18 +62,25 @@ func (rf *Rulefile) syncPls() {
 	}
 	rf.Rules = newRules
 
-	rf.Count = len(rf.Rules)
 	for _, r := range rf.Rules {
 		if r.ParanoiaLevel == 1 {
 			rf.Pl1Count += 1
+			rf.Pl1TestCount += r.TestCount
 		} else if r.ParanoiaLevel == 2 {
 			rf.Pl2Count += 1
+			rf.Pl2TestCount += r.TestCount
+
 		} else if r.ParanoiaLevel == 3 {
 			rf.Pl3Count += 1
+			rf.Pl3TestCount += r.TestCount
+
 		} else if r.ParanoiaLevel == 4 {
 			rf.Pl4Count += 1
+			rf.Pl4TestCount += r.TestCount
 		}
 	}
+	rf.Count = len(rf.Rules)
+	rf.TestCount = rf.Pl1TestCount + rf.Pl2TestCount + rf.Pl3TestCount + rf.Pl4TestCount
 }
 
 func (rf *Rulefile) loadTestsets() {

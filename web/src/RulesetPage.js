@@ -79,9 +79,18 @@ class RulesetPage extends React.Component {
         }
       },
       {
+        title: 'Test Count',
+        dataIndex: 'testCount',
+        key: 'testCount',
+        render: (text, record, index) => {
+          return `${record.testCount} (${record.pl1TestCount} + ${record.pl2TestCount} + ${record.pl3TestCount} + ${record.pl4TestCount})`;
+        }
+      },
+      {
         title: 'Action',
         dataIndex: '',
         key: 'action',
+        width: 120,
         render: (text, record, index) => <Button type="primary" onClick={() => this.onClick.bind(this)(`/ruleset/${this.state.rulesetId}/rulefile/${record.id}`)}>View</Button>
       },
     ];
