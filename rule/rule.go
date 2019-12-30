@@ -7,12 +7,17 @@ import (
 	"github.com/waflab/waflab/util"
 )
 
+const (
+	RuleNormal = "normal"
+	RuleControl = "control"
+)
+
 var reRuleId *regexp.Regexp
 var reParanoiaLevel *regexp.Regexp
 
 func init() {
 	var err error
-	reRuleId, err = regexp.Compile("\"id:(\\d+),")
+	reRuleId, err = regexp.Compile("id:(\\d+),")
 	if err != nil {
 		panic(err)
 	}
@@ -26,6 +31,7 @@ func init() {
 type Rule struct {
 	No            int    `json:"no"`
 	Id            string `json:"id"`
+	Typ           string `json:"type"`
 	ParanoiaLevel int    `json:"paranoiaLevel"`
 	Text          string `json:"text"`
 
@@ -58,14 +64,21 @@ func parseRuleId(text string) string {
 func parseParanoiaLevel(text string) int {
 	res := reParanoiaLevel.FindStringSubmatch(text)
 	if res == nil {
-		return 0
+		return -1
 	}
 	return util.ParseInt(res[1])
 }
 
 func (r *Rule) parseText() {
 	r.Id = parseRuleId(r.Text)
-	r.ParanoiaLevel = parseParanoiaLevel(r.Text)
+	pl := parseParanoiaLevel(r.Text)
+	if pl != -1 {
+		r.Typ = RuleControl
+		r.ParanoiaLevel = pl
+	} else {
+		r.Typ = RuleNormal
+		r.ParanoiaLevel = -1
+	}
 }
 
 func (r *Rule) addChainRule(text string) {

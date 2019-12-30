@@ -49,6 +49,12 @@ class RulefilePage extends React.Component {
           width: 80,
         },
         {
+          title: 'Type',
+          dataIndex: 'type',
+          key: 'type',
+          width: 80,
+        },
+        {
           title: 'Text',
           dataIndex: 'text',
           key: 'text',
@@ -69,6 +75,12 @@ class RulefilePage extends React.Component {
         title: 'Id',
         dataIndex: 'id',
         key: 'id',
+        width: 80,
+      },
+      {
+        title: 'Type',
+        dataIndex: 'type',
+        key: 'type',
         width: 80,
       },
       {
@@ -94,10 +106,13 @@ class RulefilePage extends React.Component {
       );
     }
 
+    const plColors = ["pl1", "pl2", "pl3", "pl4"];
+
     return (
       <div>
         <Table columns={columns} dataSource={rules} size="small" bordered pagination={{pageSize: 100}} scroll={{y: 'calc(95vh - 170px)'}}
-               expandIcon={expandIcon} expandedRowRender={expandedRowRender} title={() => <div><Text>Rules for: </Text><Tag color="#108ee9">{title}</Tag> => <Tag color="#108ee9">{title2}</Tag></div>} />
+               expandIcon={expandIcon} expandedRowRender={expandedRowRender} title={() => <div><Text>Rules for: </Text><Tag color="#108ee9">{title}</Tag> => <Tag color="#108ee9">{title2}</Tag></div>}
+               rowClassName={(record, index) => { return plColors[record.paranoiaLevel - 1] }} />
       </div>
     );
   }

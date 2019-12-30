@@ -46,6 +46,7 @@ func parse() {
 	rf := newRulefile(0, "REQUEST-920-PROTOCOL-ENFORCEMENT")
 	text := util.ReadStringFromPath(util.CrsRuleDir + "REQUEST-920-PROTOCOL-ENFORCEMENT.conf")
 	parseRules(rf, text)
+	rf.syncPls()
 	printRules(rf)
 
 	//scaner := parser.NewSecLangScannerFromString(text)

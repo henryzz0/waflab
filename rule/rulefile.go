@@ -28,3 +28,23 @@ func (rf *Rulefile) parseId() {
 	rf.Name = tokens[1]
 	rf.Desc = tokens[2]
 }
+
+func (rf *Rulefile) syncPls() {
+	pl := -1
+	for _, r := range rf.Rules {
+		if r.Typ == RuleControl {
+			pl = r.ParanoiaLevel
+			r.ParanoiaLevel = -1
+		} else if r.Typ == RuleNormal {
+			r.ParanoiaLevel = pl
+		}
+	}
+
+	newRules := []*Rule{}
+	for _, r := range rf.Rules {
+		if r.Typ == RuleNormal {
+			newRules = append(newRules, r)
+		}
+	}
+	rf.Rules = newRules
+}
