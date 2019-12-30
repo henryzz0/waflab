@@ -90,6 +90,12 @@ class RulefilePage extends React.Component {
         width: 80,
       },
       {
+        title: 'Test Count',
+        dataIndex: 'testCount',
+        key: 'testCount',
+        width: 80,
+      },
+      {
         title: 'Text',
         dataIndex: 'text',
         key: 'text',

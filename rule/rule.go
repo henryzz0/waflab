@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	RuleNormal = "normal"
+	RuleNormal  = "normal"
 	RuleControl = "control"
 )
 
@@ -36,6 +36,9 @@ type Rule struct {
 	Text          string `json:"text"`
 
 	ChainRules []*Rule `json:"chainRules"`
+
+	Testset   *Testset `json:"testset"`
+	TestCount int      `json:"testCount"`
 }
 
 func newRule(no int, text string) *Rule {

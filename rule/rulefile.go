@@ -1,6 +1,12 @@
 package rule
 
-import "strings"
+import (
+	"fmt"
+	"strings"
+
+	"github.com/waflab/waflab/util"
+	"gopkg.in/yaml.v2"
+)
 
 type Rulefile struct {
 	No       int    `json:"no"`
@@ -62,5 +68,24 @@ func (rf *Rulefile) syncPls() {
 		} else if r.ParanoiaLevel == 4 {
 			rf.Pl4Count += 1
 		}
+	}
+}
+
+func (rf *Rulefile) loadTestsets() {
+	for _, r := range rf.Rules {
+		// util.CrsTestDir + "REQUEST-920-PROTOCOL-ENFORCEMENT/920100.yaml"
+		path := fmt.Sprintf("%s%s/%s.yaml", util.CrsTestDir, rf.Id, r.Id)
+		if !util.FileExist(path) {
+			continue
+		}
+		text := util.ReadStringFromPath(path)
+
+		ts := Testset{}
+		err := yaml.Unmarshal([]byte(text), &ts)
+		if err != nil {
+			panic(err)
+		}
+		r.Testset = &ts
+		r.TestCount = len(ts.Tests)
 	}
 }
