@@ -1,5 +1,6 @@
 import React from "react";
-import {Icon, Table, Tag, Typography} from "antd";
+import {Table, Tag, Typography} from "antd";
+import {MinusSquareOutlined, PlusSquareOutlined} from "@ant-design/icons";
 import * as Setting from "./Setting";
 
 const {Text} = Typography;
@@ -107,7 +108,7 @@ class RulefilePage extends React.Component {
 
       return (
         <a onClick={e => onExpand(record, e)}>
-          {expanded ? <Icon type="minus-square" /> : <Icon type="plus-square" />}
+          {expanded ? <MinusSquareOutlined /> : <PlusSquareOutlined />}
         </a>
       );
     }
