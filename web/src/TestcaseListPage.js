@@ -73,7 +73,7 @@ class TestcaseListPage extends React.Component {
         title: 'Name',
         dataIndex: 'name',
         key: 'name',
-        width: '100px',
+        width: '150px',
         sorter: (a, b) => a.name.localeCompare(b.name),
         render: (text, record, index) => {
           return (

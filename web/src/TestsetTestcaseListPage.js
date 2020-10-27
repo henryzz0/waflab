@@ -67,7 +67,7 @@ class TestsetTestcaseListPage extends React.Component {
         title: 'Name',
         dataIndex: 'name',
         key: 'name',
-        width: '100px',
+        width: '150px',
         sorter: (a, b) => a.name.localeCompare(b.name),
         render: (text, record, index) => {
           return (
@@ -157,13 +157,9 @@ class TestsetTestcaseListPage extends React.Component {
             return (
               <Progress percent={100} size="small" status="exception" />
             )
-          } else if (record.trueStatus === 200) {
-            return (
-              <Progress percent={100} size="small" />
-            )
           } else {
             return (
-              <Progress percent={0} size="small" />
+              <Progress percent={100} size="small" />
             )
           }
         }
