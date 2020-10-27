@@ -1,9 +1,9 @@
 import React from "react";
-import {Button, Col, Popconfirm, Row, Table, Tag} from 'antd';
-import {SendOutlined, StopOutlined, CaretRightOutlined} from '@ant-design/icons';
+import {Button, Col, Progress, Row, Table, Tag} from 'antd';
 import * as Setting from "./Setting";
 import * as TestsetBackend from "./backend/TestsetBackend";
 import * as TestcaseBackend from "./backend/TestcaseBackend";
+import * as ResultBackend from "./backend/ResultBackend";
 
 class TestsetTestcaseListPage extends React.Component {
   constructor(props) {
@@ -39,8 +39,26 @@ class TestsetTestcaseListPage extends React.Component {
       });
   }
 
-  runTestcase(testcase) {
-    Setting.showMessage("success", "Running: " + testcase.name);
+  setTestcaseValue(i, key, value) {
+    let testcases = this.state.testcases;
+    testcases[i][key] = value;
+    this.setState({
+      testcases: testcases,
+    });
+  }
+
+  getResult(testcase, i) {
+    this.setTestcaseValue(i, "trueStatus", -1);
+    ResultBackend.getResult(this.state.testset.name, testcase.name)
+      .then((result) => {
+        // Setting.showMessage("success", "Result: " + result.status);
+        this.setTestcaseValue(i, "trueStatus", result.status);
+        this.setTestcaseValue(i, "response", result.response);
+      })
+      .catch(error => {
+        Setting.showMessage("error", `failed to run: ${error}`);
+        this.setTestcaseValue(i, "trueStatus", -2);
+      });
   }
 
   renderTable(testcases) {
@@ -103,6 +121,54 @@ class TestsetTestcaseListPage extends React.Component {
         }
       },
       {
+        title: 'True Status',
+        dataIndex: 'trueStatus',
+        key: 'trueStatus',
+        width: '120px',
+        ellipsis: true,
+        sorter: (a, b) => a.trueStatus - b.trueStatus,
+        render: (text, record, index) => {
+          return Setting.getStatusTag(text);
+        }
+      },
+
+      {
+        title: 'Response',
+        dataIndex: 'response',
+        key: 'response',
+        width: '100px',
+        sorter: (a, b) => a.response.localeCompare(b.response),
+      },
+      {
+        title: 'Progress',
+        key: 'progress',
+        width: '100px',
+        // sorter: (a, b) => a.userAgent.localeCompare(b.userAgent),
+        render: (text, record, index) => {
+          if (record.trueStatus === 0) {
+            return (
+              <Progress percent={0} size="small" />
+            )
+          } else if (record.trueStatus === -1) {
+            return (
+              <Progress percent={50} size="small" />
+            )
+          } else if (record.trueStatus === -2) {
+            return (
+              <Progress percent={100} size="small" status="exception" />
+            )
+          } else if (record.trueStatus === 200) {
+            return (
+              <Progress percent={100} size="small" />
+            )
+          } else {
+            return (
+              <Progress percent={0} size="small" />
+            )
+          }
+        }
+      },
+      {
         title: 'Action',
         dataIndex: '',
         key: 'op',
@@ -110,7 +176,8 @@ class TestsetTestcaseListPage extends React.Component {
         render: (text, record, index) => {
           return (
             <div>
-              <Button style={{marginTop: '10px', marginBottom: '10px', marginRight: '10px'}} type="primary" onClick={() => this.runTestcase(record)}>Run</Button>
+              <Button style={{marginTop: '10px', marginBottom: '10px', marginRight: '10px'}}
+                      loading={record.trueStatus === -1} type="primary" onClick={() => this.getResult(record, index)}>Run</Button>
             </div>
           )
         }

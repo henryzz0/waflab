@@ -34,4 +34,6 @@ func initAPI() {
 	beego.Router("/api/update-testcase", &controllers.ApiController{}, "POST:UpdateTestcase")
 	beego.Router("/api/add-testcase", &controllers.ApiController{}, "POST:AddTestcase")
 	beego.Router("/api/delete-testcase", &controllers.ApiController{}, "POST:DeleteTestcase")
+
+	beego.Router("/api/get-result", &controllers.ApiController{}, "GET:GetResult")
 }

@@ -14,6 +14,8 @@ type Testcase struct {
 	UserAgent    string `xorm:"varchar(1000)" json:"userAgent"`
 	QueryStrings []Pair `xorm:"mediumtext" json:"queryStrings"`
 	Status       int    `json:"status"`
+	TrueStatus   int    `json:"trueStatus"`
+	Response     string `xorm:"mediumtext" json:"response"`
 }
 
 func GetTestcases() []*Testcase {
