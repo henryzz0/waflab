@@ -2,6 +2,7 @@ import React from "react";
 import {AutoComplete, Button, Card, Col, Input, Row, Select} from 'antd';
 import * as TestcaseBackend from "./backend/TestcaseBackend";
 import * as Setting from "./Setting";
+import TestcaseHeaderTable from "./TestcaseHeaderTable";
 
 const { Option } = AutoComplete;
 
@@ -45,6 +46,10 @@ class TestcaseEditPage extends React.Component {
     this.setState({
       testcase: testcase,
     });
+  }
+
+  onUpdateTestcaseField(key, value) {
+    this.updateTestcaseField(key, value);
   }
 
   renderTestcase() {
@@ -100,6 +105,18 @@ class TestcaseEditPage extends React.Component {
             <Input value={this.state.testcase.userAgent} onChange={e => {
               this.updateTestcaseField('userAgent', e.target.value);
             }} />
+          </Col>
+        </Row>
+        <Row style={{marginTop: '20px'}} >
+          <Col style={{marginTop: '5px'}} span={2}>
+            Query Strings:
+          </Col>
+          <Col span={22} >
+            <TestcaseHeaderTable
+              title="Query Strings"
+              table={this.state.testcase.queryStrings}
+              onUpdateTable={(value) => { return this.onUpdateTestcaseField("queryStrings", value)}}
+            />
           </Col>
         </Row>
         <Row style={{marginTop: '20px'}} >

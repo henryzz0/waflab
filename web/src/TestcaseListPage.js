@@ -33,6 +33,7 @@ class TestcaseListPage extends React.Component {
       title: `New Testcase - ${this.state.testcases.length}`,
       method: "GET",
       userAgent: navigator.userAgent,
+      queryStrings: [],
       status: 200,
     }
   }
