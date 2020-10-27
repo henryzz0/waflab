@@ -1,9 +1,6 @@
 import React from "react";
-import {Button, Table, Tag, Typography} from "antd";
+import {Button, Col, Row, Table} from "antd";
 import * as Setting from "./Setting";
-import {Link} from "react-router-dom";
-
-const {Text} = Typography;
 
 class HomePage extends React.Component {
   constructor(props) {
@@ -75,8 +72,10 @@ class HomePage extends React.Component {
 
     return (
       <div>
-        <Table columns={columns} dataSource={rulesets} size="small" bordered pagination={{pageSize: 100}} scroll={{y: 'calc(95vh - 450px)'}}
-               title={() => 'Rulesets'} />
+        <Table columns={columns} dataSource={rulesets} size="middle" bordered pagination={{pageSize: 100}}
+               title={() => 'Rulesets'}
+               loading={rulesets === null}
+        />
       </div>
     );
   }
@@ -84,13 +83,20 @@ class HomePage extends React.Component {
   render() {
     return (
       <div>
-        {
-          this.renderTable(this.state.rulesets)
-        }
+        <Row style={{width: "100%"}}>
+          <Col span={1}>
+          </Col>
+          <Col span={22}>
+            {
+              this.renderTable(this.state.rulesets)
+            }
+          </Col>
+          <Col span={1}>
+          </Col>
+        </Row>
       </div>
     );
   }
-
 }
 
 export default HomePage;

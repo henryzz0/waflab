@@ -1,5 +1,5 @@
 import React from "react";
-import {Table, Tag, Typography} from "antd";
+import {Col, Row, Table, Tag, Typography} from "antd";
 import {MinusSquareOutlined, PlusSquareOutlined} from "@ant-design/icons";
 import * as Setting from "./Setting";
 
@@ -117,9 +117,12 @@ class RulefilePage extends React.Component {
 
     return (
       <div>
-        <Table columns={columns} dataSource={rules} size="small" bordered pagination={{pageSize: 100}} scroll={{y: 'calc(95vh - 170px)'}}
-               expandIcon={expandIcon} expandedRowRender={expandedRowRender} title={() => <div><Text>Rules for: </Text><Tag color="#108ee9">{title}</Tag> => <Tag color="#108ee9">{title2}</Tag></div>}
-               rowClassName={(record, index) => { return plColors[record.paranoiaLevel - 1] }} />
+        <Table columns={columns} dataSource={rules} size="middle" bordered pagination={{pageSize: 100}}
+               expandIcon={expandIcon} expandedRowRender={expandedRowRender}
+               title={() => <div><Text>Rules for: </Text><Tag color="#108ee9">{title}</Tag> => <Tag color="#108ee9">{title2}</Tag></div>}
+               rowClassName={(record, index) => { return plColors[record.paranoiaLevel - 1] }}
+               loading={rules === null}
+        />
       </div>
     );
   }
@@ -127,13 +130,20 @@ class RulefilePage extends React.Component {
   render() {
     return (
       <div>
-        {
-          this.state.rulefile !== null ? this.renderTable(this.state.rulesetId, this.state.rulefileId, this.state.rulefile.rules) : null
-        }
+        <Row style={{width: "100%"}}>
+          <Col span={1}>
+          </Col>
+          <Col span={22}>
+            {
+              this.state.rulefile !== null ? this.renderTable(this.state.rulesetId, this.state.rulefileId, this.state.rulefile.rules) : null
+            }
+          </Col>
+          <Col span={1}>
+          </Col>
+        </Row>
       </div>
     );
   }
-
 }
 
 export default RulefilePage;

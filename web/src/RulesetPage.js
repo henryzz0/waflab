@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Table, Tag, Typography} from "antd";
+import {Button, Col, Row, Table, Tag, Typography} from "antd";
 import * as Setting from "./Setting";
 
 const {Text} = Typography;
@@ -97,8 +97,10 @@ class RulesetPage extends React.Component {
 
     return (
       <div>
-        <Table columns={columns} dataSource={rulefiles} size="small" bordered pagination={{pageSize: 100}} scroll={{y: 'calc(95vh - 170px)'}}
-               title={() => <div><Text>Rulefiles for: </Text><Tag color="#108ee9">{title}</Tag></div>} />
+        <Table columns={columns} dataSource={rulefiles} size="middle" bordered pagination={{pageSize: 100}}
+               title={() => <div><Text>Rulefiles for: </Text><Tag color="#108ee9">{title}</Tag></div>}
+               loading={rulefiles === null}
+        />
       </div>
     );
   }
@@ -106,13 +108,20 @@ class RulesetPage extends React.Component {
   render() {
     return (
       <div>
-        {
-          this.state.ruleset !== null ? this.renderTable(this.state.rulesetId, this.state.ruleset.rulefiles) : null
-        }
+        <Row style={{width: "100%"}}>
+          <Col span={1}>
+          </Col>
+          <Col span={22}>
+            {
+              this.state.ruleset !== null ? this.renderTable(this.state.rulesetId, this.state.ruleset.rulefiles) : null
+            }
+          </Col>
+          <Col span={1}>
+          </Col>
+        </Row>
       </div>
     );
   }
-
 }
 
 export default RulesetPage;
