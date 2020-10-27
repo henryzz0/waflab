@@ -5,6 +5,7 @@ type Testcase struct {
 	CreatedTime string `xorm:"varchar(100)" json:"createdTime"`
 
 	Title  string `xorm:"varchar(100)" json:"title"`
+	Method string `xorm:"varchar(100)" json:"method"`
 	Status int    `json:"status"`
 }
 

@@ -1,7 +1,9 @@
 import React from "react";
-import {Button, Card, Col, Input, Row} from 'antd';
+import {AutoComplete, Button, Card, Col, Input, Row, Select} from 'antd';
 import * as TestcaseBackend from "./backend/TestcaseBackend";
 import * as Setting from "./Setting";
+
+const { Option } = AutoComplete;
 
 class TestcaseEditPage extends React.Component {
   constructor(props) {
@@ -29,9 +31,9 @@ class TestcaseEditPage extends React.Component {
   }
 
   parseTestcaseField(key, value) {
-    // if ([].includes(key)) {
-    //   value = Setting.myParseInt(value);
-    // }
+    if (["status"].includes(key)) {
+      value = Setting.myParseInt(value);
+    }
     return value;
   }
 
@@ -71,6 +73,38 @@ class TestcaseEditPage extends React.Component {
             <Input value={this.state.testcase.title} onChange={e => {
               this.updateTestcaseField('title', e.target.value);
             }} />
+          </Col>
+        </Row>
+        <Row style={{marginTop: '20px'}} >
+          <Col style={{marginTop: '5px'}} span={2}>
+            Method:
+          </Col>
+          <Col span={22} >
+            <Select style={{width: '200px'}} value={this.state.testcase.method} onChange={(value => {this.updateTestcaseField('method', value);})}>
+              {
+                [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "DELETE",
+                ].map((item, index) => <Option key={index} value={item}>{item}</Option>)
+              }
+            </Select>
+          </Col>
+        </Row>
+        <Row style={{marginTop: '20px'}} >
+          <Col style={{marginTop: '5px'}} span={2}>
+            Status:
+          </Col>
+          <Col span={22} >
+            <Select style={{width: '200px'}} value={this.state.testcase.status} onChange={(value => {this.updateTestcaseField('status', value);})}>
+              {
+                [
+                  200,
+                  403,
+                ].map((item, index) => <Option key={index} value={item}>{item}</Option>)
+              }
+            </Select>
           </Col>
         </Row>
       </Card>

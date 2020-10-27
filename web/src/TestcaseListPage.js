@@ -31,6 +31,7 @@ class TestcaseListPage extends React.Component {
       name: `testcase_${this.state.testcases.length}`,
       createdTime: moment().format(),
       title: `New Testcase - ${this.state.testcases.length}`,
+      method: "GET",
       status: 200,
     }
   }
@@ -93,6 +94,16 @@ class TestcaseListPage extends React.Component {
         sorter: (a, b) => a.createdTime.localeCompare(b.createdTime),
         render: (text, record, index) => {
           return Setting.getFormattedDate(text);
+        }
+      },
+      {
+        title: 'Method',
+        dataIndex: 'method',
+        key: 'method',
+        width: '100px',
+        sorter: (a, b) => a.method.localeCompare(b.method),
+        render: (text, record, index) => {
+          return Setting.getTags(text);
         }
       },
       {

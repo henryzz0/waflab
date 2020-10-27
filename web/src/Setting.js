@@ -31,6 +31,11 @@ export function deepCopy(obj) {
   return Object.assign({}, obj);
 }
 
+export function myParseInt(i) {
+  const res = parseInt(i);
+  return isNaN(res) ? 0 : res;
+}
+
 export function addRow(array, row) {
   return [...array, row];
 }
@@ -51,4 +56,35 @@ export function getFormattedDate(date) {
   date = date.replace('T', ' ');
   date = date.replace('+08:00', ' ');
   return date;
+}
+
+export function getTagColor(s) {
+  if (s === "GET") {
+    return "success";
+  } else if (s === "POST") {
+    return "processing";
+  } else if (s === "PUT") {
+    return "warning";
+  } else if (s === "DELETE") {
+    return "error";
+  } else {
+    return "default";
+  }
+}
+
+export function getTags(tag) {
+  if (tag === undefined || tag === "") {
+    return "(None)";
+  }
+
+  let res = [];
+  const tags = tag.split(",");
+  tags.forEach((tag, i) => {
+    res.push(
+        <Tag color={getTagColor(tag)}>
+          {tag}
+        </Tag>
+    );
+  });
+  return res;
 }
