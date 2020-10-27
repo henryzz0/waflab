@@ -31,7 +31,8 @@ class TestsetListPage extends React.Component {
       name: `testset_${this.state.testsets.length}`,
       createdTime: moment().format(),
       title: `New Testset - ${this.state.testsets.length}`,
-      targetUrl: "http://mouselog/test",
+      targetUrl: "http://localhost:9000/api/test",
+      testcases: [],
     }
   }
 
@@ -99,9 +100,14 @@ class TestsetListPage extends React.Component {
         title: 'Target Url',
         dataIndex: 'targetUrl',
         key: 'targetUrl',
-        width: '200px',
+        width: '250px',
         ellipsis: true,
         sorter: (a, b) => a.targetUrl.localeCompare(b.targetUrl),
+        render: (text, record, index) => {
+          return (
+            <a target="_blank" href={text}>{text}</a>
+          )
+        }
       },
       {
         title: 'Action',

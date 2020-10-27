@@ -1,11 +1,17 @@
 package object
 
+type TestcaseItem struct {
+	Id   string `json:"id"`
+	Name string `json:"name"`
+}
+
 type Testset struct {
 	Name        string `xorm:"varchar(100) notnull pk" json:"name"`
 	CreatedTime string `xorm:"varchar(100)" json:"createdTime"`
 
-	Title string `xorm:"varchar(100)" json:"title"`
-	TargetUrl   string `xorm:"varchar(100)" json:"targetUrl"`
+	Title     string         `xorm:"varchar(100)" json:"title"`
+	TargetUrl string         `xorm:"varchar(100)" json:"targetUrl"`
+	Testcases []TestcaseItem `xorm:"mediumtext" json:"testcases"`
 }
 
 func GetTestsets() []*Testset {

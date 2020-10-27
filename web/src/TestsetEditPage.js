@@ -1,7 +1,10 @@
 import React from "react";
 import {Button, Card, Col, Input, Row} from 'antd';
+import {LinkOutlined} from "@ant-design/icons";
 import * as TestsetBackend from "./backend/TestsetBackend";
+import * as TestcaseBackend from "./backend/TestcaseBackend";
 import * as Setting from "./Setting";
+import TestsetEditTestcaseTable from "./TestsetEditTestcaseTable";
 
 class TestsetEditPage extends React.Component {
   constructor(props) {
@@ -10,13 +13,13 @@ class TestsetEditPage extends React.Component {
       classes: props,
       testsetName: props.match.params.testsetName,
       testset: null,
-      tasks: [],
-      resources: [],
+      testcases: [],
     };
   }
 
   componentWillMount() {
     this.getTestset();
+    this.getTestcases();
   }
 
   getTestset() {
@@ -24,6 +27,15 @@ class TestsetEditPage extends React.Component {
       .then((testset) => {
         this.setState({
           testset: testset,
+        });
+      });
+  }
+
+  getTestcases() {
+    TestcaseBackend.getTestcases()
+      .then((res) => {
+        this.setState({
+          testcases: res,
         });
       });
   }
@@ -43,6 +55,10 @@ class TestsetEditPage extends React.Component {
     this.setState({
       testset: testset,
     });
+  }
+
+  onUpdateTestsetField(key, value) {
+    this.updateTestsetField(key, value);
   }
 
   renderTestset() {
@@ -71,6 +87,29 @@ class TestsetEditPage extends React.Component {
             <Input value={this.state.testset.title} onChange={e => {
               this.updateTestsetField('title', e.target.value);
             }} />
+          </Col>
+        </Row>
+        <Row style={{marginTop: '20px'}} >
+          <Col style={{marginTop: '5px'}} span={2}>
+            Target Url:
+          </Col>
+          <Col span={22} >
+            <Input prefix={<LinkOutlined/>} value={this.state.testset.targetUrl} onChange={e => {
+              this.updateTestsetField('targetUrl', e.target.value);
+            }} />
+          </Col>
+        </Row>
+        <Row style={{marginTop: '20px'}} >
+          <Col style={{marginTop: '5px'}} span={2}>
+            Testcases:
+          </Col>
+          <Col span={14} >
+            <TestsetEditTestcaseTable
+              title="Testcases"
+              table={this.state.testset.testcases}
+              testcases={this.state.testcases}
+              onUpdateTable={(value) => { return this.onUpdateTestsetField("testcases", value)}}
+            />
           </Col>
         </Row>
       </Card>

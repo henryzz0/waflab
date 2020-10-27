@@ -13,8 +13,6 @@ class TestcaseEditPage extends React.Component {
       classes: props,
       testcaseName: props.match.params.testcaseName,
       testcase: null,
-      tasks: [],
-      resources: [],
     };
   }
 
