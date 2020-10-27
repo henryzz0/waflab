@@ -1,8 +1,10 @@
 import React from "react";
-import {Button, Col, Popconfirm, Row, Table} from 'antd';
+import {Button, Col, List, Popconfirm, Row, Table, Tooltip} from 'antd';
+import {EditOutlined} from "@ant-design/icons";
 import moment from "moment";
 import * as Setting from "./Setting";
 import * as TestsetBackend from "./backend/TestsetBackend";
+import * as TestcaseBackend from "./backend/TestcaseBackend";
 
 class TestsetListPage extends React.Component {
   constructor(props) {
@@ -10,11 +12,13 @@ class TestsetListPage extends React.Component {
     this.state = {
       classes: props,
       testsets: null,
+      testcaseMap: {},
     };
   }
 
   componentWillMount() {
     this.getTestsets();
+    this.getTestcases();
   }
 
   getTestsets() {
@@ -22,6 +26,21 @@ class TestsetListPage extends React.Component {
       .then((res) => {
         this.setState({
           testsets: res,
+        });
+      });
+  }
+
+  getTestcases() {
+    TestcaseBackend.getTestcases()
+      .then((testcases) => {
+        let testcaseMap = {};
+
+        testcases.forEach((testcase, i) => {
+          testcaseMap[testcase.name] = testcase;
+        });
+
+        this.setState({
+          testcaseMap: testcaseMap,
         });
       });
   }
@@ -63,6 +82,11 @@ class TestsetListPage extends React.Component {
       .catch(error => {
         Setting.showMessage("error", `Testset failed to delete: ${error}`);
       });
+  }
+
+  renderTestcaseLink(record, i) {
+    const testcaseName = record.testcases[i].name;
+    return <a target="_blank" href={`/testcases/${testcaseName}`}>{`${i}. ${testcaseName}`}</a>
   }
 
   renderTable(testsets) {
@@ -108,6 +132,67 @@ class TestsetListPage extends React.Component {
             <a target="_blank" href={text}>{text}</a>
           )
         }
+      },
+      {
+        title: 'Testcases',
+        dataIndex: 'testcases',
+        key: 'testcases',
+        width: '600px',
+        render: (text, record, index) => {
+          const testcases = text;
+          if (testcases.length === 0) {
+            return "(None)";
+          }
+
+          const half = Math.floor((testcases.length + 1) / 2);
+
+          return (
+            <div>
+              <Row>
+                <Col span={12}>
+                  <List
+                    size="small"
+                    dataSource={testcases.slice(0, half)}
+                    renderItem={(row, i) => {
+                      return (
+                        <List.Item>
+                          <div style={{display: "inline"}}>
+                            <Tooltip placement="topLeft" title="Edit">
+                              <Button style={{marginRight: "5px"}} icon={<EditOutlined />} size="small" onClick={() => Setting.openLink(`/testcases/${row}`)} />
+                            </Tooltip>
+                            {
+                              this.renderTestcaseLink(record, i)
+                            }
+                          </div>
+                        </List.Item>
+                      )
+                    }}
+                  />
+                </Col>
+                <Col span={12}>
+                  <List
+                    size="small"
+                    dataSource={testcases.slice(half)}
+                    renderItem={(row, i) => {
+                      return (
+                        <List.Item>
+                          <div style={{display: "inline"}}>
+                            <Tooltip placement="topLeft" title="Edit">
+                              <Button style={{marginRight: "5px"}} icon={<EditOutlined />} size="small" onClick={() => Setting.openLink(`/testcases/${row}`)} />
+                            </Tooltip>
+                            {
+                              this.renderTestcaseLink(record, i + half)
+                            }
+                          </div>
+                        </List.Item>
+                      )
+                    }}
+                  />
+                </Col>
+              </Row>
+            </div>
+          )
+        },
       },
       {
         title: 'Action',
