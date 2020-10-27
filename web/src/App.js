@@ -6,6 +6,8 @@ import * as Setting from "./Setting";
 import HomePage from "./HomePage";
 import RulesetPage from "./RulesetPage";
 import RulefilePage from "./RulefilePage";
+import TestsetListPage from "./TestsetListPage";
+import TestsetEditPage from "./TestsetEditPage";
 import TestcaseListPage from "./TestcaseListPage";
 import TestcaseEditPage from "./TestcaseEditPage";
 
@@ -34,8 +36,10 @@ class App extends Component {
       this.setState({ selectedMenuKey: 1 });
     } else if (uri.includes('rulefile')) {
       this.setState({ selectedMenuKey: 2 });
+    } else if (uri.includes('testsets')) {
+      this.setState({selectedMenuKey: 10});
     } else if (uri.includes('testcases')) {
-      this.setState({selectedMenuKey: 3});
+      this.setState({selectedMenuKey: 11});
     } else {
       this.setState({ selectedMenuKey: 0 });
     }
@@ -70,7 +74,14 @@ class App extends Component {
       </Menu.Item>
     );
     res.push(
-      <Menu.Item key="3">
+      <Menu.Item key="10">
+        <a href="/testsets">
+          Testsets
+        </a>
+      </Menu.Item>
+    );
+    res.push(
+      <Menu.Item key="11">
         <a href="/testcases">
           Testcases
         </a>
@@ -104,6 +115,8 @@ class App extends Component {
           <Route exact path="/" component={HomePage}/>
           <Route path="/ruleset/:rulesetId/rulefile/:rulefileId" component={RulefilePage}/>
           <Route path="/ruleset/:rulesetId" component={RulesetPage}/>
+          <Route exact path="/testsets/" component={TestsetListPage}/>
+          <Route exact path="/testsets/:testsetName" component={TestsetEditPage}/>
           <Route exact path="/testcases/" component={TestcaseListPage}/>
           <Route exact path="/testcases/:testcaseName" component={TestcaseEditPage}/>
         </Switch>

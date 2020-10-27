@@ -2,69 +2,69 @@ import React from "react";
 import {Button, Col, Popconfirm, Row, Table} from 'antd';
 import moment from "moment";
 import * as Setting from "./Setting";
-import * as TestcaseBackend from "./backend/TestcaseBackend";
+import * as TestsetBackend from "./backend/TestsetBackend";
 
-class TestcaseListPage extends React.Component {
+class TestsetListPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       classes: props,
-      testcases: null,
+      testsets: null,
     };
   }
 
   componentWillMount() {
-    this.getTestcases();
+    this.getTestsets();
   }
 
-  getTestcases() {
-    TestcaseBackend.getTestcases()
+  getTestsets() {
+    TestsetBackend.getTestsets()
       .then((res) => {
         this.setState({
-          testcases: res,
+          testsets: res,
         });
       });
   }
 
-  newTestcase() {
+  newTestset() {
     return {
-      name: `testcase_${this.state.testcases.length}`,
+      name: `testset_${this.state.testsets.length}`,
       createdTime: moment().format(),
-      title: `New Testcase - ${this.state.testcases.length}`,
-      status: 200,
+      title: `New Testset - ${this.state.testsets.length}`,
+      targetUrl: "http://mouselog/test",
     }
   }
 
-  addTestcase() {
-    const newTestcase = this.newTestcase();
-    TestcaseBackend.addTestcase(newTestcase)
+  addTestset() {
+    const newTestset = this.newTestset();
+    TestsetBackend.addTestset(newTestset)
       .then((res) => {
-          Setting.showMessage("success", `Testcase added successfully`);
+          Setting.showMessage("success", `Testset added successfully`);
           this.setState({
-            testcases: Setting.prependRow(this.state.testcases, newTestcase),
+            testsets: Setting.prependRow(this.state.testsets, newTestset),
           });
         }
       )
       .catch(error => {
-        Setting.showMessage("error", `Testcase failed to add: ${error}`);
+        Setting.showMessage("error", `Testset failed to add: ${error}`);
       });
   }
 
-  deleteTestcase(i) {
-    TestcaseBackend.deleteTestcase(this.state.testcases[i])
+  deleteTestset(i) {
+    TestsetBackend.deleteTestset(this.state.testsets[i])
       .then((res) => {
-          Setting.showMessage("success", `Testcase deleted successfully`);
+          Setting.showMessage("success", `Testset deleted successfully`);
           this.setState({
-            testcases: Setting.deleteRow(this.state.testcases, i),
+            testsets: Setting.deleteRow(this.state.testsets, i),
           });
         }
       )
       .catch(error => {
-        Setting.showMessage("error", `Testcase failed to delete: ${error}`);
+        Setting.showMessage("error", `Testset failed to delete: ${error}`);
       });
   }
 
-  renderTable(testcases) {
+  renderTable(testsets) {
     const columns = [
       {
         title: 'Name',
@@ -74,7 +74,7 @@ class TestcaseListPage extends React.Component {
         sorter: (a, b) => a.name.localeCompare(b.name),
         render: (text, record, index) => {
           return (
-            <a href={`/testcases/${text}`}>{text}</a>
+            <a href={`/testsets/${text}`}>{text}</a>
           )
         }
       },
@@ -96,12 +96,12 @@ class TestcaseListPage extends React.Component {
         }
       },
       {
-        title: 'Status',
-        dataIndex: 'status',
-        key: 'status',
-        width: '80px',
+        title: 'Target Url',
+        dataIndex: 'targetUrl',
+        key: 'targetUrl',
+        width: '200px',
         ellipsis: true,
-        sorter: (a, b) => a.status - b.status,
+        sorter: (a, b) => a.targetUrl.localeCompare(b.targetUrl),
       },
       {
         title: 'Action',
@@ -111,10 +111,10 @@ class TestcaseListPage extends React.Component {
         render: (text, record, index) => {
           return (
             <div>
-              <Button style={{marginTop: '10px', marginBottom: '10px', marginRight: '10px'}} type="primary" onClick={() => Setting.goToLink(`/testcases/${record.name}`)}>Edit</Button>
+              <Button style={{marginTop: '10px', marginBottom: '10px', marginRight: '10px'}} type="primary" onClick={() => Setting.goToLink(`/testsets/${record.name}`)}>Edit</Button>
               <Popconfirm
-                title={`Sure to delete testcase: ${record.name} ?`}
-                onConfirm={() => this.deleteTestcase(index)}
+                title={`Sure to delete testset: ${record.name} ?`}
+                onConfirm={() => this.deleteTestset(index)}
               >
                 <Button style={{marginBottom: '10px'}} type="danger">Delete</Button>
               </Popconfirm>
@@ -126,14 +126,14 @@ class TestcaseListPage extends React.Component {
 
     return (
       <div>
-        <Table columns={columns} dataSource={testcases} rowKey="name" size="middle" bordered pagination={{pageSize: 100}}
+        <Table columns={columns} dataSource={testsets} rowKey="name" size="middle" bordered pagination={{pageSize: 100}}
                title={() => (
                  <div>
-                   Testcases&nbsp;&nbsp;&nbsp;&nbsp;
-                   <Button type="primary" size="small" onClick={this.addTestcase.bind(this)}>Add</Button>
+                   Testsets&nbsp;&nbsp;&nbsp;&nbsp;
+                   <Button type="primary" size="small" onClick={this.addTestset.bind(this)}>Add</Button>
                  </div>
                )}
-               loading={testcases === null}
+               loading={testsets === null}
         />
       </div>
     );
@@ -147,7 +147,7 @@ class TestcaseListPage extends React.Component {
           </Col>
           <Col span={22}>
             {
-              this.renderTable(this.state.testcases)
+              this.renderTable(this.state.testsets)
             }
           </Col>
           <Col span={1}>
@@ -158,4 +158,4 @@ class TestcaseListPage extends React.Component {
   }
 }
 
-export default TestcaseListPage;
+export default TestsetListPage;

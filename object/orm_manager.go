@@ -75,7 +75,12 @@ func (a *OrmManager) close() {
 }
 
 func (a *OrmManager) createTables() {
-	err := a.engine.Sync2(new(Testcase))
+	err := a.engine.Sync2(new(Testset))
+	if err != nil {
+		panic(err)
+	}
+
+	err = a.engine.Sync2(new(Testcase))
 	if err != nil {
 		panic(err)
 	}
