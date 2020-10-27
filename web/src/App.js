@@ -6,6 +6,8 @@ import * as Setting from "./Setting";
 import HomePage from "./HomePage";
 import RulesetPage from "./RulesetPage";
 import RulefilePage from "./RulefilePage";
+import TestcaseListPage from "./TestcaseListPage";
+import TestcaseEditPage from "./TestcaseEditPage";
 
 const { Header, Footer } = Layout;
 const { Text } = Typography;
@@ -28,10 +30,12 @@ class App extends Component {
   updateMenuKey() {
     // eslint-disable-next-line no-restricted-globals
     const uri = location.pathname;
-    if (uri.includes('rulefile')) {
-      this.setState({ selectedMenuKey: 2 });
-    } else if (uri.includes('ruleset')) {
+    if (uri.includes('ruleset')) {
       this.setState({ selectedMenuKey: 1 });
+    } else if (uri.includes('rulefile')) {
+      this.setState({ selectedMenuKey: 2 });
+    } else if (uri.includes('testcases')) {
+      this.setState({selectedMenuKey: 3});
     } else {
       this.setState({ selectedMenuKey: 0 });
     }
@@ -65,6 +69,13 @@ class App extends Component {
         </a>
       </Menu.Item>
     );
+    res.push(
+      <Menu.Item key="3">
+        <a href="/testcases">
+          Testcases
+        </a>
+      </Menu.Item>
+    );
 
     return res;
   }
@@ -93,6 +104,8 @@ class App extends Component {
           <Route exact path="/" component={HomePage}/>
           <Route path="/ruleset/:rulesetId/rulefile/:rulefileId" component={RulefilePage}/>
           <Route path="/ruleset/:rulesetId" component={RulesetPage}/>
+          <Route exact path="/testcases/" component={TestcaseListPage}/>
+          <Route exact path="/testcases/:testcaseName" component={TestcaseEditPage}/>
         </Switch>
       </div>
     )

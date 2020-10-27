@@ -91,7 +91,13 @@ class RulesetPage extends React.Component {
         dataIndex: '',
         key: 'action',
         width: 120,
-        render: (text, record, index) => <Button type="primary" onClick={() => this.onClick.bind(this)(`/ruleset/${this.state.rulesetId}/rulefile/${record.id}`)}>View</Button>
+        render: (text, record, index) => {
+          return (
+            <div>
+              <Button style={{marginTop: '10px', marginBottom: '10px', marginRight: '10px'}} type="primary" onClick={() => Setting.goToLink(`/ruleset/${this.state.rulesetId}/rulefile/${record.id}`)}>View</Button>
+            </div>
+          )
+        }
       },
     ];
 

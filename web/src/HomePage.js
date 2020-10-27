@@ -66,7 +66,13 @@ class HomePage extends React.Component {
         title: 'Action',
         dataIndex: '',
         key: 'action',
-        render: (text, record, index) => <Button type="primary" onClick={() => this.onClick.bind(this)(`/ruleset/${record.id}`)}>View</Button>
+        render: (text, record, index) => {
+          return (
+            <div>
+              <Button style={{marginTop: '10px', marginBottom: '10px', marginRight: '10px'}} type="primary" onClick={() => Setting.goToLink(`/ruleset/${record.id}`)}>View</Button>
+            </div>
+          )
+        }
       },
     ];
 
