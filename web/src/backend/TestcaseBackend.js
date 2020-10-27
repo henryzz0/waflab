@@ -7,6 +7,13 @@ export function getTestcases() {
   }).then(res => res.json());
 }
 
+export function getFilteredTestcases(testsetName) {
+  return fetch(`${Setting.ServerUrl}/api/get-filtered-testcases?testsetId=${testsetName}`, {
+    method: "GET",
+    credentials: "include"
+  }).then(res => res.json());
+}
+
 export function getTestcase(id) {
   return fetch(`${Setting.ServerUrl}/api/get-testcase?id=${id}`, {
     method: "GET",

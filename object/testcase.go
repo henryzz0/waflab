@@ -28,6 +28,23 @@ func GetTestcases() []*Testcase {
 	return testcases
 }
 
+func GetFilteredTestcases(testsetId string) []*Testcase {
+	testset := GetTestset(testsetId)
+	m := map[string]int{}
+	for _, item := range testset.Testcases {
+		m[item.Name] = 1
+	}
+
+	testcases := GetTestcases()
+	res := []*Testcase{}
+	for _, testcase := range testcases {
+		if _, ok := m[testcase.Name]; ok {
+			res = append(res, testcase)
+		}
+	}
+	return res
+}
+
 func GetTestcase(id string) *Testcase {
 	s := Testcase{Name: id}
 	existed, err := ormManager.engine.Get(&s)

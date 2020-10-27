@@ -11,6 +11,13 @@ func (c *ApiController) GetTestcases() {
 	c.ServeJSON()
 }
 
+func (c *ApiController) GetFilteredTestcases() {
+	testsetId := c.Input().Get("testsetId")
+
+	c.Data["json"] = object.GetFilteredTestcases(testsetId)
+	c.ServeJSON()
+}
+
 func (c *ApiController) GetTestcase() {
 	id := c.Input().Get("id")
 

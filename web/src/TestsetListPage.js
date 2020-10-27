@@ -110,16 +110,16 @@ class TestsetListPage extends React.Component {
         // width: '80px',
         sorter: (a, b) => a.title.localeCompare(b.title),
       },
-      {
-        title: 'Created Time',
-        dataIndex: 'createdTime',
-        key: 'createdTime',
-        width: '160px',
-        sorter: (a, b) => a.createdTime.localeCompare(b.createdTime),
-        render: (text, record, index) => {
-          return Setting.getFormattedDate(text);
-        }
-      },
+      // {
+      //   title: 'Created Time',
+      //   dataIndex: 'createdTime',
+      //   key: 'createdTime',
+      //   width: '160px',
+      //   sorter: (a, b) => a.createdTime.localeCompare(b.createdTime),
+      //   render: (text, record, index) => {
+      //     return Setting.getFormattedDate(text);
+      //   }
+      // },
       {
         title: 'Target Url',
         dataIndex: 'targetUrl',
@@ -137,7 +137,7 @@ class TestsetListPage extends React.Component {
         title: 'Testcases',
         dataIndex: 'testcases',
         key: 'testcases',
-        width: '400px',
+        width: '600px',
         render: (text, record, index) => {
           const testcases = text;
           if (testcases.length === 0) {
@@ -158,7 +158,7 @@ class TestsetListPage extends React.Component {
                         <List.Item>
                           <div style={{display: "inline"}}>
                             <Tooltip placement="topLeft" title="Edit">
-                              <Button style={{marginRight: "5px"}} icon={<EditOutlined />} size="small" onClick={() => Setting.openLink(`/testcases/${row}`)} />
+                              <Button style={{marginRight: "5px"}} icon={<EditOutlined />} size="small" onClick={() => Setting.openLink(`/testcases/${row.name}`)} />
                             </Tooltip>
                             {
                               this.renderTestcaseLink(record, i)

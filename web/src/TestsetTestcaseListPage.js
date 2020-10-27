@@ -31,7 +31,7 @@ class TestsetTestcaseListPage extends React.Component {
   }
 
   getTestcases() {
-    TestcaseBackend.getTestcases(this.state.testsetName)
+    TestcaseBackend.getFilteredTestcases(this.state.testsetName)
       .then((res) => {
         this.setState({
           testcases: res,
@@ -61,6 +61,12 @@ class TestsetTestcaseListPage extends React.Component {
       });
   }
 
+  getResults() {
+    this.state.testcases.forEach((testcase, i) => {
+      this.getResult(testcase, i);
+    });
+  }
+
   renderTable(testcases) {
     const columns = [
       {
@@ -79,19 +85,19 @@ class TestsetTestcaseListPage extends React.Component {
         title: 'Title',
         dataIndex: 'title',
         key: 'title',
-        width: '150px',
+        width: '250px',
         sorter: (a, b) => a.title.localeCompare(b.title),
       },
-      {
-        title: 'Created Time',
-        dataIndex: 'createdTime',
-        key: 'createdTime',
-        width: '160px',
-        sorter: (a, b) => a.createdTime.localeCompare(b.createdTime),
-        render: (text, record, index) => {
-          return Setting.getFormattedDate(text);
-        }
-      },
+      // {
+      //   title: 'Created Time',
+      //   dataIndex: 'createdTime',
+      //   key: 'createdTime',
+      //   width: '160px',
+      //   sorter: (a, b) => a.createdTime.localeCompare(b.createdTime),
+      //   render: (text, record, index) => {
+      //     return Setting.getFormattedDate(text);
+      //   }
+      // },
       {
         title: 'Method',
         dataIndex: 'method',
@@ -138,6 +144,13 @@ class TestsetTestcaseListPage extends React.Component {
         key: 'response',
         width: '100px',
         sorter: (a, b) => a.response.localeCompare(b.response),
+        render: (text, record, index) => {
+          if (record.trueStatus > 0 && text === "") {
+            return "(Empty)";
+          } else {
+            return text;
+          }
+        }
       },
       {
         title: 'Progress',
@@ -185,7 +198,8 @@ class TestsetTestcaseListPage extends React.Component {
         <Table columns={columns} dataSource={testcases} rowKey="name" size="middle" bordered pagination={{pageSize: 100}}
                title={() => (
                  <div>
-                   Testcases for: <Tag color="#108ee9">{this.state.testset === null ? "" : this.state.testset.name}</Tag>
+                   <Tag color="#108ee9">{this.state.testset === null ? "" : this.state.testset.name}</Tag> Testcases&nbsp;&nbsp;&nbsp;&nbsp;
+                   <Button type="primary" size="small" onClick={this.getResults.bind(this)}>Run All</Button>
                  </div>
                )}
         />

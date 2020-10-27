@@ -85,19 +85,19 @@ class TestcaseListPage extends React.Component {
         title: 'Title',
         dataIndex: 'title',
         key: 'title',
-        width: '150px',
+        width: '250px',
         sorter: (a, b) => a.title.localeCompare(b.title),
       },
-      {
-        title: 'Created Time',
-        dataIndex: 'createdTime',
-        key: 'createdTime',
-        width: '160px',
-        sorter: (a, b) => a.createdTime.localeCompare(b.createdTime),
-        render: (text, record, index) => {
-          return Setting.getFormattedDate(text);
-        }
-      },
+      // {
+      //   title: 'Created Time',
+      //   dataIndex: 'createdTime',
+      //   key: 'createdTime',
+      //   width: '160px',
+      //   sorter: (a, b) => a.createdTime.localeCompare(b.createdTime),
+      //   render: (text, record, index) => {
+      //     return Setting.getFormattedDate(text);
+      //   }
+      // },
       {
         title: 'Method',
         dataIndex: 'method',
