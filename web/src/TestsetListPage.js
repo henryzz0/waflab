@@ -137,7 +137,7 @@ class TestsetListPage extends React.Component {
         title: 'Testcases',
         dataIndex: 'testcases',
         key: 'testcases',
-        width: '600px',
+        width: '400px',
         render: (text, record, index) => {
           const testcases = text;
           if (testcases.length === 0) {
@@ -198,10 +198,11 @@ class TestsetListPage extends React.Component {
         title: 'Action',
         dataIndex: '',
         key: 'op',
-        width: '160px',
+        width: '240px',
         render: (text, record, index) => {
           return (
             <div>
+              <Button style={{marginTop: '10px', marginBottom: '10px', marginRight: '10px'}} onClick={() => Setting.goToLink(`/testsets/${record.name}/testcases`)}>Run</Button>
               <Button style={{marginTop: '10px', marginBottom: '10px', marginRight: '10px'}} type="primary" onClick={() => Setting.goToLink(`/testsets/${record.name}`)}>Edit</Button>
               <Popconfirm
                 title={`Sure to delete testset: ${record.name} ?`}

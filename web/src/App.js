@@ -10,6 +10,7 @@ import TestsetListPage from "./TestsetListPage";
 import TestsetEditPage from "./TestsetEditPage";
 import TestcaseListPage from "./TestcaseListPage";
 import TestcaseEditPage from "./TestcaseEditPage";
+import TestsetTestcaseListPage from "./TestsetTestcaseListPage";
 
 const { Header, Footer } = Layout;
 const { Text } = Typography;
@@ -122,9 +123,10 @@ class App extends Component {
         <Switch>
           <Route exact path="/" component={RulesetListPage}/>
           <Route exact path="/rulesets/:rulesetId/rulefiles/" component={RulefileListPage}/>
-          <Route path="/rulesets/:rulesetId/rulefiles/:rulefileId/rules/" component={RuleListPage}/>
+          <Route exact path="/rulesets/:rulesetId/rulefiles/:rulefileId/rules/" component={RuleListPage}/>
           <Route exact path="/testsets/" component={TestsetListPage}/>
           <Route exact path="/testsets/:testsetName" component={TestsetEditPage}/>
+          <Route exact path="/testsets/:testsetName/testcases/" component={TestsetTestcaseListPage}/>
           <Route exact path="/testcases/" component={TestcaseListPage}/>
           <Route exact path="/testcases/:testcaseName" component={TestcaseEditPage}/>
         </Switch>

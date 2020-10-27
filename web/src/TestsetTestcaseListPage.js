@@ -1,24 +1,37 @@
 import React from "react";
-import {Button, Col, Popconfirm, Row, Table} from 'antd';
-import moment from "moment";
+import {Button, Col, Popconfirm, Row, Table, Tag} from 'antd';
+import {SendOutlined, StopOutlined, CaretRightOutlined} from '@ant-design/icons';
 import * as Setting from "./Setting";
+import * as TestsetBackend from "./backend/TestsetBackend";
 import * as TestcaseBackend from "./backend/TestcaseBackend";
 
-class TestcaseListPage extends React.Component {
+class TestsetTestcaseListPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       classes: props,
-      testcases: null,
+      testsetName: props.match.params.testsetName,
+      testset: null,
+      testcases: [],
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
+    this.getTestset();
     this.getTestcases();
   }
 
+  getTestset() {
+    TestsetBackend.getTestset(this.state.testsetName)
+      .then((testset) => {
+        this.setState({
+          testset: testset,
+        });
+      });
+  }
+
   getTestcases() {
-    TestcaseBackend.getTestcases()
+    TestcaseBackend.getTestcases(this.state.testsetName)
       .then((res) => {
         this.setState({
           testcases: res,
@@ -26,45 +39,8 @@ class TestcaseListPage extends React.Component {
       });
   }
 
-  newTestcase() {
-    return {
-      name: `testcase_${this.state.testcases.length}`,
-      createdTime: moment().format(),
-      title: `New Testcase - ${this.state.testcases.length}`,
-      method: "GET",
-      userAgent: navigator.userAgent,
-      queryStrings: [],
-      status: 200,
-    }
-  }
-
-  addTestcase() {
-    const newTestcase = this.newTestcase();
-    TestcaseBackend.addTestcase(newTestcase)
-      .then((res) => {
-          Setting.showMessage("success", `Testcase added successfully`);
-          this.setState({
-            testcases: Setting.prependRow(this.state.testcases, newTestcase),
-          });
-        }
-      )
-      .catch(error => {
-        Setting.showMessage("error", `Testcase failed to add: ${error}`);
-      });
-  }
-
-  deleteTestcase(i) {
-    TestcaseBackend.deleteTestcase(this.state.testcases[i])
-      .then((res) => {
-          Setting.showMessage("success", `Testcase deleted successfully`);
-          this.setState({
-            testcases: Setting.deleteRow(this.state.testcases, i),
-          });
-        }
-      )
-      .catch(error => {
-        Setting.showMessage("error", `Testcase failed to delete: ${error}`);
-      });
+  runTestcase(testcase) {
+    Setting.showMessage("success", "Running: " + testcase.name);
   }
 
   renderTable(testcases) {
@@ -130,17 +106,11 @@ class TestcaseListPage extends React.Component {
         title: 'Action',
         dataIndex: '',
         key: 'op',
-        width: '160px',
+        width: '100px',
         render: (text, record, index) => {
           return (
             <div>
-              <Button style={{marginTop: '10px', marginBottom: '10px', marginRight: '10px'}} type="primary" onClick={() => Setting.goToLink(`/testcases/${record.name}`)}>Edit</Button>
-              <Popconfirm
-                title={`Sure to delete testcase: ${record.name} ?`}
-                onConfirm={() => this.deleteTestcase(index)}
-              >
-                <Button style={{marginBottom: '10px'}} type="danger">Delete</Button>
-              </Popconfirm>
+              <Button style={{marginTop: '10px', marginBottom: '10px', marginRight: '10px'}} type="primary" onClick={() => this.runTestcase(record)}>Run</Button>
             </div>
           )
         }
@@ -152,11 +122,9 @@ class TestcaseListPage extends React.Component {
         <Table columns={columns} dataSource={testcases} rowKey="name" size="middle" bordered pagination={{pageSize: 100}}
                title={() => (
                  <div>
-                   Testcases&nbsp;&nbsp;&nbsp;&nbsp;
-                   <Button type="primary" size="small" onClick={this.addTestcase.bind(this)}>Add</Button>
+                   Testcases for: <Tag color="#108ee9">{this.state.testset === null ? "" : this.state.testset.name}</Tag>
                  </div>
                )}
-               loading={testcases === null}
         />
       </div>
     );
@@ -181,4 +149,4 @@ class TestcaseListPage extends React.Component {
   }
 }
 
-export default TestcaseListPage;
+export default TestsetTestcaseListPage;

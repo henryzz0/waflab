@@ -17,6 +17,10 @@ export function goToLink(link) {
   window.location.href = link;
 }
 
+export function getLink(href, text) {
+  return <a target="_blank" href={href}>{text}</a>
+}
+
 export function showMessage(type, text) {
   if (type === "") {
     return;
@@ -87,4 +91,22 @@ export function getTags(tag) {
     );
   });
   return res;
+}
+
+export function getStatusTag(i) {
+  if (i === 200) {
+    return (
+      <Tag color="success">
+        200
+      </Tag>
+    )
+  } else if (i === 403) {
+    return (
+      <Tag color="error">
+        403
+      </Tag>
+    )
+  } else {
+    return null;
+  }
 }
