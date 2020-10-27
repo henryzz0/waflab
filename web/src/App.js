@@ -3,9 +3,9 @@ import {Switch, Route, withRouter} from 'react-router-dom';
 import './App.css';
 import {BackTop, Layout, Menu, Typography} from 'antd';
 import * as Setting from "./Setting";
-import HomePage from "./HomePage";
-import RulesetPage from "./RulesetPage";
-import RulefilePage from "./RulefilePage";
+import RulesetListPage from "./RulesetListPage";
+import RulefileListPage from "./RulefileListPage";
+import RuleListPage from "./RuleListPage";
 import TestsetListPage from "./TestsetListPage";
 import TestsetEditPage from "./TestsetEditPage";
 import TestcaseListPage from "./TestcaseListPage";
@@ -29,13 +29,17 @@ class App extends Component {
     this.updateMenuKey();
   }
 
-  updateMenuKey() {
+  getUrlPath() {
     // eslint-disable-next-line no-restricted-globals
-    const uri = location.pathname;
-    if (uri.includes('ruleset')) {
-      this.setState({ selectedMenuKey: 1 });
-    } else if (uri.includes('rulefile')) {
+    return location.pathname;
+  }
+
+  updateMenuKey() {
+    const uri = this.getUrlPath();
+    if (uri.includes('/rules/')) {
       this.setState({ selectedMenuKey: 2 });
+    } else if (uri.includes('rulefiles')) {
+      this.setState({ selectedMenuKey: 1 });
     } else if (uri.includes('testsets')) {
       this.setState({selectedMenuKey: 10});
     } else if (uri.includes('testcases')) {
@@ -55,24 +59,28 @@ class App extends Component {
     res.push(
       <Menu.Item key="0">
         <a href="/">
-          Home
+          Rule Sets
         </a>
       </Menu.Item>
     );
-    res.push(
-      <Menu.Item key="1">
-        <a href="/ruleset">
-          Ruleset
-        </a>
-      </Menu.Item>
-    );
-    res.push(
-      <Menu.Item key="2">
-        <a href="/rulefile">
-          Rulefile
-        </a>
-      </Menu.Item>
-    );
+    if (this.getUrlPath().includes('rulefiles')) {
+      res.push(
+        <Menu.Item key="1">
+          <a href="#">
+            Rule Files
+          </a>
+        </Menu.Item>
+      );
+    }
+    if (this.getUrlPath().includes('/rules/')) {
+      res.push(
+        <Menu.Item key="2">
+          <a href="#">
+            Rules
+          </a>
+        </Menu.Item>
+      );
+    }
     res.push(
       <Menu.Item key="10">
         <a href="/testsets">
@@ -112,9 +120,9 @@ class App extends Component {
           </Menu>
         </Header>
         <Switch>
-          <Route exact path="/" component={HomePage}/>
-          <Route path="/ruleset/:rulesetId/rulefile/:rulefileId" component={RulefilePage}/>
-          <Route path="/ruleset/:rulesetId" component={RulesetPage}/>
+          <Route exact path="/" component={RulesetListPage}/>
+          <Route exact path="/rulesets/:rulesetId/rulefiles/" component={RulefileListPage}/>
+          <Route path="/rulesets/:rulesetId/rulefiles/:rulefileId/rules/" component={RuleListPage}/>
           <Route exact path="/testsets/" component={TestsetListPage}/>
           <Route exact path="/testsets/:testsetName" component={TestsetEditPage}/>
           <Route exact path="/testcases/" component={TestcaseListPage}/>

@@ -5,7 +5,7 @@ import * as Setting from "./Setting";
 
 const {Text} = Typography;
 
-class RulefilePage extends React.Component {
+class RuleListPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -146,4 +146,4 @@ class RulefilePage extends React.Component {
   }
 }
 
-export default RulefilePage;
+export default RuleListPage;

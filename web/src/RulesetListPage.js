@@ -2,7 +2,7 @@ import React from "react";
 import {Button, Col, Row, Table} from "antd";
 import * as Setting from "./Setting";
 
-class HomePage extends React.Component {
+class RulesetListPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -64,12 +64,11 @@ class HomePage extends React.Component {
       },
       {
         title: 'Action',
-        dataIndex: '',
         key: 'action',
         render: (text, record, index) => {
           return (
             <div>
-              <Button style={{marginTop: '10px', marginBottom: '10px', marginRight: '10px'}} type="primary" onClick={() => Setting.goToLink(`/ruleset/${record.id}`)}>View</Button>
+              <Button style={{marginTop: '10px', marginBottom: '10px', marginRight: '10px'}} type="primary" onClick={() => Setting.goToLink(`/rulesets/${record.id}/rulefiles/`)}>View</Button>
             </div>
           )
         }
@@ -105,4 +104,4 @@ class HomePage extends React.Component {
   }
 }
 
-export default HomePage;
+export default RulesetListPage;

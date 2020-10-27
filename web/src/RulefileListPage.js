@@ -4,7 +4,7 @@ import * as Setting from "./Setting";
 
 const {Text} = Typography;
 
-class RulesetPage extends React.Component {
+class RulefileListPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -88,13 +88,12 @@ class RulesetPage extends React.Component {
       },
       {
         title: 'Action',
-        dataIndex: '',
         key: 'action',
         width: 120,
         render: (text, record, index) => {
           return (
             <div>
-              <Button style={{marginTop: '10px', marginBottom: '10px', marginRight: '10px'}} type="primary" onClick={() => Setting.goToLink(`/ruleset/${this.state.rulesetId}/rulefile/${record.id}`)}>View</Button>
+              <Button style={{marginTop: '10px', marginBottom: '10px', marginRight: '10px'}} type="primary" onClick={() => Setting.goToLink(`/rulesets/${this.state.rulesetId}/rulefiles/${record.id}/rules/`)}>View</Button>
             </div>
           )
         }
@@ -130,4 +129,4 @@ class RulesetPage extends React.Component {
   }
 }
 
-export default RulesetPage;
+export default RulefileListPage;
