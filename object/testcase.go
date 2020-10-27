@@ -4,9 +4,10 @@ type Testcase struct {
 	Name        string `xorm:"varchar(100) notnull pk" json:"name"`
 	CreatedTime string `xorm:"varchar(100)" json:"createdTime"`
 
-	Title  string `xorm:"varchar(100)" json:"title"`
-	Method string `xorm:"varchar(100)" json:"method"`
-	Status int    `json:"status"`
+	Title     string `xorm:"varchar(100)" json:"title"`
+	Method    string `xorm:"varchar(100)" json:"method"`
+	UserAgent string `xorm:"varchar(1000)" json:"userAgent"`
+	Status    int    `json:"status"`
 }
 
 func GetTestcases() []*Testcase {

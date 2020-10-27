@@ -32,6 +32,7 @@ class TestcaseListPage extends React.Component {
       createdTime: moment().format(),
       title: `New Testcase - ${this.state.testcases.length}`,
       method: "GET",
+      userAgent: navigator.userAgent,
       status: 200,
     }
   }
@@ -71,7 +72,7 @@ class TestcaseListPage extends React.Component {
         title: 'Name',
         dataIndex: 'name',
         key: 'name',
-        width: '120px',
+        width: '100px',
         sorter: (a, b) => a.name.localeCompare(b.name),
         render: (text, record, index) => {
           return (
@@ -83,7 +84,7 @@ class TestcaseListPage extends React.Component {
         title: 'Title',
         dataIndex: 'title',
         key: 'title',
-        // width: '80px',
+        width: '150px',
         sorter: (a, b) => a.title.localeCompare(b.title),
       },
       {
@@ -105,6 +106,13 @@ class TestcaseListPage extends React.Component {
         render: (text, record, index) => {
           return Setting.getTags(text);
         }
+      },
+      {
+        title: 'User-Agent',
+        dataIndex: 'userAgent',
+        key: 'userAgent',
+        // width: '100px',
+        sorter: (a, b) => a.userAgent.localeCompare(b.userAgent),
       },
       {
         title: 'Status',
