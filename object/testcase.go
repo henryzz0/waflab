@@ -28,21 +28,24 @@ func GetTestcases() []*Testcase {
 	return testcases
 }
 
-func GetFilteredTestcases(testsetId string) []*Testcase {
-	testset := GetTestset(testsetId)
-	m := map[string]int{}
-	for _, item := range testset.Testcases {
-		m[item.Name] = 1
+func getFilteredTestcases(testset *Testset) []*Testcase {
+	testcases := GetTestcases()
+
+	m := map[string]*Testcase{}
+	for _, testcase := range testcases {
+		m[testcase.Name] = testcase
 	}
 
-	testcases := GetTestcases()
 	res := []*Testcase{}
-	for _, testcase := range testcases {
-		if _, ok := m[testcase.Name]; ok {
-			res = append(res, testcase)
-		}
+	for _, item := range testset.Testcases {
+		res = append(res, m[item.Name])
 	}
 	return res
+}
+
+func GetFilteredTestcases(testsetId string) []*Testcase {
+	testset := GetTestset(testsetId)
+	return getFilteredTestcases(testset)
 }
 
 func GetTestcase(id string) *Testcase {

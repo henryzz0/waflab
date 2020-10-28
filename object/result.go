@@ -14,10 +14,7 @@ type Result struct {
 	Response string `json:"response"`
 }
 
-func GetResult(testsetId string, testcaseId string) *Result {
-	testset := GetTestset(testsetId)
-	testcase := GetTestcase(testcaseId)
-
+func getResult(testset *Testset, testcase *Testcase) *Result {
 	tokens := []string{}
 	for _, pair := range testcase.QueryStrings {
 		value := pair.Value
@@ -67,4 +64,11 @@ func GetResult(testsetId string, testcaseId string) *Result {
 	}
 
 	return res
+}
+
+func GetResult(testsetId string, testcaseId string) *Result {
+	testset := GetTestset(testsetId)
+	testcase := GetTestcase(testcaseId)
+
+	return getResult(testset, testcase)
 }
