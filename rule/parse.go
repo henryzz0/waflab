@@ -42,10 +42,13 @@ func printRules(rf *Rulefile) {
 	}
 }
 
-func parse() {
+func parseRuleExample() {
 	rf := newRulefile(0, "REQUEST-920-PROTOCOL-ENFORCEMENT")
 	text := util.ReadStringFromPath(util.CrsRuleDir + "REQUEST-920-PROTOCOL-ENFORCEMENT.conf")
-	parseRules(rf, text)
+
+	//parseRules(rf, text)
+	parseRules2(rf, text)
+
 	rf.syncPls()
 	printRules(rf)
 
@@ -55,4 +58,8 @@ func parse() {
 	//	panic(err)
 	//}
 	//utils.Pprint(d)
+}
+
+func parseRuleText(text string) {
+	parseRules2(nil, text)
 }
