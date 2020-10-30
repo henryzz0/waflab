@@ -32,7 +32,7 @@ func getOrCreateRs(id string) *rule.Ruleset {
 
 func listRulesetIds() []string {
 	res := []string{}
-	res = append(res, "crs-3.3")
+	res = append(res, "crs-3.2")
 	return res
 }
 

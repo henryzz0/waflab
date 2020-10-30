@@ -10,9 +10,9 @@ func ReadRuleset(id string) *Ruleset {
 	fmt.Printf("Read ruleset for Id: [%s].\n", id)
 
 	rs := newRuleset(id)
-	if rs.Id == "crs-3.3" {
+	if rs.Id == "crs-3.2" {
 		rs.Name = "CoreRuleSet"
-		rs.Version = "v3.3/dev"
+		rs.Version = "v3.2/master"
 	}
 
 	filenames := util.ListFileIds(util.CrsRuleDir)
