@@ -8,8 +8,10 @@ import (
 )
 
 func removeComment(s string) string {
-	re, _ := regexp.Compile("#.*\n")
-	return re.ReplaceAllString(s, "")
+	re, _ := regexp.Compile("(?:^|\n)#.*")
+	s = re.ReplaceAllString(s, "")
+	s = strings.ReplaceAll(s, "\n\n", "\n")
+	return s
 }
 
 func parseRules(rf *Rulefile, text string) {

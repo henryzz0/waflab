@@ -18,7 +18,5 @@ func parseRules2(rf *Rulefile, text string) {
 		if ok {
 			println(d)
 		}
-
-		print(d)
 	}
 }
