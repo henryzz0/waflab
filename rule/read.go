@@ -33,7 +33,7 @@ func ReadRulefile(no int, id string) *Rulefile {
 	rf := newRulefile(no, id)
 
 	text := util.ReadStringFromPath(util.CrsRuleDir + id + ".conf")
-	parseRules(rf, text)
+	parseRules2(rf, text)
 	rf.loadTestsets()
 	rf.syncPls()
 

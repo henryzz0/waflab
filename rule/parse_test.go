@@ -13,3 +13,7 @@ SecRule TX:EXECUTING_PARANOIA_LEVEL "@lt 1" "id:920012,phase:2,pass,nolog,skipAf
 `
 	parseRuleText(s)
 }
+
+func TestParseAllRules(t *testing.T) {
+	ReadRuleset("crs-3.2")
+}

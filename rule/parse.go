@@ -11,6 +11,12 @@ func removeComment(s string) string {
 	re, _ := regexp.Compile("(?:^|\n)#.*")
 	s = re.ReplaceAllString(s, "")
 	s = strings.ReplaceAll(s, "\n\n", "\n")
+
+	re, _ = regexp.Compile("(SecMarker|SecComponentSignature).*")
+	s = re.ReplaceAllString(s, "")
+
+	re, _ = regexp.Compile("SecAction(?U:[\\s\\S]*)\n\n")
+	s = re.ReplaceAllString(s, "")
 	return s
 }
 

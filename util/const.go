@@ -1,5 +1,5 @@
 package util
 
-const CrsBaseDir = "I:/github_repos/owasp-modsecurity-crs/"
+const CrsBaseDir = "F:/github_repos/coreruleset/"
 const CrsRuleDir = CrsBaseDir + "rules/"
 const CrsTestDir = CrsBaseDir + "tests/regression/tests/"
