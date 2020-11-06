@@ -1,6 +1,5 @@
 import React from "react";
-import {Col, Row, Table, Tag, Typography} from "antd";
-import {MinusSquareOutlined, PlusSquareOutlined} from "@ant-design/icons";
+import {Col, List, Row, Table, Tag, Typography} from "antd";
 import * as Setting from "./Setting";
 
 const {Text} = Typography;
@@ -35,42 +34,15 @@ class RuleListPage extends React.Component {
   }
 
   renderTable(title, title2, rules) {
-    const expandedRowRender = (record, index, indent, expanded) => {
-      const columns = [
-        {
-          title: 'No',
-          dataIndex: 'no',
-          key: 'no',
-          width: 60,
-        },
-        {
-          title: 'Id',
-          dataIndex: 'id',
-          key: 'id',
-          width: 80,
-        },
-        {
-          title: 'Type',
-          dataIndex: 'type',
-          key: 'type',
-          width: 80,
-        },
-        {
-          title: 'Text',
-          dataIndex: 'text',
-          key: 'text',
-        },
-      ];
-
-      return <Table columns={columns} dataSource={record.chainRules} pagination={false} />;
-    };
-
     const columns = [
       {
         title: 'No',
         dataIndex: 'no',
         key: 'no',
         width: 60,
+        render: (text, record, index) => {
+          return index;
+        }
       },
       {
         title: 'Id',
@@ -78,12 +50,12 @@ class RuleListPage extends React.Component {
         key: 'id',
         width: 80,
       },
-      {
-        title: 'Type',
-        dataIndex: 'type',
-        key: 'type',
-        width: 80,
-      },
+      // {
+      //   title: 'Type',
+      //   dataIndex: 'type',
+      //   key: 'type',
+      //   width: 80,
+      // },
       {
         title: 'Paranoia Level',
         dataIndex: 'paranoiaLevel',
@@ -103,22 +75,35 @@ class RuleListPage extends React.Component {
       },
     ];
 
-    function expandIcon({ expanded, expandable, record, onExpand }) {
-      if (!expandable || record.chainRules === null) return null;
-
-      return (
-        <a onClick={e => onExpand(record, e)}>
-          {expanded ? <MinusSquareOutlined /> : <PlusSquareOutlined />}
-        </a>
-      );
-    }
-
     const plColors = ["pl1", "pl2", "pl3", "pl4"];
 
     return (
       <div>
-        <Table columns={columns} dataSource={rules} size="middle" bordered pagination={{pageSize: 100}}
-               expandIcon={expandIcon} expandedRowRender={expandedRowRender}
+        <Table columns={columns} dataSource={rules} rowKey="text" size="middle" bordered pagination={{pageSize: 100}}
+               expandable={{
+                 defaultExpandAllRows: true,
+                 expandedRowRender: record => {
+                   return (
+                     <Row style={{width: "100%"}}>
+                       <Col span={6}>
+                       </Col>
+                       <Col span={18}>
+                         <List
+                           // bordered
+                           dataSource={record.chainRules}
+                           renderItem={(record, index) => (
+                             <List.Item>
+                               <Typography.Text mark>{`Chain rule - ${index}`}</Typography.Text>
+                               {record.text}
+                             </List.Item>
+                           )}
+                         />
+                       </Col>
+                     </Row>
+                   )
+                 },
+                 rowExpandable: record => record.chainRules !== null,
+               }}
                title={() => <div><Text>Rules for: </Text><Tag color="#108ee9">{title}</Tag> => <Tag color="#108ee9">{title2}</Tag></div>}
                rowClassName={(record, index) => { return plColors[record.paranoiaLevel - 1] }}
                loading={rules === null}

@@ -63,6 +63,10 @@ func (rf *Rulefile) syncPls() {
 	rf.Rules = newRules
 
 	for _, r := range rf.Rules {
+		if r.ParanoiaLevel == -1 {
+			r.ParanoiaLevel = 1
+		}
+
 		if r.ParanoiaLevel == 1 {
 			rf.Pl1Count += 1
 			rf.Pl1TestCount += r.TestCount
@@ -77,6 +81,8 @@ func (rf *Rulefile) syncPls() {
 		} else if r.ParanoiaLevel == 4 {
 			rf.Pl4Count += 1
 			rf.Pl4TestCount += r.TestCount
+		} else {
+			println(r.Id)
 		}
 	}
 	rf.Count = len(rf.Rules)
