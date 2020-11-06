@@ -1,45 +1,26 @@
 package rule
 
 import (
-	"regexp"
-	"strings"
+	"errors"
 
 	"github.com/waflab/waflab/util"
 )
 
-func removeComment(s string) string {
-	re, _ := regexp.Compile("(?:^|\n)#.*")
-	s = re.ReplaceAllString(s, "")
-	s = strings.ReplaceAll(s, "\n\n", "\n")
-
-	re, _ = regexp.Compile("(SecMarker|SecComponentSignature).*")
-	s = re.ReplaceAllString(s, "")
-
-	re, _ = regexp.Compile("SecAction(?U:[\\s\\S]*)\n\n")
-	s = re.ReplaceAllString(s, "")
-	return s
-}
-
 func parseRules(rf *Rulefile, text string) {
 	text = removeComment(text)
-	text = strings.ReplaceAll(text, "\\\n", "")
 
-	lines := strings.Split(text, "\n")
+	lines := parseRulesToLines(text)
+	ruleDataList := parseRuleDataToList(text)
+	if len(lines) != len(ruleDataList) {
+		panic(errors.New("parseRules() error: len(lines) != len(ruleDataList)"))
+	}
 
-	for _, line := range lines {
-		if line == "" {
-			continue
-		}
-
-		if strings.HasPrefix(line, "SecMarker") || strings.HasPrefix(line, "SecComponentSignature") {
-			continue
-		}
-
-		if strings.HasPrefix(line, "SecRule") {
-			rf.Rules = append(rf.Rules, newRule(len(rf.Rules), line))
-		} else if strings.HasPrefix(line, "    SecRule") {
-			line = strings.Trim(line, " ")
-			rf.Rules[len(rf.Rules) - 1].addChainRule(line)
+	for i, ruleData := range ruleDataList {
+		if i > 0 && ruleDataList[i-1].Actions != nil && ruleDataList[i-1].Actions.Chain {
+			rf.Rules[len(rf.Rules)-1].addChainRule(lines[i], ruleData)
+		} else {
+			r := newRule(len(rf.Rules), lines[i], ruleData)
+			rf.Rules = append(rf.Rules, r)
 		}
 	}
 }
@@ -54,20 +35,8 @@ func parseRuleExample() {
 	rf := newRulefile(0, "REQUEST-920-PROTOCOL-ENFORCEMENT")
 	text := util.ReadStringFromPath(util.CrsRuleDir + "REQUEST-920-PROTOCOL-ENFORCEMENT.conf")
 
-	//parseRules(rf, text)
-	parseRules2(rf, text)
+	parseRules(rf, text)
 
 	rf.syncPls()
 	printRules(rf)
-
-	//scaner := parser.NewSecLangScannerFromString(text)
-	//d, err := scaner.AllDirective()
-	//if err != nil {
-	//	panic(err)
-	//}
-	//utils.Pprint(d)
-}
-
-func parseRuleText(text string) {
-	parseRules2(nil, text)
 }

@@ -7,11 +7,11 @@ func TestParseRuleExample(t *testing.T) {
 }
 
 func TestParseRuleText(t *testing.T) {
-	s := `
+	text := `
 SecRule TX:EXECUTING_PARANOIA_LEVEL "@lt 1" "id:920011,phase:1,pass,nolog,skipAfter:END-REQUEST-920-PROTOCOL-ENFORCEMENT"
 SecRule TX:EXECUTING_PARANOIA_LEVEL "@lt 1" "id:920012,phase:2,pass,nolog,skipAfter:END-REQUEST-920-PROTOCOL-ENFORCEMENT"
 `
-	parseRuleText(s)
+	parseRules(nil, text)
 }
 
 func TestParseAllRules(t *testing.T) {

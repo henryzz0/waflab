@@ -16,13 +16,16 @@ func ReadRuleset(id string) *Ruleset {
 	}
 
 	filenames := util.ListFileIds(util.CrsRuleDir)
+	ruleCount := 0
 	for _, filename := range filenames {
 		rf := ReadRulefile(len(rs.Rulefiles), filename)
 		rs.Rulefiles = append(rs.Rulefiles, rf)
 		rs.RulefileMap[filename] = rf
 		rs.RuleCount += rf.Count
+		ruleCount += rf.Count
 	}
 	rs.FileCount = len(rs.Rulefiles)
+	rs.RuleCount = ruleCount
 
 	return rs
 }
@@ -33,7 +36,7 @@ func ReadRulefile(no int, id string) *Rulefile {
 	rf := newRulefile(no, id)
 
 	text := util.ReadStringFromPath(util.CrsRuleDir + id + ".conf")
-	parseRules2(rf, text)
+	parseRules(rf, text)
 	rf.loadTestsets()
 	rf.syncPls()
 

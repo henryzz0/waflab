@@ -4,6 +4,8 @@ import (
 	"errors"
 	"regexp"
 
+	"github.com/senghoo/modsecurity-go/seclang/parser"
+
 	"github.com/waflab/waflab/util"
 )
 
@@ -29,11 +31,12 @@ func init() {
 }
 
 type Rule struct {
-	No            int    `json:"no"`
-	Id            string `json:"id"`
-	Typ           string `json:"type"`
-	ParanoiaLevel int    `json:"paranoiaLevel"`
-	Text          string `json:"text"`
+	No            int                   `json:"no"`
+	Id            string                `json:"id"`
+	Typ           string                `json:"type"`
+	ParanoiaLevel int                   `json:"paranoiaLevel"`
+	Text          string                `json:"text"`
+	Data          *parser.RuleDirective `json:"data"`
 
 	ChainRules []*Rule `json:"chainRules"`
 
@@ -41,18 +44,20 @@ type Rule struct {
 	TestCount int      `json:"testCount"`
 }
 
-func newRule(no int, text string) *Rule {
+func newRule(no int, text string, data *parser.RuleDirective) *Rule {
 	r := Rule{}
 	r.No = no
 	r.Text = text
 	r.parseText()
+	r.Data = data
 	return &r
 }
 
-func newChainRule(no int, text string) *Rule {
+func newChainRule(no int, text string, data *parser.RuleDirective) *Rule {
 	r := Rule{}
 	r.No = no
 	r.Text = text
+	r.Data = data
 	return &r
 }
 
@@ -84,6 +89,6 @@ func (r *Rule) parseText() {
 	}
 }
 
-func (r *Rule) addChainRule(text string) {
-	r.ChainRules = append(r.ChainRules, newChainRule(len(r.ChainRules), text))
+func (r *Rule) addChainRule(text string, data *parser.RuleDirective) {
+	r.ChainRules = append(r.ChainRules, newChainRule(len(r.ChainRules), text, data))
 }
