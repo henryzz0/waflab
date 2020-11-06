@@ -4,7 +4,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/senghoo/modsecurity-go/seclang/parser"
+	"github.com/hsluoyz/modsecurity-go/seclang/parser"
 )
 
 func removeComment(s string) string {

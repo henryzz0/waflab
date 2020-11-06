@@ -4,7 +4,7 @@ import (
 	"errors"
 	"regexp"
 
-	"github.com/senghoo/modsecurity-go/seclang/parser"
+	"github.com/hsluoyz/modsecurity-go/seclang/parser"
 
 	"github.com/waflab/waflab/util"
 )
