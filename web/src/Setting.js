@@ -5,7 +5,9 @@ export let ServerUrl = '';
 
 export function initServerUrl() {
   const hostname = window.location.hostname;
-  ServerUrl = `http://${hostname}:7070`;
+  if (hostname === 'localhost') {
+    ServerUrl = `http://${hostname}:7070`;
+  }
 }
 
 export function openLink(link) {
