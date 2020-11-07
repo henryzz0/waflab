@@ -5,7 +5,6 @@ import (
 	"strings"
 
 	"github.com/waflab/waflab/util"
-	"gopkg.in/yaml.v2"
 )
 
 type Rulefile struct {
@@ -69,18 +68,18 @@ func (rf *Rulefile) syncPls() {
 
 		if r.ParanoiaLevel == 1 {
 			rf.Pl1Count += 1
-			rf.Pl1TestCount += r.TestCount
+			rf.Pl1TestCount += r.RegressionTestCount
 		} else if r.ParanoiaLevel == 2 {
 			rf.Pl2Count += 1
-			rf.Pl2TestCount += r.TestCount
+			rf.Pl2TestCount += r.RegressionTestCount
 
 		} else if r.ParanoiaLevel == 3 {
 			rf.Pl3Count += 1
-			rf.Pl3TestCount += r.TestCount
+			rf.Pl3TestCount += r.RegressionTestCount
 
 		} else if r.ParanoiaLevel == 4 {
 			rf.Pl4Count += 1
-			rf.Pl4TestCount += r.TestCount
+			rf.Pl4TestCount += r.RegressionTestCount
 		} else {
 			println(r.Id)
 		}
@@ -96,14 +95,9 @@ func (rf *Rulefile) loadTestsets() {
 		if !util.FileExist(path) {
 			continue
 		}
-		text := util.ReadStringFromPath(path)
 
-		ts := Testset{}
-		err := yaml.Unmarshal([]byte(text), &ts)
-		if err != nil {
-			panic(err)
-		}
-		r.Testset = &ts
-		r.TestCount = len(ts.Tests)
+		text := util.ReadStringFromPath(path)
+		r.Testset = loadTestsetFromString(text)
+		r.RegressionTestCount = len(r.Testset.Tests)
 	}
 }

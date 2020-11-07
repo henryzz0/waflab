@@ -1,7 +1,17 @@
 package rule
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/waflab/waflab/util"
+)
 
 func TestParseTestset(t *testing.T) {
-	parseTestset()
+	//rf := newRulefile(0, "REQUEST-920-PROTOCOL-ENFORCEMENT")
+	text := util.ReadStringFromPath(util.CrsTestDir + "REQUEST-920-PROTOCOL-ENFORCEMENT/920100.yaml")
+	//parseRules(rf, text)
+	//rf.syncPls()
+	//printRules(rf)
+
+	loadTestsetFromString(text)
 }

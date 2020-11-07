@@ -1,10 +1,5 @@
 package rule
 
-import (
-	"github.com/waflab/waflab/util"
-	"gopkg.in/yaml.v2"
-)
-
 type Testset struct {
 	Meta  *Meta   `yaml:"meta"`
 	Tests []*Test `yaml:"tests"`
@@ -44,18 +39,4 @@ type Input struct {
 type Output struct {
 	LogContains   string `yaml:"log_contains"`
 	NoLogContains string `yaml:"no_log_contains"`
-}
-
-func parseTestset() {
-	//rf := newRulefile(0, "REQUEST-920-PROTOCOL-ENFORCEMENT")
-	text := util.ReadStringFromPath(util.CrsTestDir + "REQUEST-920-PROTOCOL-ENFORCEMENT/920100.yaml")
-	//parseRules(rf, text)
-	//rf.syncPls()
-	//printRules(rf)
-
-	ts := Testset{}
-	err := yaml.Unmarshal([]byte(text), &ts)
-	if err != nil {
-		panic(err)
-	}
 }

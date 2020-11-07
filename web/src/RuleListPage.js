@@ -1,5 +1,5 @@
 import React from "react";
-import {Col, List, Row, Table, Tag, Typography} from "antd";
+import {Button, Col, List, Row, Table, Tag, Typography} from "antd";
 import * as Setting from "./Setting";
 
 const {Text} = Typography;
@@ -35,15 +35,15 @@ class RuleListPage extends React.Component {
 
   renderTable(title, title2, rules) {
     const columns = [
-      {
-        title: 'No',
-        dataIndex: 'no',
-        key: 'no',
-        width: 60,
-        render: (text, record, index) => {
-          return index;
-        }
-      },
+      // {
+      //   title: 'No',
+      //   dataIndex: 'no',
+      //   key: 'no',
+      //   width: 60,
+      //   render: (text, record, index) => {
+      //     return index;
+      //   }
+      // },
       {
         title: 'Id',
         dataIndex: 'id',
@@ -63,15 +63,29 @@ class RuleListPage extends React.Component {
         width: 80,
       },
       {
-        title: 'Test Count',
-        dataIndex: 'testCount',
-        key: 'testCount',
-        width: 80,
-      },
-      {
         title: 'Text',
         dataIndex: 'text',
         key: 'text',
+      },
+      {
+        title: 'Tests',
+        key: 'tests',
+        width: 100,
+        render: (text, record, index) => {
+          if (record.regressionTestCount !== 0) {
+            return (
+              <div>
+                <Button style={{marginTop: '10px', marginBottom: '10px', marginRight: '10px'}} type="normal" onClick={() => Setting.goToLink(`/rulesets/${this.state.rulesetId}/rulefiles/${record.id}/rules/`)}>
+                  {
+                    `${record.regressionTestCount} Regression Tests`
+                  }
+                </Button>
+              </div>
+            )
+          } else {
+            return null;
+          }
+        }
       },
     ];
 

@@ -74,6 +74,7 @@ class RulefileListPage extends React.Component {
         title: 'Rule Count',
         dataIndex: 'count',
         key: 'count',
+        width: 220,
         render: (text, record, index) => {
           return `${record.count} (${record.pl1Count} + ${record.pl2Count} + ${record.pl3Count} + ${record.pl4Count})`;
         }
@@ -82,6 +83,7 @@ class RulefileListPage extends React.Component {
         title: 'Test Count',
         dataIndex: 'testCount',
         key: 'testCount',
+        width: 220,
         render: (text, record, index) => {
           return `${record.testCount} (${record.pl1TestCount} + ${record.pl2TestCount} + ${record.pl3TestCount} + ${record.pl4TestCount})`;
         }
@@ -89,7 +91,7 @@ class RulefileListPage extends React.Component {
       {
         title: 'Action',
         key: 'action',
-        width: 120,
+        width: 100,
         render: (text, record, index) => {
           return (
             <div>

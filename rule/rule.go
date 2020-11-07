@@ -40,8 +40,8 @@ type Rule struct {
 
 	ChainRules []*Rule `json:"chainRules"`
 
-	Testset   *Testset `json:"testset"`
-	TestCount int      `json:"testCount"`
+	Testset             *Testset `json:"testset"`
+	RegressionTestCount int      `json:"regressionTestCount"`
 }
 
 func newRule(no int, text string, data *parser.RuleDirective) *Rule {
