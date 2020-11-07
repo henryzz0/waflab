@@ -7,16 +7,23 @@ import (
 	"github.com/hsluoyz/modsecurity-go/seclang/parser"
 )
 
+var reComment *regexp.Regexp
+var reOtherDirective *regexp.Regexp
+var reOtherDirective2 *regexp.Regexp
+
+func init() {
+	reComment, _ = regexp.Compile("(?:^|\n)#.*")
+	reOtherDirective, _ = regexp.Compile("(SecMarker|SecComponentSignature).*")
+	reOtherDirective2, _ = regexp.Compile("SecAction(?U:[\\s\\S]*)\n\n")
+}
+
 func removeComment(s string) string {
-	re, _ := regexp.Compile("(?:^|\n)#.*")
-	s = re.ReplaceAllString(s, "")
+	s = reComment.ReplaceAllString(s, "")
 	s = strings.ReplaceAll(s, "\n\n", "\n")
 
-	re, _ = regexp.Compile("(SecMarker|SecComponentSignature).*")
-	s = re.ReplaceAllString(s, "")
+	s = reOtherDirective.ReplaceAllString(s, "")
 
-	re, _ = regexp.Compile("SecAction(?U:[\\s\\S]*)\n\n")
-	s = re.ReplaceAllString(s, "")
+	s = reOtherDirective2.ReplaceAllString(s, "")
 	return s
 }
 

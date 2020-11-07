@@ -39,7 +39,7 @@ type Input struct {
 }
 
 type Output struct {
-	Status        int    `yaml:"status"`
+	Status        []int  `yaml:"status"`
 	HtmlContains  string `yaml:"html_contains"`
 	LogContains   string `yaml:"log_contains"`
 	NoLogContains string `yaml:"no_log_contains"`
