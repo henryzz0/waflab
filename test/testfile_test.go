@@ -1,4 +1,4 @@
-package rule
+package test
 
 import (
 	"testing"
@@ -13,5 +13,5 @@ func TestParseTestset(t *testing.T) {
 	//rf.syncPls()
 	//printRules(rf)
 
-	loadTestsetFromString(text)
+	LoadTestfileFromString(text)
 }

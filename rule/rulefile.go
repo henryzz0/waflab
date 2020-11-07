@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/waflab/waflab/test"
 	"github.com/waflab/waflab/util"
 )
 
@@ -97,7 +98,7 @@ func (rf *Rulefile) loadTestsets() {
 		}
 
 		text := util.ReadStringFromPath(path)
-		r.Testset = loadTestsetFromString(text)
-		r.RegressionTestCount = len(r.Testset.Tests)
+		tf := test.LoadTestfileFromString(text)
+		r.RegressionTestCount = len(tf.Tests)
 	}
 }

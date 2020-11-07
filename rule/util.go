@@ -5,7 +5,6 @@ import (
 	"strings"
 
 	"github.com/hsluoyz/modsecurity-go/seclang/parser"
-	"gopkg.in/yaml.v2"
 )
 
 func removeComment(s string) string {
@@ -52,15 +51,4 @@ func parseRuleDataToList(text string) []*parser.RuleDirective {
 		res = append(res, rd)
 	}
 	return res
-}
-
-func loadTestsetFromString(text string) *Testset {
-	ts := Testset{}
-
-	err := yaml.Unmarshal([]byte(text), &ts)
-	if err != nil {
-		panic(err)
-	}
-
-	return &ts
 }
