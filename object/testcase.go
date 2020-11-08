@@ -8,14 +8,16 @@ type Pair struct {
 type Testcase struct {
 	Name        string `xorm:"varchar(100) notnull pk" json:"name"`
 	CreatedTime string `xorm:"varchar(100)" json:"createdTime"`
+	Desc        string `xorm:"varchar(100)" json:"desc"`
 
-	Title        string `xorm:"varchar(100)" json:"title"`
 	Method       string `xorm:"varchar(100)" json:"method"`
 	UserAgent    string `xorm:"varchar(1000)" json:"userAgent"`
 	QueryStrings []Pair `xorm:"mediumtext" json:"queryStrings"`
 	Status       int    `json:"status"`
 	TrueStatus   int    `json:"trueStatus"`
 	Response     string `xorm:"mediumtext" json:"response"`
+
+	//Data test.Testfile `xorm:"mediumtext" json:"data"`
 }
 
 func GetTestcases() []*Testcase {
@@ -38,7 +40,7 @@ func getFilteredTestcases(testset *Testset) []*Testcase {
 
 	res := []*Testcase{}
 	for _, item := range testset.Testcases {
-		res = append(res, m[item.Name])
+		res = append(res, m[item])
 	}
 	return res
 }

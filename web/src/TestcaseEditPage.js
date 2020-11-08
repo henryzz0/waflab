@@ -70,11 +70,11 @@ class TestcaseEditPage extends React.Component {
         </Row>
         <Row style={{marginTop: '20px'}} >
           <Col style={{marginTop: '5px'}} span={2}>
-            Title:
+            Description:
           </Col>
           <Col span={22} >
-            <Input value={this.state.testcase.title} onChange={e => {
-              this.updateTestcaseField('title', e.target.value);
+            <Input value={this.state.testcase.desc} onChange={e => {
+              this.updateTestcaseField('desc', e.target.value);
             }} />
           </Col>
         </Row>

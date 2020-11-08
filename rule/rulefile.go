@@ -99,6 +99,16 @@ func (rf *Rulefile) loadTestsets() {
 
 		text := util.ReadStringFromPath(path)
 		tf := test.LoadTestfileFromString(text)
+		//testcase := object.Testcase{
+		//	Name:        tf.Meta.Name,
+		//	CreatedTime: util.GetCurrentTime(),
+		//	Desc:        tf.Meta.Description,
+		//	Data:        *tf,
+		//}
+		//object.DeleteTestcase(&testcase)
+		//object.AddTestcase(&testcase)
+		//testset := object.GetTestset("regression-test")
+
 		r.RegressionTestCount = len(tf.Tests)
 	}
 }

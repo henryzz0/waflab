@@ -82,11 +82,11 @@ class TestcaseListPage extends React.Component {
         }
       },
       {
-        title: 'Title',
-        dataIndex: 'title',
-        key: 'title',
+        title: 'Description',
+        dataIndex: 'desc',
+        key: 'desc',
         width: '250px',
-        sorter: (a, b) => a.title.localeCompare(b.title),
+        sorter: (a, b) => a.desc.localeCompare(b.desc),
       },
       // {
       //   title: 'Created Time',

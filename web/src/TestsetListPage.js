@@ -95,7 +95,7 @@ class TestsetListPage extends React.Component {
         title: 'Name',
         dataIndex: 'name',
         key: 'name',
-        width: '120px',
+        width: '140px',
         sorter: (a, b) => a.name.localeCompare(b.name),
         render: (text, record, index) => {
           return (
@@ -104,11 +104,11 @@ class TestsetListPage extends React.Component {
         }
       },
       {
-        title: 'Title',
-        dataIndex: 'title',
-        key: 'title',
-        // width: '80px',
-        sorter: (a, b) => a.title.localeCompare(b.title),
+        title: 'Description',
+        dataIndex: 'desc',
+        key: 'desc',
+        width: '220px',
+        sorter: (a, b) => a.desc.localeCompare(b.desc),
       },
       // {
       //   title: 'Created Time',
