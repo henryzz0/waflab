@@ -19,21 +19,22 @@ class TestsetEditTestcaseTable extends React.Component {
 
   updateField(index, key, value) {
     let table = this.props.table;
-    table[index][key] = value;
+    // table[index][key] = value;
+    table[index] = value;
     this.updateTable(table);
   }
 
   addRow() {
     let table = this.props.table;
-    let row = {name: "(Please select)"};
+    let row = "(Please select)";
     if (table === undefined) {
       table = [];
     }
-    if (table.length > 0) {
-      const last = table.slice(-1)[0];
-      row = Setting.deepCopy(last);
-      row.id = last.id + 1;
-    }
+    // if (table.length > 0) {
+    //   const last = table.slice(-1)[0];
+    //   row = Setting.deepCopy(last);
+    //   row.id = last.id + 1;
+    // }
     table = Setting.addRow(table, row);
     this.updateTable(table);
   }
@@ -58,7 +59,7 @@ class TestsetEditTestcaseTable extends React.Component {
 
   isItemSelected(table, name) {
     for (let i = 0; i < table.length; i ++) {
-      if (table[i].name === name) {
+      if (table[i] === name) {
         return true;
       }
     }
@@ -82,9 +83,9 @@ class TestsetEditTestcaseTable extends React.Component {
         key: 'name',
         render: (text, record, index) => {
           return (
-            <Select style={{width: '100%'}} value={text} onChange={value => {this.updateField(index, 'name', value);}}>
+            <Select style={{width: '100%'}} value={record} onChange={value => {this.updateField(index, 'name', value);}}>
               {
-                this.props.testcases?.filter((testcase) => !this.isItemSelected(table, testcase.name)).map((testcase, index) => <Option key={testcase.name} value={testcase.name}>{testcase.name}</Option>)
+                this.props.testcases?.filter((testcase) => !this.isItemSelected(table, testcase.name)).map((testcase, index) => <Option key={`${testcase.name} - ${index}`} value={testcase.name}>{testcase.name}</Option>)
               }
             </Select>
           )

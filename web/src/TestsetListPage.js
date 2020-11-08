@@ -85,7 +85,7 @@ class TestsetListPage extends React.Component {
   }
 
   renderTestcaseLink(record, i) {
-    const testcaseName = record.testcases[i].name;
+    const testcaseName = record.testcases[i];
     return <a target="_blank" href={`/testcases/${testcaseName}`}>{`${i}. ${testcaseName}`}</a>
   }
 
