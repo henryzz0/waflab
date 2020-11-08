@@ -99,6 +99,13 @@ class TestsetTestcaseListPage extends React.Component {
           )
         }
       },
+      {
+        title: 'Test Count',
+        dataIndex: 'testCount',
+        key: 'testCount',
+        width: '120px',
+        sorter: (a, b) => a.testCount - b.testCount,
+      },
       // {
       //   title: 'Created Time',
       //   dataIndex: 'createdTime',

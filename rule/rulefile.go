@@ -97,6 +97,7 @@ func syncTestfile(tf *test.Testfile) {
 		Desc:        tf.Meta.Description,
 		Author:      tf.Meta.Author,
 		Enabled:     tf.Meta.Enabled,
+		TestCount:   len(tf.Tests),
 		Data:        tf,
 	}
 

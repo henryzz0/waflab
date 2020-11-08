@@ -13,6 +13,7 @@ type Testcase struct {
 	Desc        string `xorm:"varchar(100)" json:"desc"`
 	Author      string `xorm:"varchar(100)" json:"author"`
 	Enabled     bool   `json:"enabled"`
+	TestCount   int    `json:"testCount"`
 
 	Method       string `xorm:"varchar(100)" json:"method"`
 	UserAgent    string `xorm:"varchar(1000)" json:"userAgent"`
