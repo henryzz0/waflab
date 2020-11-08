@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/waflab/waflab/object"
 	"github.com/waflab/waflab/test"
 	"github.com/waflab/waflab/util"
 )
@@ -89,6 +90,26 @@ func (rf *Rulefile) syncPls() {
 	rf.TestCount = rf.Pl1TestCount + rf.Pl2TestCount + rf.Pl3TestCount + rf.Pl4TestCount
 }
 
+func syncTestfile(tf *test.Testfile) {
+	testcase := object.Testcase{
+		Name:        tf.Meta.Name,
+		CreatedTime: util.GetCurrentTime(),
+		Desc:        tf.Meta.Description,
+		Data:        tf,
+	}
+
+	if object.GetTestcase(testcase.Name) != nil {
+		object.DeleteTestcase(&testcase)
+	}
+	object.AddTestcase(&testcase)
+
+	testset := object.GetTestset("regression-test")
+	if !util.StringListContains(testset.Testcases, tf.Meta.Name) {
+		testset.Testcases = append(testset.Testcases, tf.Meta.Name)
+	}
+	object.UpdateTestset(testset.Name, testset)
+}
+
 func (rf *Rulefile) loadTestsets() {
 	for _, r := range rf.Rules {
 		// util.CrsTestDir + "REQUEST-920-PROTOCOL-ENFORCEMENT/920100.yaml"
@@ -99,15 +120,7 @@ func (rf *Rulefile) loadTestsets() {
 
 		text := util.ReadStringFromPath(path)
 		tf := test.LoadTestfileFromString(text)
-		//testcase := object.Testcase{
-		//	Name:        tf.Meta.Name,
-		//	CreatedTime: util.GetCurrentTime(),
-		//	Desc:        tf.Meta.Description,
-		//	Data:        *tf,
-		//}
-		//object.DeleteTestcase(&testcase)
-		//object.AddTestcase(&testcase)
-		//testset := object.GetTestset("regression-test")
+		syncTestfile(tf)
 
 		r.RegressionTestCount = len(tf.Tests)
 	}

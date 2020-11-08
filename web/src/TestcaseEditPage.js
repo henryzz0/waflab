@@ -4,6 +4,10 @@ import * as TestcaseBackend from "./backend/TestcaseBackend";
 import * as Setting from "./Setting";
 import TestcaseHeaderTable from "./TestcaseHeaderTable";
 
+import {Controlled as CodeMirror} from 'react-codemirror2'
+import "codemirror/lib/codemirror.css"
+require("codemirror/mode/javascript/javascript");
+
 const { Option } = AutoComplete;
 
 class TestcaseEditPage extends React.Component {
@@ -78,60 +82,80 @@ class TestcaseEditPage extends React.Component {
             }} />
           </Col>
         </Row>
-        <Row style={{marginTop: '20px'}} >
-          <Col style={{marginTop: '5px'}} span={2}>
-            Method:
-          </Col>
-          <Col span={22} >
-            <Select style={{width: '200px'}} value={this.state.testcase.method} onChange={(value => {this.updateTestcaseField('method', value);})}>
-              {
-                [
-                  "GET",
-                  "POST",
-                  "PUT",
-                  "DELETE",
-                ].map((item, index) => <Option key={index} value={item}>{item}</Option>)
-              }
-            </Select>
-          </Col>
-        </Row>
-        <Row style={{marginTop: '20px'}} >
-          <Col style={{marginTop: '5px'}} span={2}>
-            User-Agent:
-          </Col>
-          <Col span={22} >
-            <Input value={this.state.testcase.userAgent} onChange={e => {
-              this.updateTestcaseField('userAgent', e.target.value);
-            }} />
-          </Col>
-        </Row>
-        <Row style={{marginTop: '20px'}} >
-          <Col style={{marginTop: '5px'}} span={2}>
-            Query Strings:
-          </Col>
-          <Col span={22} >
-            <TestcaseHeaderTable
-              title="Query Strings"
-              table={this.state.testcase.queryStrings}
-              onUpdateTable={(value) => { return this.onUpdateTestcaseField("queryStrings", value)}}
-            />
-          </Col>
-        </Row>
-        <Row style={{marginTop: '20px'}} >
-          <Col style={{marginTop: '5px'}} span={2}>
-            Status:
-          </Col>
-          <Col span={22} >
-            <Select style={{width: '200px'}} value={this.state.testcase.status} onChange={(value => {this.updateTestcaseField('status', value);})}>
-              {
-                [
-                  200,
-                  403,
-                ].map((item, index) => <Option key={index} value={item}>{item}</Option>)
-              }
-            </Select>
-          </Col>
-        </Row>
+        {
+          this.state.testcase?.data === null ? (
+            <React.Fragment>
+              <Row style={{marginTop: '20px'}} >
+                <Col style={{marginTop: '5px'}} span={2}>
+                  Method:
+                </Col>
+                <Col span={22} >
+                  <Select style={{width: '200px'}} value={this.state.testcase.method} onChange={(value => {this.updateTestcaseField('method', value);})}>
+                    {
+                      [
+                        "GET",
+                        "POST",
+                        "PUT",
+                        "DELETE",
+                      ].map((item, index) => <Option key={index} value={item}>{item}</Option>)
+                    }
+                  </Select>
+                </Col>
+              </Row>
+              <Row style={{marginTop: '20px'}} >
+                <Col style={{marginTop: '5px'}} span={2}>
+                  User-Agent:
+                </Col>
+                <Col span={22} >
+                  <Input value={this.state.testcase.userAgent} onChange={e => {
+                    this.updateTestcaseField('userAgent', e.target.value);
+                  }} />
+                </Col>
+              </Row>
+              <Row style={{marginTop: '20px'}} >
+                <Col style={{marginTop: '5px'}} span={2}>
+                  Query Strings:
+                </Col>
+                <Col span={22} >
+                  <TestcaseHeaderTable
+                    title="Query Strings"
+                    table={this.state.testcase.queryStrings}
+                    onUpdateTable={(value) => { return this.onUpdateTestcaseField("queryStrings", value)}}
+                  />
+                </Col>
+              </Row>
+              <Row style={{marginTop: '20px'}} >
+                <Col style={{marginTop: '5px'}} span={2}>
+                  Status:
+                </Col>
+                <Col span={22} >
+                  <Select style={{width: '200px'}} value={this.state.testcase.status} onChange={(value => {this.updateTestcaseField('status', value);})}>
+                    {
+                      [
+                        200,
+                        403,
+                      ].map((item, index) => <Option key={index} value={item}>{item}</Option>)
+                    }
+                  </Select>
+                </Col>
+              </Row>
+            </React.Fragment>
+          ) : (
+            <Row style={{marginTop: '20px'}} >
+              <Col style={{marginTop: '5px'}} span={2}>
+                Data:
+              </Col>
+              <Col span={22} >
+                <CodeMirror
+                  className="json-editor"
+                  value={JSON.stringify(this.state.testcase.data, null, 4)}
+                  options={{mode: 'javascript', theme: "default"}}
+                />
+              </Col>
+            </Row>
+          )
+        }
+
       </Card>
     )
   }

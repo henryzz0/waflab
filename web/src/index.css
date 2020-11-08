@@ -48,3 +48,11 @@ code {
 .pl4 {
   background: #fdc6cd;
 }
+
+.json-editor {
+  height: 600px;
+}
+
+.CodeMirror {
+  height: 100% !important;
+}

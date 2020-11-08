@@ -1,5 +1,7 @@
 package object
 
+import "github.com/waflab/waflab/test"
+
 type Pair struct {
 	Key   string `json:"key"`
 	Value string `json:"value"`
@@ -17,7 +19,7 @@ type Testcase struct {
 	TrueStatus   int    `json:"trueStatus"`
 	Response     string `xorm:"mediumtext" json:"response"`
 
-	//Data test.Testfile `xorm:"mediumtext" json:"data"`
+	Data *test.Testfile `xorm:"json" json:"data"`
 }
 
 func GetTestcases() []*Testcase {
