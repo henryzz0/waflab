@@ -95,6 +95,8 @@ func syncTestfile(tf *test.Testfile) {
 		Name:        tf.Meta.Name,
 		CreatedTime: util.GetCurrentTime(),
 		Desc:        tf.Meta.Description,
+		Author:      tf.Meta.Author,
+		Enabled:     tf.Meta.Enabled,
 		Data:        tf,
 	}
 

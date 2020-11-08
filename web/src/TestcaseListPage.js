@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Col, Popconfirm, Row, Table} from 'antd';
+import {Button, Col, Popconfirm, Row, Switch, Table} from 'antd';
 import moment from "moment";
 import * as Setting from "./Setting";
 import * as TestcaseBackend from "./backend/TestcaseBackend";
@@ -87,6 +87,24 @@ class TestcaseListPage extends React.Component {
         key: 'desc',
         width: '250px',
         sorter: (a, b) => a.desc.localeCompare(b.desc),
+      },
+      {
+        title: 'Author',
+        dataIndex: 'author',
+        key: 'author',
+        width: '120px',
+        sorter: (a, b) => a.author.localeCompare(b.author),
+      },
+      {
+        title: 'Enabled',
+        dataIndex: 'enabled',
+        key: 'enabled',
+        width: '80px',
+        render: (text, record, index) => {
+          return (
+            <Switch disabled checked={text} />
+          )
+        }
       },
       // {
       //   title: 'Created Time',

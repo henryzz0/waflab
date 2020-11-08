@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Col, Progress, Row, Table, Tag} from 'antd';
+import {Button, Col, Progress, Row, Switch, Table, Tag} from 'antd';
 import * as Setting from "./Setting";
 import * as TestsetBackend from "./backend/TestsetBackend";
 import * as TestcaseBackend from "./backend/TestcaseBackend";
@@ -82,11 +82,22 @@ class TestsetTestcaseListPage extends React.Component {
         }
       },
       {
-        title: 'Title',
-        dataIndex: 'title',
-        key: 'title',
+        title: 'Description',
+        dataIndex: 'desc',
+        key: 'desc',
         width: '250px',
-        sorter: (a, b) => a.title.localeCompare(b.title),
+        sorter: (a, b) => a.desc.localeCompare(b.desc),
+      },
+      {
+        title: 'Enabled',
+        dataIndex: 'enabled',
+        key: 'enabled',
+        width: '80px',
+        render: (text, record, index) => {
+          return (
+            <Switch disabled checked={text} />
+          )
+        }
       },
       // {
       //   title: 'Created Time',

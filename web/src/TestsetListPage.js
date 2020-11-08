@@ -158,7 +158,7 @@ class TestsetListPage extends React.Component {
                         <List.Item>
                           <div style={{display: "inline"}}>
                             <Tooltip placement="topLeft" title="Edit">
-                              <Button style={{marginRight: "5px"}} icon={<EditOutlined />} size="small" onClick={() => Setting.openLink(`/testcases/${row.name}`)} />
+                              <Button style={{marginRight: "5px"}} icon={<EditOutlined />} size="small" onClick={() => Setting.openLink(`/testcases/${row}`)} />
                             </Tooltip>
                             {
                               this.renderTestcaseLink(record, i)
