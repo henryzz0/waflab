@@ -57,7 +57,9 @@ func getWafResult(testset *Testset, testcase *Testcase) *Result {
 
 func sendRaw(method string, host string, uri string, query string, userAgent string, headers map[string]string) (*http.Response, error) {
 	client := &http.Client{}
-	req, err := http.NewRequest(method, host + uri + query, nil)
+	//host = "http://127.0.0.1:8888"
+	url := host + uri + query
+	req, err := http.NewRequest(method, url, nil)
 	if err != nil {
 		panic(err)
 	}
@@ -67,7 +69,13 @@ func sendRaw(method string, host string, uri string, query string, userAgent str
 	}
 
 	for k, v := range headers {
-		req.Header.Add(k, v)
+		// https://github.com/golang/go/issues/7682
+		if k == "Host" {
+			req.Host = ""
+			req.Header.Add(k, v)
+		} else {
+			req.Header.Add(k, v)
+		}
 	}
 
 	return client.Do(req)
