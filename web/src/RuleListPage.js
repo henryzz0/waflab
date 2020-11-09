@@ -75,7 +75,7 @@ class RuleListPage extends React.Component {
           if (record.regressionTestCount !== 0) {
             return (
               <div>
-                <Button style={{marginTop: '10px', marginBottom: '10px', marginRight: '10px'}} type="normal" onClick={() => Setting.goToLink(`/rulesets/${this.state.rulesetId}/rulefiles/${record.id}/rules/`)}>
+                <Button style={{marginTop: '10px', marginBottom: '10px', marginRight: '10px'}} type="normal" onClick={() => Setting.openLink(`/testcases/${record.id}.yaml`)}>
                   {
                     `${record.regressionTestCount} Regression Tests`
                   }

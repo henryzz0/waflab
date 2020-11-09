@@ -15,7 +15,16 @@ type Result struct {
 }
 
 func getResult(testset *Testset, testcase *Testcase) *Result {
+	if testcase.Data == nil {
+		return getFingerprintingResult(testset, testcase)
+	} else {
+		return getWafResult(testset, testcase)
+	}
+}
+
+func getQuery(testcase *Testcase) string {
 	tokens := []string{}
+
 	for _, pair := range testcase.QueryStrings {
 		value := pair.Value
 		if pair.Key == "data" {
@@ -24,24 +33,19 @@ func getResult(testset *Testset, testcase *Testcase) *Result {
 		value = url.QueryEscape(value)
 		tokens = append(tokens, fmt.Sprintf("%s=%s", pair.Key, value))
 	}
+
 	query := fmt.Sprintf("?%s", strings.Join(tokens, "&"))
-	//for key, value := range input.Headers {
-	//	req.Header.Add(key, value)
-	//}
+	return query
+}
 
-	client := &http.Client{}
-	req, err := http.NewRequest(testcase.Method, testset.TargetUrl + query, nil)
-	if err != nil {
-		panic(err)
-	}
+func getFingerprintingResult(testset *Testset, testcase *Testcase) *Result {
+	method := testcase.Method
+	host := testset.TargetUrl
+	uri := ""
+	query := getQuery(testcase)
+	userAgent := testcase.UserAgent
 
-	req.Header.Set("User-Agent", testcase.UserAgent)
-
-	//for key, value := range input.Headers {
-	//	req.Header.Add(key, value)
-	//}
-
-	resp, err := client.Do(req)
+	resp, err := sendRaw(method, host, uri, query, userAgent, nil)
 	if err != nil {
 		//panic(err)
 		res := &Result{

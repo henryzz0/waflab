@@ -31,3 +31,12 @@ func StringListContains(list []string, s string) bool {
 	}
 	return false
 }
+
+func IntListContains(list []int, i int) bool {
+	for _, v := range list {
+		if v == i {
+			return true
+		}
+	}
+	return false
+}

@@ -90,6 +90,24 @@ func (rf *Rulefile) syncPls() {
 	rf.TestCount = rf.Pl1TestCount + rf.Pl2TestCount + rf.Pl3TestCount + rf.Pl4TestCount
 }
 
+func getUserAgent(tf *test.Testfile) string {
+	headers := tf.Tests[0].Stages[0].Stage.Input.Headers
+	if userAgent, ok := headers["User-Agent"]; ok {
+		return userAgent
+	} else {
+		return ""
+	}
+}
+
+func getStatus(tf *test.Testfile) int {
+	status := tf.Tests[0].Stages[0].Stage.Output.Status
+	if len(status) > 0 {
+		return status[0]
+	} else {
+		return -1
+	}
+}
+
 func syncTestfile(tf *test.Testfile) {
 	testcase := object.Testcase{
 		Name:        tf.Meta.Name,
@@ -98,6 +116,9 @@ func syncTestfile(tf *test.Testfile) {
 		Author:      tf.Meta.Author,
 		Enabled:     tf.Meta.Enabled,
 		TestCount:   len(tf.Tests),
+		Method:      tf.Tests[0].Stages[0].Stage.Input.Method,
+		UserAgent:   getUserAgent(tf),
+		Status:      getStatus(tf),
 		Data:        tf,
 	}
 
@@ -123,7 +144,7 @@ func (rf *Rulefile) loadTestsets() {
 
 		text := util.ReadStringFromPath(path)
 		tf := test.LoadTestfileFromString(text)
-		syncTestfile(tf)
+		//syncTestfile(tf)
 
 		r.RegressionTestCount = len(tf.Tests)
 	}
