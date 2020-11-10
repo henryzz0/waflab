@@ -7,6 +7,29 @@ import (
 	"strings"
 )
 
+func GetPath(path string) string {
+	return filepath.Dir(path)
+}
+
+func EnsureFileFolderExists(path string) {
+	p := GetPath(path)
+	if !FileExist(p) {
+		err := os.MkdirAll(p, os.ModePerm)
+		if err != nil {
+			panic(err)
+		}
+	}
+}
+
+func GetAbsolutePath(path string) string {
+	res, err := filepath.Abs(path)
+	if err != nil {
+		panic(err)
+	}
+
+	return res
+}
+
 func filterFile(name string) bool {
 	return strings.HasSuffix(name, ".conf")
 }

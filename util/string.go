@@ -23,6 +23,13 @@ func ReadStringFromPath(path string) string {
 	return string(data)
 }
 
+func WriteStringToPath(s string, path string) {
+	err := ioutil.WriteFile(path, []byte(s), 0644)
+	if err != nil {
+		panic(err)
+	}
+}
+
 func StringListContains(list []string, s string) bool {
 	for _, v := range list {
 		if v == s {
