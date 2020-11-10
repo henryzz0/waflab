@@ -135,11 +135,26 @@ func syncTestfile(tf *test.Testfile, text string) {
 	object.UpdateTestset(testset.Name, testset)
 }
 
+func getTestfilePath(rulefileId string, testfileId string) string {
+	// util.CrsTestDir + "REQUEST-920-PROTOCOL-ENFORCEMENT/920100.yaml"
+	//path := fmt.Sprintf("%s%s/%s.yaml", util.CrsTestDir, rulefileId, testfileId)
+
+	folders := []string{"Paranoia_Level_1", "Paranoia_Level_2", "Paranoia_Level_3", "Paranoia_Level_4", "Unknown"}
+	for _, folder := range folders {
+		path := fmt.Sprintf("%s%s/%s/%s.yaml", util.WbTestDir, rulefileId, folder, testfileId)
+		if !util.FileExist(path) {
+			continue
+		} else {
+			return path
+		}
+	}
+	return ""
+}
+
 func (rf *Rulefile) loadTestsets() {
 	for _, r := range rf.Rules {
-		// util.CrsTestDir + "REQUEST-920-PROTOCOL-ENFORCEMENT/920100.yaml"
-		path := fmt.Sprintf("%s%s/%s.yaml", util.CrsTestDir, rf.Id, r.Id)
-		if !util.FileExist(path) {
+		path := getTestfilePath(rf.Id, r.Id)
+		if path == "" {
 			continue
 		}
 
