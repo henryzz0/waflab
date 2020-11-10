@@ -108,7 +108,7 @@ func getStatus(tf *test.Testfile) int {
 	}
 }
 
-func syncTestfile(tf *test.Testfile) {
+func syncTestfile(tf *test.Testfile, text string) {
 	testcase := object.Testcase{
 		Name:        tf.Meta.Name,
 		CreatedTime: util.GetCurrentTime(),
@@ -120,6 +120,7 @@ func syncTestfile(tf *test.Testfile) {
 		UserAgent:   getUserAgent(tf),
 		Status:      getStatus(tf),
 		Data:        tf,
+		RawData:     text,
 	}
 
 	if object.GetTestcase(testcase.Name) != nil {
@@ -144,7 +145,7 @@ func (rf *Rulefile) loadTestsets() {
 
 		text := util.ReadStringFromPath(path)
 		tf := test.LoadTestfileFromString(text)
-		//syncTestfile(tf)
+		//syncTestfile(tf, text)
 
 		r.RegressionTestCount = len(tf.Tests)
 	}

@@ -22,7 +22,8 @@ type Testcase struct {
 	TrueStatus   int    `json:"trueStatus"`
 	Response     string `xorm:"mediumtext" json:"response"`
 
-	Data *test.Testfile `xorm:"json" json:"data"`
+	Data    *test.Testfile `xorm:"json" json:"data"`
+	RawData string         `xorm:"mediumtext" json:"-"`
 }
 
 func GetTestcases() []*Testcase {
