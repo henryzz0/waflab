@@ -30,6 +30,13 @@ func GetAbsolutePath(path string) string {
 	return res
 }
 
+func RemovePath(path string) {
+	err := os.RemoveAll(path)
+	if err != nil {
+		panic(err)
+	}
+}
+
 func filterFile(name string) bool {
 	return strings.HasSuffix(name, ".conf")
 }

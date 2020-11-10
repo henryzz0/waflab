@@ -1,19 +1,32 @@
-package object
+package docker
 
 import (
 	"bytes"
 	"context"
+	"fmt"
 	"io"
 	"strings"
-	"time"
 
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/api/types/container"
 	"github.com/docker/docker/api/types/mount"
 	"github.com/docker/docker/client"
+
+	"github.com/waflab/waflab/util"
 )
 
-func runContainer(folder string) {
+func GetStatusFromContainer(folder string, url string) int {
+	runContainer(folder, url)
+	status := readDbResult(folder + "/db/result.db")
+	util.RemovePath(folder)
+	return status
+}
+
+func runContainer(folder string, url string) {
+	dbFolder := folder + "/db"
+	util.RemovePath(dbFolder)
+	util.EnsureFileFolderExists(dbFolder)
+
 	ctx := context.Background()
 	cli, err := client.NewClientWithOpts(client.FromEnv, client.WithAPIVersionNegotiation())
 	if err != nil {
@@ -39,8 +52,8 @@ func runContainer(folder string) {
 		Image: imageName,
 		Cmd: []string{
 			"ftw_compatible_tool",
-			//"-d", "/data/regression.db",
-			"-x", "load /testcase | gen | start http://test.waflab.org:7080| report | exit"},
+			"-d", "/data/result.db",
+			"-x", fmt.Sprintf("load /testcase | gen | start %s| report | exit", url)},
 		Tty:          true,
 		//AttachStderr: true,
 		//AttachStdout: true,
@@ -61,6 +74,11 @@ func runContainer(folder string) {
 					Source: folder,
 					Target: "/testcase",
 				},
+				{
+					Type:   mount.TypeBind,
+					Source: dbFolder,
+					Target: "/data",
+				},
 			},
 		},
 		nil, "wafbench")
@@ -72,22 +90,27 @@ func runContainer(folder string) {
 		panic(err)
 	}
 
-	time.Sleep(5 * time.Second)
+	// https://stackoverflow.com/questions/58732588/accept-user-input-os-stdin-to-container-using-golang-docker-sdk-interactive-co
+	statusCh, errCh := cli.ContainerWait(ctx, resp.ID, container.WaitConditionNotRunning)
+	select {
+	case err := <-errCh:
+		if err != nil {
+			panic(err)
+		}
+	case <-statusCh:
+		containerId := resp.ID
+		reader, err := cli.ContainerLogs(ctx, containerId, types.ContainerLogsOptions{
+			ShowStdout: true,
+			//ShowStderr: true,
+		})
+		if err != nil {
+			panic(err)
+		}
+		defer reader.Close()
 
-	containerId := resp.ID
-	reader, err := cli.ContainerLogs(ctx, containerId, types.ContainerLogsOptions{
-		ShowStdout: true,
-		//ShowStderr: true,
-	})
-	if err != nil {
-		panic(err)
+		stdoutput := new(bytes.Buffer)
+		io.Copy(stdoutput, reader)
+		s := stdoutput.String()
+		println(s)
 	}
-	defer reader.Close()
-
-	stdoutput := new(bytes.Buffer)
-	io.Copy(stdoutput, reader)
-	s := stdoutput.String()
-	println(s)
-
-	//fmt.Println(resp.ID)
 }

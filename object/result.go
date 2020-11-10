@@ -18,7 +18,8 @@ func getResult(testset *Testset, testcase *Testcase) *Result {
 	if testcase.Data == nil {
 		return getFingerprintingResult(testset, testcase)
 	} else {
-		return getWafResult(testset, testcase)
+		//return getWafResult(testset, testcase)
+		return getWafBenchResult(testset, testcase)
 	}
 }
 

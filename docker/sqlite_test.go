@@ -1,4 +1,4 @@
-package object
+package docker
 
 import "testing"
 
