@@ -10,7 +10,6 @@ import (
 )
 
 type Result struct {
-	Status   int    `json:"status"`
 	Statuses []int  `json:"statuses"`
 	Response string `json:"response"`
 }
@@ -51,7 +50,7 @@ func getFingerprintingResult(testset *Testset, testcase *Testcase) *Result {
 	if err != nil {
 		//panic(err)
 		res := &Result{
-			Status:   -2,
+			Statuses: []int{-2},
 			Response: "No connection",
 		}
 		return res
@@ -59,7 +58,7 @@ func getFingerprintingResult(testset *Testset, testcase *Testcase) *Result {
 	defer resp.Body.Close()
 
 	res := &Result{}
-	res.Status = resp.StatusCode
+	res.Statuses = []int{resp.StatusCode}
 	if resp.StatusCode == http.StatusOK {
 		bodyBytes, err := ioutil.ReadAll(resp.Body)
 		if err != nil {

@@ -26,7 +26,7 @@ func getWafResult(testset *Testset, testcase *Testcase) *Result {
 		if err != nil {
 			//panic(err)
 			res := &Result{
-				Status:   -2,
+				Statuses: []int{-2},
 				Response: "No connection",
 			}
 			return res
@@ -34,11 +34,11 @@ func getWafResult(testset *Testset, testcase *Testcase) *Result {
 		defer resp.Body.Close()
 
 		res := &Result{}
-		res.Status = resp.StatusCode
-		if util.IntListContains(expectedStatusList, res.Status) {
+		res.Statuses = []int{resp.StatusCode}
+		if util.IntListContains(expectedStatusList, res.Statuses[0]) {
 			res.Response = "ok"
 		} else {
-			res.Response = fmt.Sprintf("wrong: %v != %d", expectedStatusList, res.Status)
+			res.Response = fmt.Sprintf("wrong: %v != %d", expectedStatusList, res.Statuses[0])
 		}
 		//if resp.StatusCode == http.StatusOK {
 		//	bodyBytes, err := ioutil.ReadAll(resp.Body)

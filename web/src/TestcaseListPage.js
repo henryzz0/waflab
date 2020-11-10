@@ -85,16 +85,16 @@ class TestcaseListPage extends React.Component {
         title: 'Description',
         dataIndex: 'desc',
         key: 'desc',
-        width: '250px',
+        // width: '250px',
         sorter: (a, b) => a.desc.localeCompare(b.desc),
       },
-      {
-        title: 'Author',
-        dataIndex: 'author',
-        key: 'author',
-        width: '120px',
-        sorter: (a, b) => a.author.localeCompare(b.author),
-      },
+      // {
+      //   title: 'Author',
+      //   dataIndex: 'author',
+      //   key: 'author',
+      //   width: '120px',
+      //   sorter: (a, b) => a.author.localeCompare(b.author),
+      // },
       {
         title: 'Enabled',
         dataIndex: 'enabled',
@@ -130,32 +130,32 @@ class TestcaseListPage extends React.Component {
         width: '100px',
         sorter: (a, b) => a.method.localeCompare(b.method),
         render: (text, record, index) => {
-          return Setting.getTags(text);
+          return Setting.getMethodTag(text);
         }
       },
+      // {
+      //   title: 'User-Agent',
+      //   dataIndex: 'userAgent',
+      //   key: 'userAgent',
+      //   // width: '100px',
+      //   sorter: (a, b) => a.userAgent.localeCompare(b.userAgent),
+      // },
       {
-        title: 'User-Agent',
-        dataIndex: 'userAgent',
-        key: 'userAgent',
-        // width: '100px',
-        sorter: (a, b) => a.userAgent.localeCompare(b.userAgent),
-      },
-      {
-        title: 'Status',
-        dataIndex: 'status',
-        key: 'status',
-        width: '80px',
-        ellipsis: true,
-        sorter: (a, b) => a.status - b.status,
+        title: 'Expected Status',
+        dataIndex: 'statusLists',
+        key: 'statusLists',
+        width: '600px',
+        // ellipsis: true,
+        // sorter: (a, b) => a.statusLists - b.statusLists,
         render: (text, record, index) => {
-          return Setting.getStatusTag(text);
+          return Setting.getStatusTags(text);
         }
       },
       {
         title: 'Action',
         dataIndex: '',
         key: 'op',
-        width: '160px',
+        width: '100px',
         render: (text, record, index) => {
           return (
             <div>

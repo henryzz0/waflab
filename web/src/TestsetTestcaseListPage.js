@@ -48,16 +48,17 @@ class TestsetTestcaseListPage extends React.Component {
   }
 
   getResult(testcase, i) {
-    this.setTestcaseValue(i, "trueStatus", -1);
+    this.setTestcaseValue(i, "state", "ongoing");
     ResultBackend.getResult(this.state.testset.name, testcase.name)
       .then((result) => {
         // Setting.showMessage("success", "Result: " + result.status);
-        this.setTestcaseValue(i, "trueStatus", result.status);
+        this.setTestcaseValue(i, "state", "finished");
+        this.setTestcaseValue(i, "trueStatuses", result.statuses);
         this.setTestcaseValue(i, "response", result.response);
       })
       .catch(error => {
         Setting.showMessage("error", `failed to run: ${error}`);
-        this.setTestcaseValue(i, "trueStatus", -2);
+        this.setTestcaseValue(i, "state", "error");
       });
   }
 
@@ -81,13 +82,13 @@ class TestsetTestcaseListPage extends React.Component {
           )
         }
       },
-      {
-        title: 'Description',
-        dataIndex: 'desc',
-        key: 'desc',
-        width: '250px',
-        sorter: (a, b) => a.desc.localeCompare(b.desc),
-      },
+      // {
+      //   title: 'Description',
+      //   dataIndex: 'desc',
+      //   key: 'desc',
+      //   width: '250px',
+      //   sorter: (a, b) => a.desc.localeCompare(b.desc),
+      // },
       {
         title: 'Enabled',
         dataIndex: 'enabled',
@@ -123,36 +124,36 @@ class TestsetTestcaseListPage extends React.Component {
         width: '100px',
         sorter: (a, b) => a.method.localeCompare(b.method),
         render: (text, record, index) => {
-          return Setting.getTags(text);
+          return Setting.getMethodTag(text);
         }
       },
+      // {
+      //   title: 'User-Agent',
+      //   dataIndex: 'userAgent',
+      //   key: 'userAgent',
+      //   // width: '100px',
+      //   sorter: (a, b) => a.userAgent.localeCompare(b.userAgent),
+      // },
       {
-        title: 'User-Agent',
-        dataIndex: 'userAgent',
-        key: 'userAgent',
-        // width: '100px',
-        sorter: (a, b) => a.userAgent.localeCompare(b.userAgent),
-      },
-      {
-        title: 'Status',
-        dataIndex: 'status',
-        key: 'status',
-        width: '80px',
-        ellipsis: true,
-        sorter: (a, b) => a.status - b.status,
+        title: 'Expected Status',
+        dataIndex: 'statusLists',
+        key: 'statusLists',
+        width: '600px',
+        // ellipsis: true,
+        // sorter: (a, b) => a.statusLists - b.statusLists,
         render: (text, record, index) => {
-          return Setting.getStatusTag(text);
+          return Setting.getStatusTags(text);
         }
       },
       {
         title: 'True Status',
-        dataIndex: 'trueStatus',
-        key: 'trueStatus',
-        width: '120px',
-        ellipsis: true,
-        sorter: (a, b) => a.trueStatus - b.trueStatus,
+        dataIndex: 'trueStatuses',
+        key: 'trueStatuses',
+        width: '600px',
+        // ellipsis: true,
+        // sorter: (a, b) => a.trueStatuses - b.trueStatuses,
         render: (text, record, index) => {
-          return Setting.getStatusTag(text);
+          return Setting.getStatusTags(text);
         }
       },
 
@@ -176,15 +177,15 @@ class TestsetTestcaseListPage extends React.Component {
         width: '100px',
         // sorter: (a, b) => a.userAgent.localeCompare(b.userAgent),
         render: (text, record, index) => {
-          if (record.trueStatus === 0) {
+          if (record.state === undefined) {
             return (
               <Progress percent={0} size="small" />
             )
-          } else if (record.trueStatus === -1) {
+          } else if (record.state === "ongoing") {
             return (
               <Progress percent={50} size="small" />
             )
-          } else if (record.trueStatus === -2) {
+          } else if (record.state === "error") {
             return (
               <Progress percent={100} size="small" status="exception" />
             )
@@ -204,7 +205,7 @@ class TestsetTestcaseListPage extends React.Component {
           return (
             <div>
               <Button style={{marginTop: '10px', marginBottom: '10px', marginRight: '10px'}}
-                      loading={record.trueStatus === -1} type="primary" onClick={() => this.getResult(record, index)}>Run</Button>
+                      loading={record.state === "ongoing"} type="primary" onClick={() => this.getResult(record, index)}>Run</Button>
             </div>
           )
         }

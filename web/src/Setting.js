@@ -78,8 +78,8 @@ export function getTagColor(s) {
   }
 }
 
-export function getTags(tag) {
-  if (tag === undefined || tag === "") {
+export function getMethodTag(tag) {
+  if (tag === undefined || tag === null || tag === "") {
     return "(None)";
   }
 
@@ -95,20 +95,39 @@ export function getTags(tag) {
   return res;
 }
 
-export function getStatusTag(i) {
-  if (i === 200) {
-    return (
-      <Tag color="success">
-        200
-      </Tag>
-    )
-  } else if (i === 403) {
-    return (
-      <Tag color="error">
-        403
-      </Tag>
-    )
-  } else {
+export function getStatusTagColor(s) {
+  if (s.includes("200")) {
+    return "success";
+  } else if (s.includes("405")) {
+    return "processing";
+  }
+  else {
+    return "error";
+  }
+}
+
+export function getStatusTags(statusLists) {
+  if (statusLists === undefined || statusLists === null) {
     return null;
   }
+
+  let res = [];
+  statusLists.forEach((statusList, i) => {
+    let text;
+    if (Number.isInteger(statusList)) {
+      text = statusList.toString();
+    } else {
+      text = statusList.join(" | ");
+      if (statusList.length === 0) {
+        text = "NULL";
+      }
+    }
+
+    res.push(
+      <Tag color={getStatusTagColor(text)}>
+        {text}
+      </Tag>
+    );
+  });
+  return res;
 }

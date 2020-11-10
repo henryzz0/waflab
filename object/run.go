@@ -41,8 +41,8 @@ func getWafBenchResult(testset *Testset, testcase *Testcase) *Result {
 		res.Response = "ok: "
 	} else {
 		res.Response = "wrong: "
+		res.Response += strings.Join(reasons, ", ")
 	}
-	res.Response += strings.Join(reasons, ", ")
 
 	return res
 }

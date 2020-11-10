@@ -99,13 +99,16 @@ func getUserAgent(tf *test.Testfile) string {
 	}
 }
 
-func getStatus(tf *test.Testfile) int {
-	status := tf.Tests[0].Stages[0].Stage.Output.Status
-	if len(status) > 0 {
-		return status[0]
-	} else {
-		return -1
+func getStatus(tf *test.Testfile) [][]int {
+	res := [][]int{}
+	for _, t := range tf.Tests {
+		statusList := t.Stages[0].Stage.Output.Status
+		if statusList == nil {
+			statusList = []int{}
+		}
+		res = append(res, statusList)
 	}
+	return res
 }
 
 func syncTestfile(tf *test.Testfile, text string) {
@@ -118,7 +121,7 @@ func syncTestfile(tf *test.Testfile, text string) {
 		TestCount:   len(tf.Tests),
 		Method:      tf.Tests[0].Stages[0].Stage.Input.Method,
 		UserAgent:   getUserAgent(tf),
-		Status:      getStatus(tf),
+		StatusLists: getStatus(tf),
 		Data:        tf,
 		RawData:     text,
 	}
@@ -160,7 +163,7 @@ func (rf *Rulefile) loadTestsets() {
 
 		text := util.ReadStringFromPath(path)
 		tf := test.LoadTestfileFromString(text)
-		//syncTestfile(tf, text)
+		syncTestfile(tf, text)
 
 		r.RegressionTestCount = len(tf.Tests)
 	}

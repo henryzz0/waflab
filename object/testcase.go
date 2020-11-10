@@ -15,12 +15,12 @@ type Testcase struct {
 	Enabled     bool   `json:"enabled"`
 	TestCount   int    `json:"testCount"`
 
-	Method       string `xorm:"varchar(100)" json:"method"`
-	UserAgent    string `xorm:"varchar(1000)" json:"userAgent"`
-	QueryStrings []Pair `xorm:"mediumtext" json:"queryStrings"`
-	Status       int    `json:"status"`
-	TrueStatus   int    `json:"trueStatus"`
-	Response     string `xorm:"mediumtext" json:"response"`
+	Method       string  `xorm:"varchar(100)" json:"method"`
+	UserAgent    string  `xorm:"varchar(1000)" json:"userAgent"`
+	QueryStrings []Pair  `xorm:"mediumtext" json:"queryStrings"`
+	StatusLists  [][]int `json:"statusLists"`
+	TrueStatuses []int   `json:"trueStatuses"`
+	Response     string  `xorm:"mediumtext" json:"response"`
 
 	Data    *test.Testfile `xorm:"json" json:"data"`
 	RawData string         `xorm:"mediumtext" json:"-"`
