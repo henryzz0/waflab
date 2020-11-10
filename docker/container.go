@@ -5,7 +5,6 @@ import (
 	"context"
 	"fmt"
 	"io"
-	"strings"
 
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/api/types/container"
@@ -15,11 +14,11 @@ import (
 	"github.com/waflab/waflab/util"
 )
 
-func GetStatusFromContainer(folder string, url string) int {
+func GetStatusFromContainer(folder string, url string) []int {
 	runContainer(folder, url)
-	status := readDbResult(folder + "/db/result.db")
+	statuses := readDbResult(folder + "/db/result.db")
 	util.RemovePath(folder)
-	return status
+	return statuses
 }
 
 func runContainer(folder string, url string) {
@@ -41,13 +40,6 @@ func runContainer(folder string, url string) {
 	//}
 	//io.Copy(os.Stdout, out)
 
-	err = cli.ContainerRemove(ctx, "wafbench", types.ContainerRemoveOptions{})
-	if err != nil {
-		if !strings.Contains(err.Error(), "No such container") {
-			panic(err)
-		}
-	}
-
 	resp, err := cli.ContainerCreate(ctx, &container.Config{
 		Image: imageName,
 		Cmd: []string{
@@ -68,6 +60,7 @@ func runContainer(folder string, url string) {
 		//	},
 		//},
 		&container.HostConfig{
+			//AutoRemove: true,
 			Mounts: []mount.Mount{
 				{
 					Type:   mount.TypeBind,
@@ -81,7 +74,7 @@ func runContainer(folder string, url string) {
 				},
 			},
 		},
-		nil, "wafbench")
+		nil, "")
 	if err != nil {
 		panic(err)
 	}
@@ -121,5 +114,14 @@ func runContainer(folder string, url string) {
 		io.Copy(stdoutput, reader)
 		s := stdoutput.String()
 		println(s)
+
+		err = cli.ContainerRemove(ctx, containerId, types.ContainerRemoveOptions{
+			//RemoveVolumes: true,
+			//RemoveLinks:   true,
+			//Force:         true,
+		})
+		if err != nil {
+			panic(err)
+		}
 	}
 }

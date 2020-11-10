@@ -11,6 +11,7 @@ import (
 
 type Result struct {
 	Status   int    `json:"status"`
+	Statuses []int  `json:"statuses"`
 	Response string `json:"response"`
 }
 

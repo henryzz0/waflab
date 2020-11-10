@@ -17,11 +17,11 @@ func TestLoadTraffic(t *testing.T) {
 func TestRunContainer(t *testing.T) {
 	InitOrmManager()
 
-	testcase := GetTestcase("920290.yaml")
+	testcase := GetTestcase("920280.yaml")
 
 	folder := docker.WriteTestcaseToFile(testcase.Name, testcase.RawData)
 	//folder := "I:/github_repos/waflab/tmpFiles/920290.yaml"
 	url := "http://test.waflab.org:7080"
-	status := docker.GetStatusFromContainer(folder, url)
-	println(status)
+	statuses := docker.GetStatusFromContainer(folder, url)
+	println(statuses)
 }

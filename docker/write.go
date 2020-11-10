@@ -33,14 +33,19 @@ func WriteTestcaseToFile(testcaseName string, data string) string {
 	return res
 }
 
-func readDbResult(path string) int {
+func readDbResult(path string) []int {
 	ormManager := newOrmManager(path)
 	traffics := getTraffics(ormManager)
-	traffic := traffics[0]
-	resp := traffic.RawResponse
+	err := ormManager.Close()
+	if err != nil {
+		panic(err)
+	}
 
-	status := getStatus(resp)
-
-	ormManager.Close()
-	return status
+	res := []int{}
+	for _, traffic := range traffics {
+		resp := traffic.RawResponse
+		status := getStatus(resp)
+		res = append(res, status)
+	}
+	return res
 }
