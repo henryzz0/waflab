@@ -54,7 +54,7 @@ func runContainer(folder string, url string) {
 			"ftw_compatible_tool",
 			"-d", "/data/result.db",
 			"-x", fmt.Sprintf("load /testcase | gen | start %s| report | exit", url)},
-		Tty:          true,
+		Tty: true,
 		//AttachStderr: true,
 		//AttachStdout: true,
 	},
@@ -86,7 +86,16 @@ func runContainer(folder string, url string) {
 		panic(err)
 	}
 
-	if err := cli.ContainerStart(ctx, resp.ID, types.ContainerStartOptions{}); err != nil {
+	err = cli.ContainerStart(ctx, resp.ID, types.ContainerStartOptions{})
+	if err != nil {
+		panic(err)
+	}
+
+	err = cli.ContainerResize(ctx, resp.ID, types.ResizeOptions{
+		Width:  800,
+		Height: 600,
+	})
+	if err != nil {
 		panic(err)
 	}
 
