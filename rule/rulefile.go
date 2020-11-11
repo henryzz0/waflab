@@ -163,7 +163,7 @@ func (rf *Rulefile) loadTestsets() {
 
 		text := util.ReadStringFromPath(path)
 		tf := test.LoadTestfileFromString(text)
-		syncTestfile(tf, text)
+		//syncTestfile(tf, text)
 
 		r.RegressionTestCount = len(tf.Tests)
 	}
