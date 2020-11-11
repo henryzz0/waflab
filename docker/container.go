@@ -61,6 +61,7 @@ func runContainer(folder string, url string) {
 		//},
 		&container.HostConfig{
 			//AutoRemove: true,
+			NetworkMode: "host",
 			Mounts: []mount.Mount{
 				{
 					Type:   mount.TypeBind,
