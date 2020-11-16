@@ -44,7 +44,7 @@ func (rf *Rulefile) parseId() {
 	rf.Desc = tokens[2]
 }
 
-func (rf *Rulefile) syncPls() {
+func (rf *Rulefile) syncParanoiaLevels() {
 	pl := -1
 	for _, r := range rf.Rules {
 		if r.Typ == RuleControl {

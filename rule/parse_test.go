@@ -12,7 +12,7 @@ func TestParseRule(t *testing.T) {
 
 	parseRules(rf, text)
 
-	rf.syncPls()
+	rf.syncParanoiaLevels()
 	printRules(rf)
 }
 
