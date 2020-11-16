@@ -4,13 +4,13 @@ import (
 	"errors"
 )
 
-func parseRules(rf *Rulefile, text string) {
+func (rf *Rulefile) loadRules(text string) {
 	text = removeComment(text)
 
 	lines := parseRulesToLines(text)
 	ruleDataList := parseRuleDataToList(text)
 	if len(lines) != len(ruleDataList) {
-		panic(errors.New("parseRules() error: len(lines) != len(ruleDataList)"))
+		panic(errors.New("loadRules() error: len(lines) != len(ruleDataList)"))
 	}
 
 	for i, ruleData := range ruleDataList {
