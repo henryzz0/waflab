@@ -2,8 +2,6 @@ package rule
 
 import (
 	"errors"
-
-	"github.com/waflab/waflab/util"
 )
 
 func parseRules(rf *Rulefile, text string) {
@@ -29,14 +27,4 @@ func printRules(rf *Rulefile) {
 	for _, rule := range rf.Rules {
 		println(rule.Text)
 	}
-}
-
-func parseRuleExample() {
-	rf := newRulefile(0, "REQUEST-920-PROTOCOL-ENFORCEMENT")
-	text := util.ReadStringFromPath(util.CrsRuleDir + "REQUEST-920-PROTOCOL-ENFORCEMENT.conf")
-
-	parseRules(rf, text)
-
-	rf.syncPls()
-	printRules(rf)
 }
