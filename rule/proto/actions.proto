@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+import "variables.proto";
+
+package parser.proto;
+
+message Action{
+    // Action's name.
+    string name = 1;
+    // Action's Parameter.
+    string param = 2;
+
+    enum Kind{
+        CONFIGURATION = 0;
+        RUN_TIME_BEFORE_MATCH_ATTEMPT = 1;
+        RUN_TIME_ONLY_IF_MATCH = 2;
+    }
+    // Action's kind
+    // Reference: https://github.com/SpiderLabs/ModSecurity/blob/d5b93c1013ca9c9a96c75369576b54832e9a2b48/headers/modsecurity/actions/action.h#L120
+    Kind kind = 3;
+}
+
+message ActionList{
+    repeated Action item = 1;
+}
+
+// Following is the derived class of Action.
+message SetVar{
+    enum Operation{
+        SET_OPERATION = 0;
+        SUM_AND_SET_OPERATION = 1;
+        SUBSTRACT_AND_SET_OPERATION = 2;
+        SET_TO_ONE_OPERATION = 3;
+        UNSET_OPERATION = 4;
+    }
+    // Information of Base class.
+    Action base = 1;
+    // SetVar's operation.
+    // Reference: https://github.com/SpiderLabs/ModSecurity/blob/d5b93c1013ca9c9a96c75369576b54832e9a2b48/src/actions/set_var.h#L32
+    Operation operation = 2;
+    // SetVar's variable.
+    Variable variable = 3;
+}
+
+message LogData{
+    // Information of Base class.
+    Action base = 1;
+    // Content of LogData.
+    string content = 2;
+}
+
+message Msg{
+    Action base = 1;
+    string content = 2;
+}
+
+message Tag{
+    Action base = 1;
+    string content = 2;
+}

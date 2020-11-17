@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package parser.proto;
+
+message Operator{
+    // Information about dectection of SQLi and XSS.
+    string match_message = 1;
+    // Indicates whether use "!" in operator.
+    bool negation = 2;
+    // Operator's name.
+    string op = 3;
+    // Indicates whether contain macro expansion in operator.
+    // More information about macro: https://github.com/SpiderLabs/ModSecurity/wiki/Reference-Manual-%28v2.x%29#macro-expansion
+    bool could_contains_macro = 4;
+    // Operator's parameter.
+    string param = 5;
+}

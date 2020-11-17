@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+import "variables.proto";
+import "actions.proto";
+import "operators.proto";
+
+package parser.proto;
+
+message Rule{
+    // Rule's attributes
+    // Reference: https://github.com/SpiderLabs/ModSecurity/wiki/Reference-Manual-%28v2.x%29
+    int32 maturity = 1;
+    int32 phase = 2;
+    string rev = 3;
+    int64 id = 4;
+    int32 accuracy = 5;
+    string ver = 6; 
+
+    // Information of Marker.
+    // Reference: https://github.com/SpiderLabs/ModSecurity/wiki/Reference-Manual-%28v2.x%29#secmarker
+    string marker = 7;
+    bool sec_marker = 8;
+
+    // Reference: https://github.com/SpiderLabs/ModSecurity/wiki/Reference-Manual-%28v2.x%29#severity
+    int32 severity = 9;
+
+    // Reference: https://github.com/SpiderLabs/ModSecurity/wiki/Reference-Manual-%28v2.x%29#chain
+    bool chained = 10;
+    Rule chained_rule_child = 11;
+
+    // Debug log file name.
+    string file_name = 12;
+    // Line number of specific debug log.
+    int32 line_number = 13;
+
+    // Block Actions.
+    repeated Action actions_runtime_pos = 14;
+    // Actions belongs to runtime before match attempt kind.
+    repeated Action actions_runtime_pre = 15;
+
+    // Rule's operation.
+    Operator op = 16;
+    // Indicate whether this rule does not contain operation.
+    bool unconditional = 17;
+
+    repeated Variable variables = 18;
+    repeated SetVar setvar= 19;
+
+    // More information about action's type:
+    // https://github.com/SpiderLabs/ModSecurity/wiki/Reference-Manual-%28v2.x%29#Actions
+    bool contians_capture_action = 20;
+    bool contians_multimatch_action = 21;
+    bool contians_static_block_action = 22;
+
+    Action disruptive_action = 23;
+    LogData logdata = 24;
+    Msg msg = 25;
+    repeated Tag tag = 26;
+}
+
+message RuleList{
+    repeated Rule item = 1;
+}

@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package parser.proto;
+
+message Variable{
+    // Variable's collection name.
+    string collection_name = 1;
+    // Varibale's name
+    string name = 2;
+    // Indicates whether use "&" in variables.
+    bool is_count = 3;
+    // Collection of variables that use "!".
+    repeated KeyExclusion key_exclusion = 4;
+    // More information about "!" and "&":https://github.com/SpiderLabs/ModSecurity/wiki/Reference-Manual-%28v2.x%29#args
+}
+
+message KeyExclusion{
+    enum Type{
+        STRING = 0;
+        REGEX = 1;
+    }
+    Type type = 1;
+    string param = 2;
+}
+
+message VariableList{
+    repeated Variable item = 1;
+}
