@@ -2,17 +2,32 @@ package object
 
 import (
 	"fmt"
+	"path/filepath"
 	"strings"
 
 	"github.com/waflab/waflab/docker"
 	"github.com/waflab/waflab/util"
 )
 
+var master *docker.Master
+
+func init() {
+	master = docker.MakeMaster(5)
+}
+
 func getWafBenchResult(testset *Testset, testcase *Testcase) *Result {
 	url := testset.TargetUrl
 
 	folder := docker.WriteTestcaseToFile(testcase.Name, testcase.RawData)
-	statuses := docker.GetStatusFromContainer(folder, url)
+	statuses := make([]int, 0)
+	yamlPath := filepath.Join(folder, testcase.Name)
+	responses, err := master.InsertTask(url, yamlPath)
+	if err != nil {
+		panic(err)
+	}
+	for _, resp := range responses {
+		statuses = append(statuses, resp.Status...)
+	}
 	fmt.Printf("True HTTP statuses: %v\n", statuses)
 
 	res := &Result{}
