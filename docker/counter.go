@@ -5,7 +5,7 @@ import (
 )
 
 type safeCounter struct {
-	mux sync.Mutex
+	mux   sync.Mutex
 	value int
 }
 

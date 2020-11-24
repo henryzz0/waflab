@@ -5,10 +5,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/docker/docker/api/types"
-	"github.com/docker/docker/api/types/container"
-	"github.com/docker/docker/client"
-	"github.com/docker/go-connections/nat"
 	"io"
 	"io/ioutil"
 	"mime/multipart"
@@ -17,6 +13,11 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/docker/docker/api/types"
+	"github.com/docker/docker/api/types/container"
+	"github.com/docker/docker/client"
+	"github.com/docker/go-connections/nat"
 )
 
 const (
@@ -24,16 +25,15 @@ const (
 )
 
 type Worker struct {
-	mux sync.Mutex
-	master *Master
+	mux          sync.Mutex
+	master       *Master
 	dockerClient *client.Client
-	httpClient *http.Client
-	context context.Context
-	port string
-	numJob *safeCounter // number of ongoing jobs for this worker
-	jobCapacity int // max number of jobs
+	httpClient   *http.Client
+	context      context.Context
+	port         string
+	numJob       *safeCounter // number of ongoing jobs for this worker
+	jobCapacity  int          // max number of jobs
 }
-
 
 func (w *Worker) Run() {
 	for {
@@ -72,7 +72,6 @@ func (w *Worker) doTask(task *Task) {
 	w.master.reportTask(task, true, result, nil)
 }
 
-
 // https://stackoverflow.com/questions/20205796/post-data-using-the-content-type-multipart-form-data
 func sendRequest(client *http.Client, url string, target string, filename string) (res *http.Response, err error) {
 	var b bytes.Buffer
@@ -83,7 +82,7 @@ func sendRequest(client *http.Client, url string, target string, filename string
 		return nil, err
 	}
 	values := map[string]io.Reader{
-		"file":  file,
+		"file":     file,
 		"hostname": strings.NewReader(target),
 	}
 
@@ -134,7 +133,7 @@ func MakeWorker(master *Master, cli *client.Client, ctx context.Context, port st
 	if !hasContainer {
 		// create and start container
 		resp, err := cli.ContainerCreate(ctx, &container.Config{
-			Image: "olament/wafbench",
+			Image:      "olament/wafbench",
 			WorkingDir: "/WAFBench/ftw_compatible_tool",
 			ExposedPorts: nat.PortSet{
 				"5000": struct{}{},
@@ -150,7 +149,7 @@ func MakeWorker(master *Master, cli *client.Client, ctx context.Context, port st
 				PortBindings: nat.PortMap{
 					"5000": []nat.PortBinding{
 						{
-							HostIP: "0.0.0.0",
+							HostIP:   "0.0.0.0",
 							HostPort: port,
 						},
 					},
@@ -201,4 +200,3 @@ func checkContainerWithNameExist(client *client.Client, ctx context.Context, nam
 	}
 	return false, nil
 }
-

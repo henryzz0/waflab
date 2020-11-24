@@ -2,37 +2,37 @@ package docker
 
 import (
 	"context"
-	"github.com/docker/docker/api/types"
-	"github.com/docker/docker/client"
 	"io"
 	"os"
 	"strconv"
 	"sync"
 	"time"
+
+	"github.com/docker/docker/api/types"
+	"github.com/docker/docker/client"
 )
 
 const (
-	TaskStatusQueue = 1 // inside work channel, waiting to be execute
+	TaskStatusQueue   = 1 // inside work channel, waiting to be execute
 	TaskStatusRunning = 2
-	TaskStatusFinish = 3 // finished, ready to be removed from taskStatus
+	TaskStatusFinish  = 3 // finished, ready to be removed from taskStatus
 )
 
 type taskStatus struct {
-	status int
-	numRetry int
+	status    int
+	numRetry  int
 	startTime time.Time
 }
 
 type Master struct {
-	mux sync.Mutex
+	mux      sync.Mutex
 	taskChan chan *Task
-	status map[string]*taskStatus // taskID -> taskStatus
+	status   map[string]*taskStatus // taskID -> taskStatus
 }
-
 
 // Master worker communication
 func (m *Master) getTask() *Task {
-	task := <- m.taskChan
+	task := <-m.taskChan
 
 	m.mux.Lock()
 	defer m.mux.Unlock()
@@ -62,7 +62,7 @@ func (m *Master) reportTask(task *Task, isDone bool, res []Response, err error) 
 }
 
 // EXPOSED
-func (m *Master) InsertTask(hostname string, yamlPath string) ([]Response, error){
+func (m *Master) InsertTask(hostname string, yamlPath string) ([]Response, error) {
 	resChan := make(chan []Response)
 	errChan := make(chan error)
 	id := strconv.FormatInt(time.Now().Unix(), 10)
@@ -83,9 +83,9 @@ func (m *Master) InsertTask(hostname string, yamlPath string) ([]Response, error
 	m.mux.Unlock()
 
 	select {
-	case res := <- resChan:
+	case res := <-resChan:
 		return res, nil
-	case err := <- errChan:
+	case err := <-errChan:
 		return nil, err
 	}
 }
@@ -110,7 +110,7 @@ func MakeMaster(numContainer int) *Master {
 
 	startingPort := 7000
 	for i := 0; i < numContainer; i++ {
-		worker, err := MakeWorker(&m, cli, ctx, strconv.Itoa(startingPort + i))
+		worker, err := MakeWorker(&m, cli, ctx, strconv.Itoa(startingPort+i))
 		if err != nil {
 			panic(err)
 		}
