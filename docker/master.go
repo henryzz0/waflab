@@ -108,7 +108,7 @@ func MakeMaster(numContainer int) *Master {
 	}
 	io.Copy(os.Stdout, reader)
 
-	startingPort := 7000
+	startingPort := 17000
 	for i := 0; i < numContainer; i++ {
 		worker, err := MakeWorker(&m, cli, ctx, strconv.Itoa(startingPort+i))
 		if err != nil {
