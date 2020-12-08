@@ -8,7 +8,7 @@ func (rf *Rulefile) loadRules(text string) {
 	text = removeComment(text)
 
 	lines := parseRulesToLines(text)
-	ruleDataList := parseRuleDataToList(text)
+	ruleDataList := ParseRuleDataToList(text)
 	if len(lines) != len(ruleDataList) {
 		panic(errors.New("loadRules() error: len(lines) != len(ruleDataList)"))
 	}
