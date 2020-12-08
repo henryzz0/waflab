@@ -28,19 +28,19 @@ type Stage struct {
 }
 
 type Input struct {
-	SaveCookie bool              `yaml:"save_cookie"`
+	SaveCookie bool              `yaml:"save_cookie,omitempty"`
 	DestAddr   string            `yaml:"dest_addr"`
 	Method     string            `yaml:"method"`
 	Port       int               `yaml:"port"`
 	Protocol   string            `yaml:"protocol"`
 	Uri        string            `yaml:"uri"`
 	Version    string            `yaml:"version"`
-	Headers    map[string]string `yaml:"headers"`
+	Headers    map[string]string `yaml:"headers,omitempty"`
 }
 
 type Output struct {
 	Status        []int  `yaml:"status"`
-	HtmlContains  string `yaml:"html_contains"`
-	LogContains   string `yaml:"log_contains"`
-	NoLogContains string `yaml:"no_log_contains"`
+	HtmlContains  string `yaml:"html_contains,omitempty"`
+	LogContains   string `yaml:"log_contains,omitempty"`
+	NoLogContains string `yaml:"no_log_contains,omitempty"`
 }

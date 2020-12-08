@@ -39,7 +39,7 @@ func parseRulesToLines(text string) []string {
 	return res
 }
 
-func parseRuleDataToList(text string) []*parser.RuleDirective {
+func ParseRuleDataToList(text string) []*parser.RuleDirective {
 	scaner := parser.NewSecLangScannerFromString(text)
 	directives, err := scaner.AllDirective()
 	if err != nil {
