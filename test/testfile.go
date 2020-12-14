@@ -28,14 +28,17 @@ type Stage struct {
 }
 
 type Input struct {
-	SaveCookie bool              `yaml:"save_cookie,omitempty"`
-	DestAddr   string            `yaml:"dest_addr"`
-	Method     string            `yaml:"method"`
-	Port       int               `yaml:"port"`
-	Protocol   string            `yaml:"protocol"`
-	Uri        string            `yaml:"uri"`
-	Version    string            `yaml:"version"`
-	Headers    map[string]string `yaml:"headers,omitempty"`
+	SaveCookie     bool              `yaml:"save_cookie,omitempty"`
+	DestAddr       string            `yaml:"dest_addr"`
+	Method         string            `yaml:"method"`
+	Port           int               `yaml:"port"`
+	Protocol       string            `yaml:"protocol"`
+	Uri            string            `yaml:"uri"`
+	Version        string            `yaml:"version"`
+	Headers        map[string]string `yaml:"headers,omitempty"`
+	Data           []string          `yaml:"data,omitempty"`
+	EncodedRequest string            `yaml:"encoded_request,omitempty"`
+	RawRequest     string            `yaml:"raw_request,omitempty"`
 }
 
 type Output struct {
