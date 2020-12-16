@@ -2,8 +2,9 @@ package payload
 
 import (
 	"fmt"
-	"github.com/waflab/waflab/autogen/utils"
 	"strings"
+
+	"github.com/waflab/waflab/autogen/utils"
 
 	"github.com/waflab/waflab/test"
 )

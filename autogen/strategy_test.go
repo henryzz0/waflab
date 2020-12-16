@@ -2,6 +2,7 @@ package autogen_test
 
 import (
 	"fmt"
+
 	"github.com/waflab/waflab/autogen"
 
 	y "gopkg.in/yaml.v2"

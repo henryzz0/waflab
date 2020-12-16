@@ -1,9 +1,10 @@
 package operator
 
 import (
-	"github.com/waflab/waflab/autogen/utils"
 	"strconv"
 	"strings"
+
+	"github.com/waflab/waflab/autogen/utils"
 )
 
 const (
@@ -20,7 +21,7 @@ This function assume that argument follows the format: <number>, <range>, <numbe
 In addition to that, the function assume that the range are non-overlapping. Having an overlapping range
 in the argument will cause the the function yield a byte string where overlapped string byte have an increasing chance
 to show up.
- */
+*/
 func reverseValidateByteRange(argument string, not bool) (string, error) {
 	var byteRanges []byteRange
 	size := 0 // number of byte in byteRanges
@@ -38,7 +39,7 @@ func reverseValidateByteRange(argument string, not bool) (string, error) {
 				return "", err
 			}
 			byteRanges = append(byteRanges, byteRange{byte(lower), byte(upper)})
-			size = size + (upper-lower+1)
+			size = size + (upper - lower + 1)
 		} else {
 			// a number: Ex: 1
 			num, err := strconv.Atoi(byteRangeString)
@@ -55,7 +56,7 @@ func reverseValidateByteRange(argument string, not bool) (string, error) {
 	for i := 0; i < ByteRangeStringLength; i++ {
 		num := utils.RandomGenerator.Intn(size)
 		for _, r := range byteRanges {
-			if (r.upper-r.lower) < byte(num) {
+			if (r.upper - r.lower) < byte(num) {
 				continue
 			}
 			build.WriteByte(r.lower + byte(num))
@@ -65,11 +66,10 @@ func reverseValidateByteRange(argument string, not bool) (string, error) {
 	return build.String(), nil
 }
 
-
 //TODO: more discussion
 /*
 This function takes no argument
- */
+*/
 func reverseValidateUtf8Encoding(argument string, not bool) (string, error) {
 	randomString := utils.RandomString(10)
 	return randomString, nil

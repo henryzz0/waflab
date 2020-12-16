@@ -1,9 +1,10 @@
 package operator
 
 import (
-	"github.com/waflab/waflab/autogen/utils"
 	"math"
 	"strconv"
+
+	"github.com/waflab/waflab/autogen/utils"
 )
 
 //TODO: confirm the range, should be [min, max)?

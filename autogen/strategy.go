@@ -2,8 +2,9 @@ package autogen
 
 import (
 	"fmt"
-	"github.com/hsluoyz/modsecurity-go/seclang/parser"
 	"strconv"
+
+	"github.com/hsluoyz/modsecurity-go/seclang/parser"
 
 	"github.com/waflab/waflab/autogen/operator"
 	"github.com/waflab/waflab/autogen/payload"
@@ -34,7 +35,7 @@ func ProcessIndependentRule(ruleString string) (YAMLs []*test.Testfile) {
 		for i, variable := range rule.Variable {
 			if i >= len(v.Tests) {
 				v.Tests = append(v.Tests, &test.Test{
-					Stages:    []*test.StageWrapper{
+					Stages: []*test.StageWrapper{
 						{
 							Stage: yaml.DefaultStage(),
 						},
