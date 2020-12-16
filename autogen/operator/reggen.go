@@ -29,7 +29,8 @@ import (
 	"math/rand"
 	"os"
 	"regexp/syntax"
-	"time"
+
+	"github.com/waflab/waflab/autogen/utils"
 )
 
 const runeRangeEnd = 0x10ffff
@@ -219,7 +220,7 @@ func newGenerator(regex string) (*Generator, error) {
 	//fmt.Println("Compiled re ", re)
 	return &Generator{
 		re:   re,
-		rand: rand.New(rand.NewSource(time.Now().UnixNano())),
+		rand: utils.RandomGenerator,
 	}, nil
 }
 
