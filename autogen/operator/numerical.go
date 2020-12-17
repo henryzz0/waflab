@@ -1,10 +1,13 @@
 package operator
 
 import (
-	"math"
 	"strconv"
 
 	"github.com/waflab/waflab/autogen/utils"
+)
+
+const (
+	randomReverseBound = 100
 )
 
 func reverseEq(argument string, not bool) (string, error) {
@@ -21,7 +24,7 @@ func reverseGe(argument string, not bool) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return strconv.Itoa(utils.RandomIntWithRange(num, math.MaxInt64)), nil
+	return strconv.Itoa(utils.RandomIntWithRange(num, num+randomReverseBound)), nil
 }
 
 //TODO: potential overflow
@@ -30,7 +33,7 @@ func reverseGt(argument string, not bool) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return strconv.Itoa(utils.RandomIntWithRange(num+1, math.MaxInt64)), nil
+	return strconv.Itoa(utils.RandomIntWithRange(num+1, num+randomReverseBound)), nil
 }
 
 func reverseLe(argument string, not bool) (string, error) {
@@ -38,7 +41,7 @@ func reverseLe(argument string, not bool) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return strconv.Itoa(utils.RandomIntWithRange(math.MinInt64, num+1)), nil
+	return strconv.Itoa(utils.RandomIntWithRange(num-randomReverseBound, num+1)), nil
 }
 
 func reverseLt(argument string, not bool) (string, error) {
@@ -46,5 +49,5 @@ func reverseLt(argument string, not bool) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return strconv.Itoa(utils.RandomIntWithRange(math.MinInt64, num)), nil
+	return strconv.Itoa(utils.RandomIntWithRange(num-randomReverseBound, num)), nil
 }
