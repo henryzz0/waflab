@@ -29,19 +29,15 @@ func reverseEndsWith(argument string, not bool) (string, error) {
 	return reverseRx(fmt.Sprintf(".*%s$", regexp.QuoteMeta(argument)), not)
 }
 
-func reversePm(argument string, not bool) (string, error) {
-	phrases := strings.Split(argument, " ")
-	phrase := phrases[utils.RandomGenerator.Intn(len(phrases))] // pick phrase from pm's parameters randomly
-
-	// convert snort style binary data, if there is any
+/*
+	Since snort content style use | to note the entrance and exit of embedded binary data, we can split phrase
+	by separator | and the non-binary and binary will appear in alternating pattern
+	Ex:
+	"A|41|A" -> ["A", "41", "A"]
+	"|41|A" -> ["", "41", "A"]
+*/
+func convertSnortStyle(phrase string) (string, error) {
 	var builder strings.Builder
-	/*
-		Since snort content style use | to note the entrance and exit of embedded binary data, we can split phrase
-		by separator | and the non-binary and binary will appear in alternating pattern
-		Ex:
-		"A|41|A" -> ["A", "41", "A"]
-		"|41|A" -> ["", "41", "A"]
-	*/
 	isBinary := false
 	for _, part := range strings.Split(phrase, "|") {
 		if isBinary {
@@ -56,6 +52,13 @@ func reversePm(argument string, not bool) (string, error) {
 		isBinary = !isBinary
 	}
 	return builder.String(), nil
+}
+
+func reversePm(argument string, not bool) (string, error) {
+	phrases := strings.Split(argument, " ")
+	phrase := phrases[utils.RandomIntWithRange(0, len(phrases))] // pick phrase from pm's parameters randomly
+
+	return convertSnortStyle(phrase)
 }
 
 func reverseStrEq(argument string, not bool) (string, error) {

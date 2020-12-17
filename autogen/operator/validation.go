@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	ByteRangeStringLength = 10
+	byteRangeStringLength = 10
 )
 
 type byteRange struct {
@@ -53,8 +53,8 @@ func reverseValidateByteRange(argument string, not bool) (string, error) {
 
 	// build string from byte range
 	var build strings.Builder
-	for i := 0; i < ByteRangeStringLength; i++ {
-		num := utils.RandomGenerator.Intn(size)
+	for i := 0; i < byteRangeStringLength; i++ {
+		num := utils.RandomIntWithRange(0, size)
 		for _, r := range byteRanges {
 			if (r.upper - r.lower) < byte(num) {
 				continue
