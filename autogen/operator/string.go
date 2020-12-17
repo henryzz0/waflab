@@ -25,7 +25,7 @@ func reverseContains(argument string, not bool) (string, error) {
 	return reverseRx(regexp.QuoteMeta(argument), not)
 }
 
-func reverseEndWith(argument string, not bool) (string, error) {
+func reverseEndsWith(argument string, not bool) (string, error) {
 	return reverseRx(fmt.Sprintf(".*%s$", regexp.QuoteMeta(argument)), not)
 }
 
@@ -58,7 +58,7 @@ func reversePm(argument string, not bool) (string, error) {
 	return builder.String(), nil
 }
 
-func reverseStreq(argument string, not bool) (string, error) {
+func reverseStrEq(argument string, not bool) (string, error) {
 	return argument, nil
 }
 

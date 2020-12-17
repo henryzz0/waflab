@@ -9,9 +9,9 @@ var reverserFactory = map[int]operationReverser{
 	parser.TkOpRx:         reverseRx,
 	parser.TkOpBeginsWith: reverseBeginsWith,
 	parser.TkOpContains:   reverseContains,
-	parser.TkOpEndsWith:   reverseEndWith,
+	parser.TkOpEndsWith:   reverseEndsWith,
 	parser.TkOpPm:         reversePm,
-	parser.TkOpStrEq:      reverseStreq,
+	parser.TkOpStrEq:      reverseStrEq,
 	parser.TkOpWithin:     reverseWithin,
 	// numerical operator
 	parser.TkOpEq: reverseEq,
