@@ -40,6 +40,12 @@ AutoGen automatically generate test cases in FTW YAML format from Mod Security r
 | @noMatch              	|    ⛔️   	|
 | @rbl                  	|    ⛔️   	|
 | @unconditionalMatch   	|    ⛔️   	|
+| @verifyCC             	|        	|
+| @verifyCPF            	|        	|
+| @verifySSN            	|        	|
+| @ipMatch              	|        	|
+| @ipMatchFromFile      	|        	|
+| @ipMatchF             	|        	|
 
 ### Variable
 
