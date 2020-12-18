@@ -15,8 +15,8 @@ AutoGen automatically generate test cases in FTW YAML format from Mod Security r
 | @rsub                 	|        	|
 | @rx                   	|    ✅   	|
 | @pm                   	|    ✅   	|
-| @pmFromFile           	|        	|
-| @pmf                  	|        	|
+| @pmFromFile           	|    ✅    	|
+| @pmf                  	|    ✅    	|
 | @streq                	|    ✅   	|
 | @strmatch             	|    ✅   	|
 | @within               	|    ✅   	|

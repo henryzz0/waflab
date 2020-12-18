@@ -11,6 +11,7 @@ var reverserFactory = map[int]operationReverser{
 	parser.TkOpContains:   reverseContains,
 	parser.TkOpEndsWith:   reverseEndsWith,
 	parser.TkOpPm:         reversePm,
+	parser.TkOpPmFromFile: reversePmFromFile,
 	parser.TkOpStrEq:      reverseStrEq,
 	parser.TkOpWithin:     reverseWithin,
 	// numerical operator

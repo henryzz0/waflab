@@ -1,8 +1,10 @@
 package operator
 
 import (
+	"bufio"
 	"encoding/hex"
 	"fmt"
+	"os"
 	"regexp"
 	"strings"
 
@@ -59,6 +61,32 @@ func reversePm(argument string, not bool) (string, error) {
 	phrase := phrases[utils.RandomIntWithRange(0, len(phrases))] // pick phrase from pm's parameters randomly
 
 	return convertSnortStyle(phrase)
+}
+
+func reversePmFromFile(argument string, not bool) (string, error) {
+	file, err := os.Open(argument)
+	if err != nil {
+		return "", err
+	}
+	defer file.Close()
+
+	scanner := bufio.NewScanner(file)
+	phrases := []string{}
+
+	for scanner.Scan() {
+		line := strings.TrimSpace(scanner.Text())
+		// remove comment marked by #
+		parts := strings.Split(line, "#")
+		if len(parts[0]) > 0 { // contains non-comment string
+			phrases = append(phrases, parts[0])
+		}
+	}
+
+	if err := scanner.Err(); err != nil {
+		return "", err
+	}
+
+	return convertSnortStyle(phrases[utils.RandomIntWithRange(0, len(phrases))])
 }
 
 func reverseStrEq(argument string, not bool) (string, error) {
