@@ -23,6 +23,9 @@ var reverserFactory = map[int]operationReverser{
 	// validation operator
 	parser.TkOpValidateByteRange:    reverseValidateByteRange,
 	parser.TkOpValidateUtf8Encoding: reverseValidateUtf8Encoding,
+	// miscellaneous operator
+	parser.TkOpIpMatch:         reverseIPMatch,
+	parser.TkOpIpMatchFromFile: reverseIPMatchFromFile,
 }
 
 func ReverseOperator(operator *parser.Operator) (string, error) {

@@ -16,7 +16,7 @@ AutoGen automatically generate test cases in FTW YAML format from Mod Security r
 | @rx                   	|    ✅   	|
 | @pm                   	|    ✅   	|
 | @pmFromFile           	|    ✅    	|
-| @pmf                  	|    ✅    	|
+| @pmf                  	|        	|
 | @streq                	|    ✅   	|
 | @strmatch             	|    ✅   	|
 | @within               	|    ✅   	|
@@ -43,8 +43,8 @@ AutoGen automatically generate test cases in FTW YAML format from Mod Security r
 | @verifyCC             	|        	|
 | @verifyCPF            	|        	|
 | @verifySSN            	|        	|
-| @ipMatch              	|        	|
-| @ipMatchFromFile      	|        	|
+| @ipMatch              	|    ✅    	|
+| @ipMatchFromFile      	|    ✅    	|
 | @ipMatchF             	|        	|
 
 ### Variable
