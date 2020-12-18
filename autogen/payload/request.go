@@ -2,6 +2,7 @@ package payload
 
 import (
 	"fmt"
+	"strconv"
 	"strings"
 
 	"github.com/waflab/waflab/autogen/utils"
@@ -9,24 +10,25 @@ import (
 	"github.com/waflab/waflab/test"
 )
 
-func composeUrl(key string, value string) string {
-	return fmt.Sprintf("/?%s=%s", key, value)
+const (
+	randomStringLength = 10
+)
+
+func composeCookie(payload *test.Input, key string, value string) {
+	composeHeader(payload, "Cookie", fmt.Sprintf("%s=%s", key, value))
 }
 
-func addArg(value string, payload *test.Input) error {
-	key := strings.ReplaceAll(utils.RandomString(10), "_", "")
-	payload.Uri = composeUrl(key, value)
-	return nil
+func composeURL(payload *test.Input, key string, value string) {
+	payload.Uri = fmt.Sprintf("/?%s=%s", key, value)
 }
 
-func addArgNames(value string, payload *test.Input) error {
-	payload.Uri = composeUrl(value, utils.RandomString(10))
-	return nil
+func composeHeader(payload *test.Input, key string, value string) {
+	payload.Headers[key] = value
 }
 
-func composeFile(name string, value string, payload *test.Input) {
-	payload.Headers["Content-Type"] = "multipart/form-data; boundary=----abc"
-	payload.Headers["Cache-Control"] = "no-cache"
+func composeFile(payload *test.Input, name string, value string) {
+	composeHeader(payload, "Content-Type", "multipart/form-data; boundary=----abc")
+	composeHeader(payload, "Cache-Control", "no-cache")
 	payload.Method = "POST"
 	payload.Data = []string{
 		"------abc",
@@ -39,12 +41,51 @@ func composeFile(name string, value string, payload *test.Input) {
 	}
 }
 
+func addArg(value string, payload *test.Input) error {
+	key := strings.ReplaceAll(utils.RandomString(randomStringLength), "_", "")
+	composeURL(payload, key, value)
+	return nil
+}
+
+func addArgNames(value string, payload *test.Input) error {
+	composeURL(payload, value, utils.RandomString(randomStringLength))
+	return nil
+}
+
 func addFilesNames(value string, payload *test.Input) error {
-	composeFile("files[]", value, payload)
+	composeFile(payload, value, "1")
 	return nil
 }
 
 func addFiles(value string, payload *test.Input) error {
-	composeFile(value, "1", payload)
+	composeFile(payload, "files[]", value)
+	return nil
+}
+
+func addRequestBody(value string, payload *test.Input) error {
+	payload.Method = "POST"
+	payload.Data = append(payload.Data, fmt.Sprintf("Foo_Key=%s", value))
+	composeHeader(payload, "Content-Length", strconv.Itoa(len(payload.Data[0])))
+	composeHeader(payload, "Content-Type", "application/x-www-form-urlencoded")
+	return nil
+}
+
+func addRequestCookies(value string, payload *test.Input) error {
+	composeCookie(payload, utils.RandomString(randomStringLength), value)
+	return nil
+}
+
+func addRequestCookiesName(value string, payload *test.Input) error {
+	composeCookie(payload, value, utils.RandomString(randomStringLength))
+	return nil
+}
+
+func addRequestHeaders(value string, payload *test.Input) error {
+	composeHeader(payload, utils.RandomString(randomStringLength), value)
+	return nil
+}
+
+func addRequestHeadersNames(value string, payload *test.Input) error {
+	composeHeader(payload, value, utils.RandomString(randomStringLength))
 	return nil
 }
