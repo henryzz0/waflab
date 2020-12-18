@@ -4,15 +4,15 @@ import "github.com/waflab/waflab/test"
 
 func DefaultYAML() *test.Testfile {
 	v := &test.Testfile{
-		Meta:  &test.Meta{
-			Author:      "msra",
-			Enabled:     false,
-			Name:        "",
+		Meta: &test.Meta{
+			Author:  "msra",
+			Enabled: false,
+			Name:    "",
 		},
 		Tests: []*test.Test{
 			{
 				TestTitle: "",
-				Desc: "",
+				Desc:      "",
 				Stages: []*test.StageWrapper{
 					{
 						Stage: DefaultStage(),
@@ -37,7 +37,7 @@ func DefaultStage() *test.Stage {
 			Headers:    map[string]string{},
 		},
 		Output: &test.Output{
-			Status:        []int{ 200 },
+			Status:        []int{200},
 			HtmlContains:  "",
 			LogContains:   "",
 			NoLogContains: "",
