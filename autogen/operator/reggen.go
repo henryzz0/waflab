@@ -32,8 +32,8 @@ func randomStringWithRange(ranges []rune) string {
 	}
 	randomIndex := utils.RandomIntWithRange(0, sum)
 	for i := 0; i < len(ranges); i += 2 {
-		diff := int(ranges[i+1] - ranges[i])
-		if randomIndex <= diff {
+		diff := int(ranges[i+1] - ranges[i]) + 1
+		if randomIndex < diff {
 			return string(ranges[i] + int32(randomIndex))
 		}
 		randomIndex -= diff
