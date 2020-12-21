@@ -12,11 +12,11 @@ import (
 )
 
 func reverseRx(argument string, not bool) (string, error) {
-	generator, err := newGenerator(argument)
+	str, err := generateStringFromRegex(argument, not)
 	if err != nil {
 		return "", err
 	}
-	return generator.Generate(10), nil
+	return str, nil
 }
 
 func reverseBeginsWith(argument string, not bool) (string, error) {
