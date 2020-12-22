@@ -87,15 +87,19 @@ func generate(re *syntax.Regexp, not bool) (string, bool) {
 		start := 0
 		end := len(re.Rune) - 2
 		// find start cut out
-		for re.Rune[start+1] < printableCharsLower {
+		for start < len(re.Rune)-2 && re.Rune[start+1] < printableCharsLower {
 			start += 2
 		}
-		re.Rune[start] = int32(math.Max(float64(re.Rune[start]), float64(printableCharsLower)))
 		// find end cut out
-		for re.Rune[end] > printableCharsUppper {
+		for end >= 2 && re.Rune[end] > printableCharsUppper {
 			end -= 2
 		}
+		re.Rune[start] = int32(math.Max(float64(re.Rune[start]), float64(printableCharsLower)))
 		re.Rune[end+1] = int32(math.Min(float64(re.Rune[end+1]), float64(printableCharsUppper)))
+
+		if start >= end { // empty or invalid slice index
+			return "", isNegated
+		}
 
 		validRunes := re.Rune[start : end+2]
 		if len(validRunes) == 0 {
