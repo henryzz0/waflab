@@ -24,7 +24,7 @@ func reverseBeginsWith(argument string, not bool) (string, error) {
 }
 
 func reverseContains(argument string, not bool) (string, error) {
-	return reverseRx(regexp.QuoteMeta(argument), not)
+	return reverseRx(fmt.Sprintf(".*%s.*", regexp.QuoteMeta(argument)), not)
 }
 
 func reverseEndsWith(argument string, not bool) (string, error) {
