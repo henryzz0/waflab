@@ -15,7 +15,7 @@ AutoGen automatically generate test cases in FTW YAML format from Mod Security r
 | @rsub                 	|        	|
 | @rx                   	|    ✅   	|
 | @pm                   	|    ✅   	|
-| @pmFromFile           	|        	|
+| @pmFromFile           	|    ✅    	|
 | @pmf                  	|        	|
 | @streq                	|    ✅   	|
 | @strmatch             	|    ✅   	|
@@ -40,6 +40,12 @@ AutoGen automatically generate test cases in FTW YAML format from Mod Security r
 | @noMatch              	|    ⛔️   	|
 | @rbl                  	|    ⛔️   	|
 | @unconditionalMatch   	|    ⛔️   	|
+| @verifyCC             	|        	|
+| @verifyCPF            	|        	|
+| @verifySSN            	|        	|
+| @ipMatch              	|    ✅    	|
+| @ipMatchFromFile      	|    ✅    	|
+| @ipMatchF             	|        	|
 
 ### Variable
 
@@ -66,13 +72,13 @@ AutoGen automatically generate test cases in FTW YAML format from Mod Security r
 | QUERY_STRING          	|        	|
 | REMOTE_USER           	|        	|
 | REQUEST_BASENAME      	|        	|
-| REQUEST_BODY          	|        	|
+| REQUEST_BODY          	|    ✅    	|
 | REQUEST_BODY_LENGTH   	|        	|
-| REQUEST_COOKIES       	|        	|
-| REQUEST_COOKIES_NAMES 	|        	|
-| REQUEST_FILENAME      	|        	|
-| REQUEST_HEADERS       	|        	|
-| REQUEST_HEADERS_NAMES 	|        	|
+| REQUEST_COOKIES       	|    ✅    	|
+| REQUEST_COOKIES_NAMES 	|    ✅    	|
+| REQUEST_FILENAME      	|    ✅    	|
+| REQUEST_HEADERS       	|    ✅    	|
+| REQUEST_HEADERS_NAMES 	|    ✅    	|
 | REQUEST_LINE          	|        	|
 | REQUEST_METHOD        	|        	|
 | REQUEST_PROTOCOL      	|        	|

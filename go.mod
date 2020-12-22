@@ -12,7 +12,7 @@ require (
 	github.com/docker/go-units v0.4.0 // indirect
 	github.com/go-sql-driver/mysql v1.5.0
 	github.com/golang/protobuf v1.4.2
-	github.com/hsluoyz/modsecurity-go v0.0.2
+	github.com/hsluoyz/modsecurity-go v0.0.4
 	github.com/mattn/go-sqlite3 v2.0.3+incompatible
 	github.com/opencontainers/go-digest v1.0.0 // indirect
 	github.com/opencontainers/image-spec v1.0.1 // indirect

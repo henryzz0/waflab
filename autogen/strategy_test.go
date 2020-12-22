@@ -8,7 +8,7 @@ import (
 	y "gopkg.in/yaml.v2"
 )
 
-func ExampleProcessIndepdentRule() {
+func ExampleProcessIndependentRule() {
 	ruleString := `SecRule ARGS '@rx (?i)<script[^>]*>' \
                         "id:123,\
                          phase:2,\
