@@ -100,11 +100,7 @@ func generate(re *syntax.Regexp, not bool) (string, bool) {
 		if start >= end { // empty or invalid slice index
 			return "", isNegated
 		}
-
 		validRunes := re.Rune[start : end+2]
-		if len(validRunes) == 0 {
-			return "", isNegated
-		}
 
 		if isNegated {
 			// invert(negate) the range first
