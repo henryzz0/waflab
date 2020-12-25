@@ -90,25 +90,25 @@ AutoGen automatically generate test cases in FTW YAML format from Mod Security r
 
 | Name                 	| Status 	|
 |----------------------	|:------:	|
-| t:base64Decode       	|        	|
+| t:base64Decode       	|    ✅    	|
 | t:base64DecodeExt    	|        	|
 | t:base64Encode       	|        	|
 | t:cmdLine            	|        	|
-| t:compressWhitespace 	|        	|
+| t:compressWhitespace 	|    ✅    	|
 | t:cssDecode          	|        	|
 | t:escapeSeqDecode    	|        	|
-| t:hexDecode          	|        	|
+| t:hexDecode          	|    ✅    	|
 | t:hexEncode          	|        	|
 | t:htmlEntityDecode   	|        	|
 | t:jsDecode           	|        	|
-| t:length             	|        	|
+| t:length             	|    ✅    	|
 | t:lowercase          	|    ✅   	|
 | t:md5                	|        	|
 | t:none               	|        	|
-| t:normalisePath      	|        	|
-| t:normalisePathWin   	|        	|
-| t:normalizePath      	|        	|
-| t:normalizePathWin   	|        	|
+| t:normalisePath      	|    ✅    	|
+| t:normalisePathWin   	|    ✅    	|
+| t:normalizePath      	|    ✅    	|
+| t:normalizePathWin   	|    ✅    	|
 | t:parityEven7bit     	|        	|
 | t:parityOdd7bit      	|        	|
 | t:parityZero7bit     	|        	|
