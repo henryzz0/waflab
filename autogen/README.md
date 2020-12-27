@@ -112,17 +112,17 @@ AutoGen automatically generate test cases in FTW YAML format from Mod Security r
 | t:parityEven7bit     	|        	|
 | t:parityOdd7bit      	|        	|
 | t:parityZero7bit     	|        	|
-| t:removeComments     	|        	|
-| t:removeCommentsChar 	|        	|
-| t:removeNulls        	|        	|
-| t:removeWhitespace   	|        	|
-| t:replaceComments    	|        	|
-| t:replaceNulls       	|        	|
+| t:removeComments     	|    ✅    	|
+| t:removeCommentsChar 	|    ✅    	|
+| t:removeNulls        	|    ✅    	|
+| t:removeWhitespace   	|    ✅    	|
+| t:replaceComments    	|    ✅    	|
+| t:replaceNulls       	|    ✅    	|
 | t:sha1               	|        	|
 | t:sqlHexDecode       	|        	|
-| t:trim               	|        	|
-| t:trimLeft           	|        	|
-| t:trimRight          	|        	|
+| t:trim               	|    ✅    	|
+| t:trimLeft           	|    ✅    	|
+| t:trimRight          	|    ✅    	|
 | t:urlDecode          	|    ✅   	|
 | t:urlDecodeUni       	|    ✅   	|
 | t:urlEncode          	|        	|
