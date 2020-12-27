@@ -17,6 +17,8 @@ const (
 	reverseCompressProb  = 0.5
 )
 
+var whiteSpaceCharacters = []string{"\f", "\t", "\n", "\r", "\v"}
+
 func reverseBase64Decode(variable string) string {
 	return base64.StdEncoding.EncodeToString([]byte(variable))
 }
@@ -24,13 +26,12 @@ func reverseBase64Decode(variable string) string {
 // reverseCompressWhiteSpace assume that the only kinds of whitespace character
 // variable contains is space and there is not any consecutive space.
 func reverseCompressWhiteSpace(variable string) string {
-	whiteSpaceCharacters := []rune{'\f', '\t', '\n', '\r', '\v'}
 	var builder strings.Builder
 
 	for _, r := range variable {
 		if unicode.IsSpace(r) {
 			for p := utils.RandomFloat32(); p < reverseCompressProb; p = utils.RandomFloat32() {
-				builder.WriteRune(whiteSpaceCharacters[utils.RandomIntWithRange(0, len(whiteSpaceCharacters))])
+				builder.WriteString(whiteSpaceCharacters[utils.RandomIntWithRange(0, len(whiteSpaceCharacters))])
 			}
 		}
 		builder.WriteRune(r)
