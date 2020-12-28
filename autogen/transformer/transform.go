@@ -29,11 +29,11 @@ var whiteSpaceCharacters = []string{"\f", "\t", "\n", "\r", "\v"}
 // randomStringsInsertion randomly insert string from reverse to str.
 // At each rune of str, randomstringsInsertion will randomly pick a string from reserve and
 // insert it between the rune with given probability
-func randomStringsInsertion(str string, reserve []string, probability float32) string {
+func randomStringsInsertion(str string, reserve []string, probability float64) string {
 	var builder strings.Builder
 	for _, r := range str {
 		builder.WriteRune(r)
-		if utils.RandomFloat32() < probability {
+		if utils.RandomBiasedBool(probability) {
 			builder.WriteString(reserve[utils.RandomIntWithRange(0, len(reserve))])
 		}
 	}
@@ -51,7 +51,7 @@ func reverseCompressWhiteSpace(variable string) string {
 
 	for _, r := range variable {
 		if unicode.IsSpace(r) {
-			for p := utils.RandomFloat32(); p < reverseCompressProb; p = utils.RandomFloat32() {
+			for p := true; p; p = utils.RandomBiasedBool(reverseCompressProb) {
 				builder.WriteString(utils.PickRandomString(whiteSpaceCharacters))
 			}
 		}
@@ -97,7 +97,7 @@ func reverseNormalizePathWin(variable string) string {
 func reverseLowercase(variable string) string {
 	var builder strings.Builder
 	for _, char := range variable {
-		if utils.RandomFloat32() < reverseLowerCaseProb {
+		if utils.RandomBiasedBool(reverseLowerCaseProb) {
 			builder.WriteRune(unicode.ToUpper(char))
 		} else {
 			builder.WriteRune(char)
@@ -121,7 +121,7 @@ func reverseRemoveCommentsChar(variable string) string {
 func reverseReplaceComments(variable string) string {
 	var builder strings.Builder
 	for _, r := range variable {
-		if unicode.IsSpace(r) && utils.RandomFloat32() < reverseReplaceCommentProb {
+		if unicode.IsSpace(r) && utils.RandomBiasedBool(reverseReplaceCommentProb) {
 			builder.WriteString(fmt.Sprintf("/*%s*/", utils.RandomString(randomStringLength)))
 		} else {
 			builder.WriteRune(r)
@@ -138,7 +138,7 @@ func reverseReplaceNulls(variable string) string {
 	var builder strings.Builder
 	for _, r := range variable {
 		builder.WriteRune(r)
-		if unicode.IsSpace(r) && utils.RandomFloat32() < reverseReplaceNullProb {
+		if unicode.IsSpace(r) && utils.RandomBiasedBool(reverseReplaceNullProb) {
 			builder.WriteString("\000")
 		} else {
 			builder.WriteRune(r)

@@ -32,7 +32,7 @@ func randomStringWithRange(ranges []rune) string {
 	}
 	randomIndex := utils.RandomIntWithRange(0, sum)
 	for i := 0; i < len(ranges); i += 2 {
-		diff := int(ranges[i+1] - ranges[i]) + 1
+		diff := int(ranges[i+1]-ranges[i]) + 1
 		if randomIndex < diff {
 			return string(ranges[i] + int32(randomIndex))
 		}
@@ -56,7 +56,7 @@ func repeatSubexpression(re *syntax.Regexp, times int, not bool) (string, bool) 
 }
 
 func generate(re *syntax.Regexp, not bool) (string, bool) {
-	isNegated := utils.RandomFloat32() < negatedProb && not // only for non-meta operation
+	isNegated := utils.RandomBiasedBool(negatedProb) && not // only for non-meta operation
 
 	switch re.Op {
 	case syntax.OpNoMatch, syntax.OpEmptyMatch:

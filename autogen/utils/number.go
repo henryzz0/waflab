@@ -9,8 +9,3 @@ func RandomIntWithRange(min int, max int) int {
 func RandomNonNegativeInt() int {
 	return randomGenerator.rand.Int()
 }
-
-// RandomFloat32 is a wrapper of rand.Float32()
-func RandomFloat32() float32 {
-	return randomGenerator.rand.Float32()
-}
