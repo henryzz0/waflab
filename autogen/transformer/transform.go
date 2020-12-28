@@ -52,7 +52,7 @@ func reverseCompressWhiteSpace(variable string) string {
 	for _, r := range variable {
 		if unicode.IsSpace(r) {
 			for p := utils.RandomFloat32(); p < reverseCompressProb; p = utils.RandomFloat32() {
-				builder.WriteString(whiteSpaceCharacters[utils.RandomIntWithRange(0, len(whiteSpaceCharacters))])
+				builder.WriteString(utils.PickRandomString(whiteSpaceCharacters))
 			}
 		}
 		builder.WriteRune(r)
@@ -83,7 +83,7 @@ func reverseNormalizePath(variable string) string {
 	for index, part := range parts {
 		builder.WriteString(part)
 		if index < len(parts)-1 { // add redundant path in between the path
-			builder.WriteString(redundantPath[utils.RandomIntWithRange(0, len(redundantPath))])
+			builder.WriteString(utils.PickRandomString(redundantPath))
 		}
 	}
 
