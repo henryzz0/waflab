@@ -12,6 +12,12 @@ import (
 func randomIPfromNetworkSegments(segments []string) (string, error) {
 	ipString := segments[utils.RandomIntWithRange(0, len(segments))]
 
+	// Since @ipMatch takes both ip address and ip segments, we can return ip address directly
+	// if the ipString is an ip address instead of segment
+	if !strings.Contains(ipString, "/") {
+		return net.ParseIP(ipString).String(), nil
+	}
+
 	ipAddr, ipNet, err := net.ParseCIDR(ipString)
 	if err != nil {
 		return "", err
