@@ -76,18 +76,19 @@ func reverseLength(variable string) string {
 // reverseNormalizePath assume that the variable string is a normalized path,
 // otherwise the function may return illegal path
 func reverseNormalizePath(variable string) string {
-	redundantPath := []string{"//", "/./", "foo/../"}
+	redundantPath := []string{"", ".", "foo/.."}
 	parts := strings.Split(variable, "/")
+	res := []string{}
 	var builder strings.Builder
 
 	for index, part := range parts {
 		builder.WriteString(part)
 		if index < len(parts)-1 { // add redundant path in between the path
-			builder.WriteString(utils.PickRandomString(redundantPath))
+			res = append(res, utils.PickRandomString(redundantPath))
 		}
 	}
 
-	return builder.String()
+	return strings.Join(res, "/")
 }
 
 func reverseNormalizePathWin(variable string) string {
