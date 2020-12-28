@@ -131,7 +131,7 @@ func reverseReplaceComments(variable string) string {
 }
 
 func reverseRemoveNulls(variable string) string {
-	return randomStringsInsertion(variable, []string{"\000"}, reverseNullProb)
+	return randomStringsInsertion(variable, []string{"\x00"}, reverseNullProb)
 }
 
 func reverseReplaceNulls(variable string) string {
