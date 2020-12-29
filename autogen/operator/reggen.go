@@ -32,7 +32,7 @@ func randomStringWithRange(ranges []rune) string {
 	}
 	randomIndex := utils.RandomIntWithRange(0, sum)
 	for i := 0; i < len(ranges); i += 2 {
-		diff := int(ranges[i+1] - ranges[i]) + 1
+		diff := int(ranges[i+1]-ranges[i]) + 1
 		if randomIndex < diff {
 			return string(ranges[i] + int32(randomIndex))
 		}
@@ -56,7 +56,7 @@ func repeatSubexpression(re *syntax.Regexp, times int, not bool) (string, bool) 
 }
 
 func generate(re *syntax.Regexp, not bool) (string, bool) {
-	isNegated := utils.RandomFloat32() < negatedProb && not // only for non-meta operation
+	isNegated := utils.RandomBiasedBool(negatedProb) && not // only for non-meta operation
 
 	switch re.Op {
 	case syntax.OpNoMatch, syntax.OpEmptyMatch:
@@ -87,20 +87,20 @@ func generate(re *syntax.Regexp, not bool) (string, bool) {
 		start := 0
 		end := len(re.Rune) - 2
 		// find start cut out
-		for re.Rune[start+1] < printableCharsLower {
+		for start < len(re.Rune)-2 && re.Rune[start+1] < printableCharsLower {
 			start += 2
 		}
-		re.Rune[start] = int32(math.Max(float64(re.Rune[start]), float64(printableCharsLower)))
 		// find end cut out
-		for re.Rune[end] > printableCharsUppper {
+		for end >= 2 && re.Rune[end] > printableCharsUppper {
 			end -= 2
 		}
+		re.Rune[start] = int32(math.Max(float64(re.Rune[start]), float64(printableCharsLower)))
 		re.Rune[end+1] = int32(math.Min(float64(re.Rune[end+1]), float64(printableCharsUppper)))
 
-		validRunes := re.Rune[start : end+2]
-		if len(validRunes) == 0 {
+		if start >= end { // empty or invalid slice index
 			return "", isNegated
 		}
+		validRunes := re.Rune[start : end+2]
 
 		if isNegated {
 			// invert(negate) the range first
