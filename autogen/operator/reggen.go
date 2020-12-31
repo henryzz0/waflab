@@ -84,23 +84,27 @@ func generate(re *syntax.Regexp, not bool) (string, bool) {
 		}
 		return builder.String(), isNegated
 	case syntax.OpCharClass:
-		start := 0
-		end := len(re.Rune) - 2
-		// find start cut out
-		for start < len(re.Rune)-2 && re.Rune[start+1] < printableCharsLower {
-			start += 2
+		validRunes := make([]rune, 0)
+		for i := 0; i < len(re.Rune); i += 2 {
+			if re.Rune[i] > re.Rune[i+1] { // sanity check
+				continue
+			}
+			if printableCharsLower <= re.Rune[i] && re.Rune[i+1] <= printableCharsUppper {
+				validRunes = append(validRunes, re.Rune[i], re.Rune[i+1])
+			} else {
+				var lb, hb int32 // rune
+				lb = int32(math.Max(float64(re.Rune[i]), float64(printableCharsLower)))
+				hb = int32(math.Min(float64(re.Rune[i+1]), float64(printableCharsUppper)))
+				if lb > hb { // when range [re.Runep[i], re.Rune[i+1]] does not overlap w/ [printableL, printableU]
+					continue
+				}
+				validRunes = append(validRunes, lb, hb)
+			}
 		}
-		// find end cut out
-		for end >= 2 && re.Rune[end] > printableCharsUppper {
-			end -= 2
-		}
-		re.Rune[start] = int32(math.Max(float64(re.Rune[start]), float64(printableCharsLower)))
-		re.Rune[end+1] = int32(math.Min(float64(re.Rune[end+1]), float64(printableCharsUppper)))
 
-		if start >= end { // empty or invalid slice index
-			return "", isNegated
+		if len(validRunes) == 0 { // TODO: better way of handling this
+			return "", false
 		}
-		validRunes := re.Rune[start : end+2]
 
 		if isNegated {
 			// invert(negate) the range first
