@@ -137,7 +137,6 @@ func reverseRemoveNulls(variable string) string {
 func reverseReplaceNulls(variable string) string {
 	var builder strings.Builder
 	for _, r := range variable {
-		builder.WriteRune(r)
 		if unicode.IsSpace(r) && utils.RandomBiasedBool(reverseReplaceNullProb) {
 			builder.WriteString("\000")
 		} else {
