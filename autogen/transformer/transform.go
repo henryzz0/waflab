@@ -79,10 +79,9 @@ func reverseNormalizePath(variable string) string {
 	redundantPath := []string{"", ".", "foo/.."}
 	parts := strings.Split(variable, "/")
 	res := []string{}
-	var builder strings.Builder
 
 	for index, part := range parts {
-		builder.WriteString(part)
+		res = append(res, part)
 		if index < len(parts)-1 { // add redundant path in between the path
 			res = append(res, utils.PickRandomString(redundantPath))
 		}
