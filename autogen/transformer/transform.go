@@ -91,7 +91,7 @@ func reverseNormalizePath(variable string) string {
 }
 
 func reverseNormalizePathWin(variable string) string {
-	return reverseNormalizePath(strings.ReplaceAll(variable, "/", "\\"))
+	return strings.ReplaceAll(reverseNormalizePath(variable), "/", "\\")
 }
 
 func reverseLowercase(variable string) string {
