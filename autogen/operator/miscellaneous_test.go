@@ -1,22 +1,16 @@
-package operator_test
+package operator
 
 import (
 	"strings"
 	"testing"
-
-	"github.com/hsluoyz/modsecurity-go/seclang/parser"
-	"github.com/waflab/waflab/autogen/operator"
 )
 
 func TestReverseIPMatchSimple(t *testing.T) {
 	argument := "127.0.0.1,::1" // from CRS:9005100
-	op := &parser.Operator{
-		Tk:       parser.TkOpIpMatch,
-		Argument: argument,
-	}
-	res, err := operator.ReverseOperator(op)
+
+	res, err := reverseIPMatch(argument, false)
 	if err != nil {
-		t.Errorf("%s: Error when running ReverseOperator: %v", parser.OperatorNameMap[op.Tk], err)
+		panic(err)
 	}
 	isMatched := true
 	for _, str := range strings.Split(argument, ",") {
@@ -25,6 +19,6 @@ func TestReverseIPMatchSimple(t *testing.T) {
 		}
 	}
 	if !isMatched {
-		t.Errorf("%s: %s not in the %s", parser.OperatorNameMap[op.Tk], res, argument)
+		t.Errorf("Mismatch: %s not in the %s", res, argument)
 	}
 }

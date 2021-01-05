@@ -1,100 +1,53 @@
-package operator_test
+package operator
 
 import (
-	"log"
-	"strconv"
 	"testing"
-
-	"github.com/hsluoyz/modsecurity-go/seclang/parser"
-	"github.com/pkg/errors"
-	"github.com/waflab/waflab/autogen/operator"
-	"github.com/waflab/waflab/autogen/utils"
 )
 
 func TestReverseEq(t *testing.T) {
-	for i := 0; i < 10; i++ {
-		err := testNumericalOperator(parser.TkOpEq, func(input int, output int) bool {
-			return input == output
-		})
-		if err != nil {
-			t.Error(err)
-		}
-	}
+	testHelper(t, reverseEq, "100", "100")
+	testHelper(t, reverseEq, "1", "1")
+	testHelper(t, reverseEq, "0", "0")
+	testHelper(t, reverseEq, "1000000000", "1000000000")
+	testHelper(t, reverseEq, "-1", "-1")
 }
 
 func TestReverseGe(t *testing.T) {
 	// @Ge Performs numerical comparison and returns true if the input value is greater than or equal
 	// to the provided parameter. Notice that output of our reversing func actually correspond to @Ge's input.
-	for i := 0; i < 10; i++ {
-		err := testNumericalOperator(parser.TkOpGe, func(input int, output int) bool {
-			return output >= input
-		})
-		if err != nil {
-			log.Fatal(err)
-		}
-	}
+	testHelper(t, reverseGe, "100", "105")
+	testHelper(t, reverseGe, "1", "6")
+	testHelper(t, reverseGe, "0", "5")
+	testHelper(t, reverseGe, "1000000000", "1000000005")
+	testHelper(t, reverseGe, "-1", "4")
 }
 
 func TestReverseGt(t *testing.T) {
 	// @Gt Performs a numerical comparison between a variable and parameter and returns true if the
 	// input value is greater than the operator parameter.
-	for i := 0; i < 10; i++ {
-		err := testNumericalOperator(parser.TkOpGt, func(input int, output int) bool {
-			return output > input
-		})
-		if err != nil {
-			log.Fatal(err)
-		}
-	}
+	testHelper(t, reverseGt, "100", "145")
+	testHelper(t, reverseGt, "1", "46")
+	testHelper(t, reverseGt, "0", "45")
+	testHelper(t, reverseGt, "1000000000", "1000000045")
+	testHelper(t, reverseGt, "-1", "44")
 }
 
 func TestReverseLe(t *testing.T) {
 	// @Le Performs numerical comparison and returns true if the input value is less than or equal to
 	// the operator parameter
-	for i := 0; i < 10; i++ {
-		err := testNumericalOperator(parser.TkOpLe, func(input int, output int) bool {
-			return output <= input
-		})
-		if err != nil {
-			log.Fatal(err)
-		}
-	}
+	testHelper(t, reverseLe, "100", "97")
+	testHelper(t, reverseLe, "1", "-2")
+	testHelper(t, reverseLe, "0", "-3")
+	testHelper(t, reverseLe, "1000000000", "999999997")
+	testHelper(t, reverseLe, "-1", "-4")
 }
 
 func TestReverseLt(t *testing.T) {
 	// @Lt Performs numerical comparison and returns true if the input value is less than
 	// the operator parameter
-	for i := 0; i < 10; i++ {
-		err := testNumericalOperator(parser.TkOpLt, func(input int, output int) bool {
-			return output < input
-		})
-		if err != nil {
-			log.Fatal(err)
-		}
-	}
-}
-
-// testNumericalOperator determine if the numerical operator reverser works as we expect.
-// The compare is a function with two parameters: output and input. The output is the output
-// from specific numerical operator reverser and the input is the randomly generated number
-// passed to the reverser. We expect compare return true if the numerical relationship between
-// input and output is correct. Otherwise compare should return false
-func testNumericalOperator(opTk int, compare func(intput int, output int) bool) error {
-	randomNum := utils.RandomNonNegativeInt()
-	op := &parser.Operator{
-		Tk:       opTk,
-		Argument: strconv.Itoa(randomNum),
-	}
-	str, err := operator.ReverseOperator(op)
-	if err != nil {
-		return errors.Errorf("%s: Error when running ReverseOperator: %v", parser.OperatorNameMap[opTk], err)
-	}
-	num, err := strconv.Atoi(str)
-	if err != nil {
-		return errors.Errorf("%s: Error when converting output string: %v", parser.OperatorNameMap[opTk], err)
-	}
-	if !compare(randomNum, num) {
-		return errors.Errorf("%s: Invalid output %d with input %d", parser.OperatorNameMap[opTk], num, randomNum)
-	}
-	return nil
+	testHelper(t, reverseLt, "100", "5")
+	testHelper(t, reverseLt, "1", "-94")
+	testHelper(t, reverseLt, "0", "-95")
+	testHelper(t, reverseLt, "1000000000", "999999905")
+	testHelper(t, reverseLt, "-1", "-96")
 }
