@@ -14,11 +14,17 @@ var converterFactory = map[int]payloadConverter{
 	parser.TkVarArgsGet:             addArg, // equivalent to VarArgs
 	parser.TkVarFiles:               addFiles,
 	parser.TkVarFilesNames:          addFilesNames,
+	parser.TkVarQueryString:         addQueryString,
 	parser.TkVarRequestBody:         addRequestBody,
 	parser.TkVarRequestCookies:      addRequestCookies,
 	parser.TkVarRequestCookiesNames: addRequestCookiesName,
 	parser.TkVarRequestHeaders:      addRequestHeaders,
 	parser.TkVarRequestHeadersNames: addRequestHeadersNames,
+	parser.TkVarRequestLine:         addRequestLine,
+	parser.TkVarRequestMethod:       addRequestMethod,
+	parser.TkVarRequestProtocol:     addRequestProtocol,
+	parser.TkVarRequestUri:          addRequestURI,
+	parser.TkVarRequestUriRaw:       addRequestURI,
 }
 
 func AddVariable(v *parser.Variable, value string, payload *test.Input) error {

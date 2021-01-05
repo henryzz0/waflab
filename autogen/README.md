@@ -69,7 +69,7 @@ AutoGen automatically generate test cases in FTW YAML format from Mod Security r
 | MULTIPART_FILENAME    	|        	|                  	|
 | MULTIPART_NAME        	|        	|                  	|
 | PATH_INFO             	|        	|                  	|
-| QUERY_STRING          	|        	|        ✅          |
+| QUERY_STRING          	|    ✅    	|        ✅          |
 | REMOTE_USER           	|        	|                  	|
 | REQUEST_BASENAME      	|        	|        ✅          |
 | REQUEST_BODY          	|    ✅   	|                  	|
@@ -79,11 +79,11 @@ AutoGen automatically generate test cases in FTW YAML format from Mod Security r
 | REQUEST_FILENAME      	|    ✅   	|        ✅          |
 | REQUEST_HEADERS       	|    ✅   	|        ✅          |
 | REQUEST_HEADERS_NAMES 	|    ✅   	|        ✅          |
-| REQUEST_LINE          	|        	|        ✅          |
-| REQUEST_METHOD        	|        	|        ✅          |
-| REQUEST_PROTOCOL      	|        	|        ✅          |
-| REQUEST_URI           	|        	|        ✅          |
-| REQUEST_URI_RAW       	|        	|        ✅          |
+| REQUEST_LINE          	|    ✅    	|        ✅          |
+| REQUEST_METHOD        	|    ✅    	|        ✅          |
+| REQUEST_PROTOCOL      	|    ✅    	|        ✅          |
+| REQUEST_URI           	|    ✅    	|        ✅          |
+| REQUEST_URI_RAW       	|    ✅    	|        ✅          |
 | STREAM_INPUT_BODY     	|        	|                  	|
 
 ### Transformation

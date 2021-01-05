@@ -62,6 +62,11 @@ func addFiles(value string, payload *test.Input) error {
 	return nil
 }
 
+func addQueryString(value string, payload *test.Input) error {
+	payload.Uri = fmt.Sprintf("/?%s", value)
+	return nil
+}
+
 func addRequestBody(value string, payload *test.Input) error {
 	payload.Method = "POST"
 	payload.Data = append(payload.Data, fmt.Sprintf("Foo_Key=%s", value))
@@ -87,5 +92,25 @@ func addRequestHeaders(value string, payload *test.Input) error {
 
 func addRequestHeadersNames(value string, payload *test.Input) error {
 	composeHeader(payload, value, utils.RandomString(randomStringLength))
+	return nil
+}
+
+func addRequestLine(value string, payload *test.Input) error {
+	payload.RawRequest = value
+	return nil
+}
+
+func addRequestMethod(value string, payload *test.Input) error {
+	payload.Method = value
+	return nil
+}
+
+func addRequestProtocol(value string, payload *test.Input) error {
+	payload.Protocol = value
+	return nil
+}
+
+func addRequestURI(value string, payload *test.Input) error {
+	payload.Uri = value
 	return nil
 }
