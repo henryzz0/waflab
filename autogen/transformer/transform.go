@@ -79,10 +79,9 @@ func reverseNormalizePath(variable string) string {
 	redundantPath := []string{"", ".", "foo/.."}
 	parts := strings.Split(variable, "/")
 	res := []string{}
-	var builder strings.Builder
 
 	for index, part := range parts {
-		builder.WriteString(part)
+		res = append(res, part)
 		if index < len(parts)-1 { // add redundant path in between the path
 			res = append(res, utils.PickRandomString(redundantPath))
 		}
@@ -92,7 +91,7 @@ func reverseNormalizePath(variable string) string {
 }
 
 func reverseNormalizePathWin(variable string) string {
-	return reverseNormalizePath(strings.ReplaceAll(variable, "/", "\\"))
+	return strings.ReplaceAll(reverseNormalizePath(variable), "/", "\\")
 }
 
 func reverseLowercase(variable string) string {
@@ -138,7 +137,6 @@ func reverseRemoveNulls(variable string) string {
 func reverseReplaceNulls(variable string) string {
 	var builder strings.Builder
 	for _, r := range variable {
-		builder.WriteRune(r)
 		if unicode.IsSpace(r) && utils.RandomBiasedBool(reverseReplaceNullProb) {
 			builder.WriteString("\000")
 		} else {

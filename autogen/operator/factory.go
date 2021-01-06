@@ -32,6 +32,7 @@ var reverserFactory = map[int]operationReverser{
 	parser.TkOpIpMatchFromFile: reverseIPMatchFromFile,
 }
 
+// ReverseOperator generate a string by reversing the given ModSecurity Operator.
 func ReverseOperator(operator *parser.Operator) (string, error) {
 	if operator.Not {
 		fmt.Println("Not all operator support 'not', use with caution!")
