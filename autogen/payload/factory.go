@@ -10,6 +10,7 @@ type payloadConverter func(value string, payload *test.Input) error
 
 var converterFactory = map[int]payloadConverter{
 	parser.TkVarArgs:                addArg,
+	parser.TkVarArgsCombinedSize:    addArgCombinedSize,
 	parser.TkVarArgsNames:           addArgNames,
 	parser.TkVarArgsGet:             addArg, // equivalent to VarArgs
 	parser.TkVarFiles:               addFiles,

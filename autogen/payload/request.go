@@ -52,6 +52,15 @@ func addArg(value string, payload *test.Input) error {
 	return nil
 }
 
+func addArgCombinedSize(value string, payload *test.Input) error {
+	length, err := strconv.Atoi(value)
+	if err != nil {
+		return err
+	}
+	composeQueryString(payload, utils.RandomString(length), "")
+	return nil
+}
+
 func addArgNames(value string, payload *test.Input) error {
 	composeQueryString(payload, value, utils.RandomString(randomStringLength))
 	return nil
