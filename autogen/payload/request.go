@@ -2,6 +2,7 @@ package payload
 
 import (
 	"fmt"
+	"net/url"
 	"strconv"
 	"strings"
 
@@ -18,8 +19,8 @@ func composeCookie(payload *test.Input, key string, value string) {
 	composeHeader(payload, "Cookie", fmt.Sprintf("%s=%s", key, value))
 }
 
-func composeURL(payload *test.Input, key string, value string) {
-	payload.Uri = fmt.Sprintf("/?%s=%s", key, value)
+func composeQueryString(payload *test.Input, key string, value string) {
+	payload.Uri = fmt.Sprintf("/?%s=%s", url.QueryEscape(key), url.QueryEscape(value))
 }
 
 func composeHeader(payload *test.Input, key string, value string) {
@@ -43,12 +44,12 @@ func composeFile(payload *test.Input, name string, value string) {
 
 func addArg(value string, payload *test.Input) error {
 	key := strings.ReplaceAll(utils.RandomString(randomStringLength), "_", "")
-	composeURL(payload, key, value)
+	composeQueryString(payload, key, value)
 	return nil
 }
 
 func addArgNames(value string, payload *test.Input) error {
-	composeURL(payload, value, utils.RandomString(randomStringLength))
+	composeQueryString(payload, value, utils.RandomString(randomStringLength))
 	return nil
 }
 
@@ -63,7 +64,7 @@ func addFiles(value string, payload *test.Input) error {
 }
 
 func addQueryString(value string, payload *test.Input) error {
-	payload.Uri = fmt.Sprintf("/?%s", value)
+	composeQueryString(payload, value, "")
 	return nil
 }
 
