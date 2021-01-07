@@ -28,6 +28,7 @@ var reverserFactory = map[int]transformReverser{
 	parser.TkTransTrimRight:          reverseTrimRight,
 	parser.TkTransUrlDecode:          reverseUrlDecode,
 	parser.TkTransUrlDecodeUni:       reverseUrlDecode,
+	parser.TkTransUtf8toUnicode:      reverseUtf8ToUnicode,
 }
 
 func ReverseTransform(transformers []*parser.Trans, variable string) string {

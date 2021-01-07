@@ -161,3 +161,11 @@ func reverseTrimRight(variable string) string {
 func reverseUrlDecode(variable string) string {
 	return url.QueryEscape(variable)
 }
+
+// t:utf8toUnicode converts all UTF-8 characters to Unicode using %uHHHH syntax
+// Ex: ćat¯’/etç/passwd’ -> %u0107at%u00af%u2019/et%u00e7/passwd%u2019
+// To reverse the transformation, we need to convert unicode to utf-8 character
+// since Golang does not support u percent format, we need to replace all %u with \u
+func reverseUtf8ToUnicode(variable string) string {
+	return fmt.Sprintf(strings.ReplaceAll(variable, "%u", "\\u"))
+}

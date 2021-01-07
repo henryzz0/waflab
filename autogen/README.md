@@ -126,4 +126,4 @@ AutoGen automatically generate test cases in FTW YAML format from Mod Security r
 | t:urlDecode          	|    ✅   	|         ✅         |
 | t:urlDecodeUni       	|    ✅   	|         ✅         |
 | t:urlEncode          	|        	|                  	|
-| t:utf8toUnicode      	|        	|         ✅         |
+| t:utf8toUnicode      	|    ✅    	|         ✅         |
