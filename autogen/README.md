@@ -71,7 +71,7 @@ AutoGen automatically generate test cases in FTW YAML format from Mod Security r
 | PATH_INFO             	|        	|                  	|
 | QUERY_STRING          	|    ✅    	|        ✅          |
 | REMOTE_USER           	|        	|                  	|
-| REQUEST_BASENAME      	|        	|        ✅          |
+| REQUEST_BASENAME      	|    ✅    	|        ✅          |
 | REQUEST_BODY          	|    ✅   	|                  	|
 | REQUEST_BODY_LENGTH   	|        	|                  	|
 | REQUEST_COOKIES       	|    ✅   	|        ✅          |
