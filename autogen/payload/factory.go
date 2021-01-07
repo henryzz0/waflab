@@ -12,7 +12,8 @@ var converterFactory = map[int]payloadConverter{
 	parser.TkVarArgs:                addArg,
 	parser.TkVarArgsCombinedSize:    addArgCombinedSize,
 	parser.TkVarArgsNames:           addArgNames,
-	parser.TkVarArgsGet:             addArg, // equivalent to VarArgs
+	parser.TkVarArgsGet:             addArg,      // equivalent to ARGS
+	parser.TkVarArgsGetNames:        addArgNames, // equivalent to ARGS_NAMES
 	parser.TkVarFiles:               addFiles,
 	parser.TkVarFilesNames:          addFilesNames,
 	parser.TkVarQueryString:         addQueryString,

@@ -52,10 +52,10 @@ AutoGen automatically generate test cases in FTW YAML format from Mod Security r
 | Name                  	| Status 	| Used in CRS v3.2 	|
 |-----------------------	|:------:	|:----------------:	|
 | ARGS                  	|    ✅   	|         ✅        |
-| ARGS_COMBINED_SIZE    	|        	|         ✅         |
+| ARGS_COMBINED_SIZE    	|    ✅    	|         ✅         |
 | ARGS_NAMES            	|    ✅   	|         ✅         |
 | ARGS_GET              	|    ✅   	|         ✅         |
-| ARGS_GET_NAMES        	|        	|         ✅         |
+| ARGS_GET_NAMES        	|    ✅    	|         ✅         |
 | ARGS_POST             	|        	|                  	|
 | ARGS_POST_NAMES       	|        	|                  	|
 | FILES                 	|    ✅   	|                  	|
