@@ -20,7 +20,11 @@ func composeCookie(payload *test.Input, key string, value string) {
 }
 
 func composeQueryString(payload *test.Input, key string, value string) {
-	payload.Uri = fmt.Sprintf("/?%s=%s", url.QueryEscape(key), url.QueryEscape(value))
+	if value == "" {
+		payload.Uri = fmt.Sprintf("/?%s", url.QueryEscape(key))
+	} else {
+		payload.Uri = fmt.Sprintf("/?%s=%s", url.QueryEscape(key), url.QueryEscape(value))
+	}
 }
 
 func composeHeader(payload *test.Input, key string, value string) {
