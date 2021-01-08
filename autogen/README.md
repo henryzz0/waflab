@@ -95,7 +95,7 @@ AutoGen automatically generate test cases in FTW YAML format from Mod Security r
 | t:base64Encode       	|        	|                  	|
 | t:cmdLine            	|        	|                  	|
 | t:compressWhitespace 	|    ✅   	|         ✅         |
-| t:cssDecode          	|        	|         ✅         |
+| t:cssDecode          	|    ✅    	|         ✅         |
 | t:escapeSeqDecode    	|        	|                  	|
 | t:hexDecode          	|    ✅   	|                  	|
 | t:hexEncode          	|        	|         ✅         |

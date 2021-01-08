@@ -10,6 +10,7 @@ type transformReverser func(variable string) string
 
 var reverserFactory = map[int]transformReverser{
 	parser.TkTransBase64Decode:       reverseBase64Decode,
+	parser.TkTransCssDecode:          reverseCSSDecode,
 	parser.TkTransCompressWhitespace: reverseCompressWhiteSpace,
 	parser.TkTransHexDecode:          reverseHexDecode,
 	parser.TkTransLength:             reverseLength,

@@ -17,6 +17,7 @@ const (
 	randomStringLength        = 10
 	reverseLowerCaseProb      = 0.5
 	reverseCompressProb       = 0.5
+	reverseCSSDecodeProb      = 0.50
 	reverseCommentProb        = 0.10
 	reverseCommentCharProb    = 0.10
 	reverseNullProb           = 0.10
@@ -42,6 +43,20 @@ func randomStringsInsertion(str string, reserve []string, probability float64) s
 
 func reverseBase64Decode(variable string) string {
 	return base64.StdEncoding.EncodeToString([]byte(variable))
+}
+
+// ModSecurity encode characters using CSS 2.x escape rules where each unicode character is
+// represented by a blackslash folloed by up to six hexadecimal characters.
+func reverseCSSDecode(variable string) string {
+	var builder strings.Builder
+	for _, r := range variable {
+		if utils.RandomBiasedBool(reverseCSSDecodeProb) {
+			builder.WriteString(fmt.Sprintf("\\%06s", hex.EncodeToString([]byte{byte(r)})))
+		} else {
+			builder.WriteRune(r)
+		}
+	}
+	return builder.String()
 }
 
 // reverseCompressWhiteSpace assume that the only kinds of whitespace character
