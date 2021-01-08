@@ -41,6 +41,10 @@ func randomStringsInsertion(str string, reserve []string, probability float64) s
 	return builder.String()
 }
 
+func rune2HexString(r rune) string {
+	return hex.EncodeToString([]byte{byte(r)})
+}
+
 func reverseBase64Decode(variable string) string {
 	return base64.StdEncoding.EncodeToString([]byte(variable))
 }
@@ -51,7 +55,7 @@ func reverseCSSDecode(variable string) string {
 	var builder strings.Builder
 	for _, r := range variable {
 		if utils.RandomBiasedBool(reverseCSSDecodeProb) {
-			builder.WriteString(fmt.Sprintf("\\%06s", hex.EncodeToString([]byte{byte(r)})))
+			builder.WriteString(fmt.Sprintf("\\%06s", rune2HexString(r)))
 		} else {
 			builder.WriteRune(r)
 		}
