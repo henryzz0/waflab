@@ -26,7 +26,7 @@ const (
 
 var whiteSpaceCharacters = []string{"\f", "\t", "\n", "\r", "\v"}
 
-// randomStringsInsertion randomly insert string from reverse to str.
+// randomStringsInsertion randomly insert string from reserve to str.
 // At each rune of str, randomstringsInsertion will randomly pick a string from reserve and
 // insert it between the rune with given probability
 func randomStringsInsertion(str string, reserve []string, probability float64) string {
