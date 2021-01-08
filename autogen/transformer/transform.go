@@ -19,6 +19,7 @@ const (
 	reverseCompressProb       = 0.5
 	reverseCSSDecodeProb      = 0.50
 	reverseHTMLEntityProb     = 0.50
+	reverseJSDecodeProb       = 0.50
 	reverseCommentProb        = 0.10
 	reverseCommentCharProb    = 0.10
 	reverseNullProb           = 0.10
@@ -110,6 +111,22 @@ func reverseHTMLEntityDecode(variable string) string {
 				}
 			}
 		} else { // not encode
+			builder.WriteRune(r)
+		}
+	}
+	return builder.String()
+}
+
+func reverseJSDecode(variable string) string {
+	var builder strings.Builder
+	for _, r := range variable {
+		if utils.RandomBiasedBool(reverseJSDecodeProb) {
+			if utils.RandomBiasedBool(0.50) {
+				builder.WriteString(fmt.Sprintf("\\u%04s", rune2HexString(r)))
+			} else {
+				builder.WriteString(fmt.Sprintf("\\%03d", r))
+			}
+		} else {
 			builder.WriteRune(r)
 		}
 	}

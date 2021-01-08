@@ -100,7 +100,7 @@ AutoGen automatically generate test cases in FTW YAML format from Mod Security r
 | t:hexDecode          	|    ✅   	|                  	|
 | t:hexEncode          	|        	|         ✅         |
 | t:htmlEntityDecode   	|    ✅    	|         ✅         |
-| t:jsDecode           	|        	|         ✅         |
+| t:jsDecode           	|    ✅    	|         ✅         |
 | t:length             	|    ✅   	|         ✅         |
 | t:lowercase          	|    ✅   	|         ✅         |
 | t:md5                	|        	|                  	|
