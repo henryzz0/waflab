@@ -13,6 +13,7 @@ var reverserFactory = map[int]transformReverser{
 	parser.TkTransCssDecode:          reverseCSSDecode,
 	parser.TkTransCompressWhitespace: reverseCompressWhiteSpace,
 	parser.TkTransHexDecode:          reverseHexDecode,
+	parser.TkTransHtmlEntityDecode:   reverseHTMLEntityDecode,
 	parser.TkTransLength:             reverseLength,
 	parser.TkTransNormalisePath:      reverseNormalizePath,
 	parser.TkTransNormalizePath:      reverseNormalizePath,

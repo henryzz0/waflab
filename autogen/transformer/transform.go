@@ -18,6 +18,7 @@ const (
 	reverseLowerCaseProb      = 0.5
 	reverseCompressProb       = 0.5
 	reverseCSSDecodeProb      = 0.50
+	reverseHTMLEntityProb     = 0.50
 	reverseCommentProb        = 0.10
 	reverseCommentCharProb    = 0.10
 	reverseNullProb           = 0.10
@@ -82,6 +83,37 @@ func reverseCompressWhiteSpace(variable string) string {
 
 func reverseHexDecode(variable string) string {
 	return hex.EncodeToString([]byte(variable))
+}
+
+// reverseHTMLEntityDecode encode the variable
+func reverseHTMLEntityDecode(variable string) string {
+	// from https://golang.org/src/html/escape.go
+	htmlEscaper := map[string]string{
+		`&`:    "&amp;",
+		`'`:    "&#39;",
+		`<`:    "&lt;",
+		`>`:    "&gt;",
+		`"`:    "&#34;",
+		"\xa0": "&nbsp;",
+	}
+
+	var builder strings.Builder
+	for _, r := range variable {
+		if utils.RandomBiasedBool(reverseHTMLEntityProb) {
+			if s, okay := htmlEscaper[string(r)]; okay { // special html character
+				builder.WriteString(s)
+			} else {
+				if utils.RandomBiasedBool(0.50) {
+					builder.WriteString(fmt.Sprintf("&#x%2s", rune2HexString(r))) // &#xHH, hexadecimal
+				} else {
+					builder.WriteString(fmt.Sprintf("&#%03d", r)) // &#DDD decimal number
+				}
+			}
+		} else { // not encode
+			builder.WriteRune(r)
+		}
+	}
+	return builder.String()
 }
 
 func reverseLength(variable string) string {
