@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"net"
 	"os"
+	"path"
 	"strings"
 
 	"github.com/waflab/waflab/autogen/utils"
@@ -61,4 +62,30 @@ func reverseIPMatchFromFile(argument string, not bool) (string, error) {
 	}
 
 	return randomIPfromNetworkSegments(segments)
+}
+
+func pickRandomLineFromFile(path string) (string, error) {
+	file, err := os.Open(path)
+	defer file.Close()
+	if err != nil {
+		return "", err
+	}
+
+	scanner := bufio.NewScanner(file)
+	scanner.Split(bufio.ScanLines)
+	var text []string
+
+	for scanner.Scan() {
+		text = append(text, scanner.Text())
+	}
+
+	return utils.PickRandomString(text), nil
+}
+
+func reverseDetectSQLi(argument string, not bool) (string, error) {
+	return pickRandomLineFromFile(path.Join("data", "Generic-SQLi.txt"))
+}
+
+func reverseDetectXSS(argument string, not bool) (string, error) {
+	return pickRandomLineFromFile(path.Join("data", "XSS-BruteLogic"))
 }
