@@ -48,7 +48,7 @@ func reverseBase64Decode(variable string) string {
 }
 
 // ModSecurity encode characters using CSS 2.x escape rules where each unicode character is
-// represented by a blackslash folloed by up to six hexadecimal characters.
+// represented by a blackslash followed by up to six hexadecimal characters.
 // Ref: https://www.w3.org/TR/CSS2/syndata.html#characters
 func reverseCSSDecode(variable string) string {
 	var builder strings.Builder
