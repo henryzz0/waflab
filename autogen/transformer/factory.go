@@ -10,8 +10,11 @@ type transformReverser func(variable string) string
 
 var reverserFactory = map[int]transformReverser{
 	parser.TkTransBase64Decode:       reverseBase64Decode,
+	parser.TkTransCssDecode:          reverseCSSDecode,
 	parser.TkTransCompressWhitespace: reverseCompressWhiteSpace,
 	parser.TkTransHexDecode:          reverseHexDecode,
+	parser.TkTransHtmlEntityDecode:   reverseHTMLEntityDecode,
+	parser.TkTransJsDecode:           reverseJSDecode,
 	parser.TkTransLength:             reverseLength,
 	parser.TkTransNormalisePath:      reverseNormalizePath,
 	parser.TkTransNormalizePath:      reverseNormalizePath,
@@ -28,6 +31,7 @@ var reverserFactory = map[int]transformReverser{
 	parser.TkTransTrimRight:          reverseTrimRight,
 	parser.TkTransUrlDecode:          reverseUrlDecode,
 	parser.TkTransUrlDecodeUni:       reverseUrlDecode,
+	parser.TkTransUtf8toUnicode:      reverseUtf8ToUnicode,
 }
 
 func ReverseTransform(transformers []*parser.Trans, variable string) string {

@@ -2,6 +2,7 @@ package payload
 
 import (
 	"fmt"
+	"net/url"
 	"strconv"
 	"strings"
 
@@ -18,8 +19,12 @@ func composeCookie(payload *test.Input, key string, value string) {
 	composeHeader(payload, "Cookie", fmt.Sprintf("%s=%s", key, value))
 }
 
-func composeURL(payload *test.Input, key string, value string) {
-	payload.Uri = fmt.Sprintf("/?%s=%s", key, value)
+func composeQueryString(payload *test.Input, key string, value string) {
+	if value == "" {
+		payload.Uri = fmt.Sprintf("/?%s", url.QueryEscape(key))
+	} else {
+		payload.Uri = fmt.Sprintf("/?%s=%s", url.QueryEscape(key), url.QueryEscape(value))
+	}
 }
 
 func composeHeader(payload *test.Input, key string, value string) {
@@ -43,12 +48,21 @@ func composeFile(payload *test.Input, name string, value string) {
 
 func addArg(value string, payload *test.Input) error {
 	key := strings.ReplaceAll(utils.RandomString(randomStringLength), "_", "")
-	composeURL(payload, key, value)
+	composeQueryString(payload, key, value)
+	return nil
+}
+
+func addArgCombinedSize(value string, payload *test.Input) error {
+	length, err := strconv.Atoi(value)
+	if err != nil {
+		return err
+	}
+	composeQueryString(payload, utils.RandomString(length), "")
 	return nil
 }
 
 func addArgNames(value string, payload *test.Input) error {
-	composeURL(payload, value, utils.RandomString(randomStringLength))
+	composeQueryString(payload, value, utils.RandomString(randomStringLength))
 	return nil
 }
 
@@ -59,6 +73,11 @@ func addFilesNames(value string, payload *test.Input) error {
 
 func addFiles(value string, payload *test.Input) error {
 	composeFile(payload, "files[]", value)
+	return nil
+}
+
+func addQueryString(value string, payload *test.Input) error {
+	composeQueryString(payload, value, "")
 	return nil
 }
 
@@ -87,5 +106,25 @@ func addRequestHeaders(value string, payload *test.Input) error {
 
 func addRequestHeadersNames(value string, payload *test.Input) error {
 	composeHeader(payload, value, utils.RandomString(randomStringLength))
+	return nil
+}
+
+func addRequestLine(value string, payload *test.Input) error {
+	payload.RawRequest = value
+	return nil
+}
+
+func addRequestMethod(value string, payload *test.Input) error {
+	payload.Method = value
+	return nil
+}
+
+func addRequestProtocol(value string, payload *test.Input) error {
+	payload.Protocol = value
+	return nil
+}
+
+func addRequestURI(value string, payload *test.Input) error {
+	payload.Uri = value
 	return nil
 }
