@@ -43,21 +43,18 @@ func randomStringsInsertion(str string, reserve []string, probability float64) s
 	return builder.String()
 }
 
-func rune2HexString(r rune) string {
-	return hex.EncodeToString([]byte{byte(r)})
-}
-
 func reverseBase64Decode(variable string) string {
 	return base64.StdEncoding.EncodeToString([]byte(variable))
 }
 
 // ModSecurity encode characters using CSS 2.x escape rules where each unicode character is
 // represented by a blackslash folloed by up to six hexadecimal characters.
+// Ref: https://www.w3.org/TR/CSS2/syndata.html#characters
 func reverseCSSDecode(variable string) string {
 	var builder strings.Builder
 	for _, r := range variable {
 		if utils.RandomBiasedBool(reverseCSSDecodeProb) {
-			builder.WriteString(fmt.Sprintf("\\%06s", rune2HexString(r)))
+			builder.WriteString(cssEncode(r))
 		} else {
 			builder.WriteRune(r)
 		}
@@ -86,7 +83,8 @@ func reverseHexDecode(variable string) string {
 	return hex.EncodeToString([]byte(variable))
 }
 
-// reverseHTMLEntityDecode encode the variable
+// reverseHTMLEntityDecode encode the variable as HTML entities
+// Ref: https://www.w3.org/TR/REC-html40/charset.html#h-5.3
 func reverseHTMLEntityDecode(variable string) string {
 	// from https://golang.org/src/html/escape.go
 	htmlEscaper := map[string]string{
@@ -104,10 +102,12 @@ func reverseHTMLEntityDecode(variable string) string {
 			if s, okay := htmlEscaper[string(r)]; okay { // special html character
 				builder.WriteString(s)
 			} else {
+				// both hexadecimal and decimal are valid html encoding
+				// therefore we pick which one to use randomly
 				if utils.RandomBiasedBool(0.50) {
-					builder.WriteString(fmt.Sprintf("&#x%2s", rune2HexString(r))) // &#xHH, hexadecimal
+					builder.WriteString(htmlHexEncode(r)) // &#xHH, hexadecimal
 				} else {
-					builder.WriteString(fmt.Sprintf("&#%03d", r)) // &#DDD decimal number
+					builder.WriteString(htmlDecimalEncode(r)) // &#DDD decimal number
 				}
 			}
 		} else { // not encode
@@ -117,14 +117,19 @@ func reverseHTMLEntityDecode(variable string) string {
 	return builder.String()
 }
 
+// reverseJsDecode encodes variable as defined in ECMAScript standard
+// • \uHHHH (where H is any hexadecimal number)
+// • \xHH (where H is any hexadecimal number)
+// • \OOO (where O is any octal number)
+// Ref: http://www.ecma-international.org/ecma-262/6.0/#sec-names-and-keywords
 func reverseJSDecode(variable string) string {
 	var builder strings.Builder
 	for _, r := range variable {
 		if utils.RandomBiasedBool(reverseJSDecodeProb) {
 			if utils.RandomBiasedBool(0.50) {
-				builder.WriteString(fmt.Sprintf("\\u%04s", rune2HexString(r)))
+				builder.WriteString(jsHexEncode(r))
 			} else {
-				builder.WriteString(fmt.Sprintf("\\%03d", r))
+				builder.WriteString(jsOctalEncode(r))
 			}
 		} else {
 			builder.WriteRune(r)
@@ -234,6 +239,7 @@ func reverseUrlDecode(variable string) string {
 // Ex: ćat¯’/etç/passwd’ -> %u0107at%u00af%u2019/et%u00e7/passwd%u2019
 // To reverse the transformation, we need to convert unicode to utf-8 character
 // since Golang does not support u percent format, we need to replace all %u with \u
+// and golang will automatically encode \uXXXX into corresponding Unicode character
 func reverseUtf8ToUnicode(variable string) string {
 	return fmt.Sprintf(strings.ReplaceAll(variable, "%u", "\\u"))
 }
