@@ -83,7 +83,9 @@ func reverseValidateURLEncoding(argument string, not bool) (string, error) {
 		if utils.RandomBiasedBool(0.5) { // generate string w/ not enough byte
 			return res, nil
 		}
-		res += string(int32(utils.RandomIntWithRange(71, 91))) // adding non-hexadecimal characters
+		// concat [G-Z], a non-hexadecimal characters, to res
+		// there is no difference between [G-Z] and [g-z] since url encoding is case-insensitive
+		res += string(int32(utils.RandomIntWithRange(71, 91)))
 	}
 	return res, nil
 }
