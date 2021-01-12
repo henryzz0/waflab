@@ -70,7 +70,7 @@ func reverseValidateByteRange(argument string, not bool) (string, error) {
 // @validateUtf8Encoding return true if the input string is not a validate ut8-encoded string.
 func reverseValidateUtf8Encoding(argument string, not bool) (string, error) {
 	// \xFF\xFE is an invalid utf8 header
-	return fmt.Sprintf("\xFF\xFE"), nil
+	return fmt.Sprintf("\xFF\xFE%s", utils.RandomString(10)), nil
 }
 
 // @validateUrlEncoding return true if the input string is not a validate url-encoded string.
