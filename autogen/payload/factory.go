@@ -6,7 +6,7 @@ import (
 	"github.com/hsluoyz/modsecurity-go/seclang/parser"
 )
 
-type payloadConverter func(value string, payload *test.Input) error
+type payloadConverter func(value, index string, payload *test.Input) error
 
 var converterFactory = map[int]payloadConverter{
 	parser.TkVarArgs:                addArg,
@@ -32,7 +32,7 @@ var converterFactory = map[int]payloadConverter{
 
 func AddVariable(v *parser.Variable, value string, payload *test.Input) error {
 	if f, ok := converterFactory[v.Tk]; ok {
-		err := f(value, payload)
+		err := f(value, v.Index, payload)
 		if err != nil {
 			return err
 		}

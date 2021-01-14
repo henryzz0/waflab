@@ -46,13 +46,13 @@ func composeFile(payload *test.Input, name string, value string) {
 	}
 }
 
-func addArg(value string, payload *test.Input) error {
-	key := strings.ReplaceAll(utils.RandomString(randomStringLength), "_", "")
+func addArg(value, index string, payload *test.Input) error {
+	key := strings.ReplaceAll(index, "_", "")
 	composeQueryString(payload, key, value)
 	return nil
 }
 
-func addArgCombinedSize(value string, payload *test.Input) error {
+func addArgCombinedSize(value, index string, payload *test.Input) error {
 	length, err := strconv.Atoi(value)
 	if err != nil {
 		return err
@@ -61,27 +61,27 @@ func addArgCombinedSize(value string, payload *test.Input) error {
 	return nil
 }
 
-func addArgNames(value string, payload *test.Input) error {
+func addArgNames(value, index string, payload *test.Input) error {
 	composeQueryString(payload, value, utils.RandomString(randomStringLength))
 	return nil
 }
 
-func addFilesNames(value string, payload *test.Input) error {
+func addFilesNames(value, index string, payload *test.Input) error {
 	composeFile(payload, value, "1")
 	return nil
 }
 
-func addFiles(value string, payload *test.Input) error {
+func addFiles(value, index string, payload *test.Input) error {
 	composeFile(payload, "files[]", value)
 	return nil
 }
 
-func addQueryString(value string, payload *test.Input) error {
+func addQueryString(value, index string, payload *test.Input) error {
 	composeQueryString(payload, value, "")
 	return nil
 }
 
-func addRequestBody(value string, payload *test.Input) error {
+func addRequestBody(value, index string, payload *test.Input) error {
 	payload.Method = "POST"
 	payload.Data = append(payload.Data, fmt.Sprintf("Foo_Key=%s", value))
 	composeHeader(payload, "Content-Length", strconv.Itoa(len(payload.Data[0])))
@@ -89,42 +89,42 @@ func addRequestBody(value string, payload *test.Input) error {
 	return nil
 }
 
-func addRequestCookies(value string, payload *test.Input) error {
-	composeCookie(payload, utils.RandomString(randomStringLength), value)
+func addRequestCookies(value, index string, payload *test.Input) error {
+	composeCookie(payload, index, value)
 	return nil
 }
 
-func addRequestCookiesName(value string, payload *test.Input) error {
+func addRequestCookiesName(value, index string, payload *test.Input) error {
 	composeCookie(payload, value, utils.RandomString(randomStringLength))
 	return nil
 }
 
-func addRequestHeaders(value string, payload *test.Input) error {
-	composeHeader(payload, utils.RandomString(randomStringLength), value)
+func addRequestHeaders(value, index string, payload *test.Input) error {
+	composeHeader(payload, index, value)
 	return nil
 }
 
-func addRequestHeadersNames(value string, payload *test.Input) error {
+func addRequestHeadersNames(value, index string, payload *test.Input) error {
 	composeHeader(payload, value, utils.RandomString(randomStringLength))
 	return nil
 }
 
-func addRequestLine(value string, payload *test.Input) error {
+func addRequestLine(value, index string, payload *test.Input) error {
 	payload.RawRequest = value
 	return nil
 }
 
-func addRequestMethod(value string, payload *test.Input) error {
+func addRequestMethod(value, index string, payload *test.Input) error {
 	payload.Method = value
 	return nil
 }
 
-func addRequestProtocol(value string, payload *test.Input) error {
+func addRequestProtocol(value, index string, payload *test.Input) error {
 	payload.Protocol = value
 	return nil
 }
 
-func addRequestURI(value string, payload *test.Input) error {
+func addRequestURI(value, index string, payload *test.Input) error {
 	payload.Uri = value
 	return nil
 }
