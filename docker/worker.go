@@ -14,6 +14,7 @@ import (
 	"strconv"
 	"strings"
 	"sync"
+	"sync/atomic"
 	"time"
 
 	"github.com/docker/docker/api/types"
@@ -33,14 +34,14 @@ type Worker struct {
 	httpClient   *http.Client
 	context      context.Context
 	port         string
-	numJob       *safeCounter // number of ongoing jobs for this worker
-	jobCapacity  int          // max number of jobs
+	numJob       uint64 // number of ongoing jobs for this worker
+	jobCapacity  uint64 // max number of jobs
 }
 
 func (w *Worker) Run() {
 	for {
-		if w.numJob.Value() < w.jobCapacity {
-			fmt.Printf("%s start find job with %v ongoing jobs\n", w.port, w.numJob.Value())
+		if w.numJob < w.jobCapacity {
+			fmt.Printf("%s start find job with %v ongoing jobs\n", w.port, w.numJob)
 			task := w.master.getTask()
 			fmt.Printf("%s get job %s\n", w.port, task.ID)
 			go w.doTask(task)
@@ -51,8 +52,8 @@ func (w *Worker) Run() {
 
 func (w *Worker) doTask(task *Task) {
 	fmt.Printf("Start task %s on %s\n", task.ID, w.port)
-	w.numJob.Increment()
-	defer w.numJob.Decrement()
+	atomic.AddUint64(&w.numJob, 1)
+	defer atomic.AddUint64(&w.numJob, ^uint64(0)) // decremnt by one
 
 	resp, err := sendRequest(w.httpClient,
 		fmt.Sprintf("http://127.0.0.1:%s", w.port),
@@ -190,17 +191,12 @@ func MakeWorker(master *Master, cli *client.Client, ctx context.Context, port st
 	// http client
 	httpClient := http.Client{}
 
-	// counter
-	numJob := safeCounter{
-		value: 0,
-	}
-
 	w.master = master
 	w.dockerClient = cli
 	w.httpClient = &httpClient
 	w.context = ctx
 	w.port = port
-	w.numJob = &numJob
+	w.numJob = 0
 	w.jobCapacity = MaxJobPerWorker
 
 	return &w, nil
