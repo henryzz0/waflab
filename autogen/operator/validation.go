@@ -1,6 +1,7 @@
 package operator
 
 import (
+	"fmt"
 	"strconv"
 	"strings"
 
@@ -66,11 +67,25 @@ func reverseValidateByteRange(argument string, not bool) (string, error) {
 	return build.String(), nil
 }
 
-//TODO: more discussion
-/*
-This function takes no argument
-*/
+// @validateUtf8Encoding return true if the input string is not a validate ut8-encoded string.
 func reverseValidateUtf8Encoding(argument string, not bool) (string, error) {
-	randomString := utils.RandomString(10)
-	return randomString, nil
+	// \xFF\xFE is an invalid utf8 header
+	return fmt.Sprintf("\xFF\xFE%s", utils.RandomString(10)), nil
+}
+
+// @validateUrlEncoding return true if the input string is not a validate url-encoded string.
+// A string is not a validate URL-encoding string if
+// 1. Not enough byte. Ex. "%", "%1"
+// 2. Non-hexadecimal character used. Ex. "%1Z"
+func reverseValidateURLEncoding(argument string, not bool) (string, error) {
+	res := "%"
+	for i := 0; i < 2; i++ {
+		if utils.RandomBiasedBool(0.5) { // generate string w/ not enough byte
+			return res, nil
+		}
+		// concat [G-Z], a non-hexadecimal characters, to res
+		// there is no difference between [G-Z] and [g-z] since url encoding is case-insensitive
+		res += string(int32(utils.RandomIntWithRange(71, 91)))
+	}
+	return res, nil
 }

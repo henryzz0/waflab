@@ -158,7 +158,7 @@ func generate(re *syntax.Regexp, not bool) (string, bool) {
 }
 
 // Generate a negated string from something
-func generateStringFromRegex(expression string, not bool) (res string, err error) {
+func GenerateStringFromRegex(expression string, not bool) (res string, err error) {
 	re, err := syntax.Parse(expression, syntax.Perl)
 	if err != nil {
 		return "", err

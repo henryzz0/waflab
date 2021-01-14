@@ -12,7 +12,7 @@ import (
 )
 
 func reverseRx(argument string, not bool) (string, error) {
-	str, err := generateStringFromRegex(argument, not)
+	str, err := GenerateStringFromRegex(argument, not)
 	if err != nil {
 		return "", err
 	}

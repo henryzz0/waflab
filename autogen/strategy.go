@@ -32,6 +32,13 @@ func ProcessIndependentRule(ruleString string) (YAMLs []*test.Testfile) {
 			}
 		}
 
+		// process variable index exclusion
+		newVariables, err := processIndexExclusion(rule.Variable)
+		if err != nil {
+			panic(err)
+		}
+		rule.Variable = newVariables
+
 		for i, variable := range rule.Variable {
 			if i >= len(v.Tests) {
 				v.Tests = append(v.Tests, &test.Test{
