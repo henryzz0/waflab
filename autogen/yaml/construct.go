@@ -6,7 +6,7 @@ func DefaultYAML() *test.Testfile {
 	v := &test.Testfile{
 		Meta: &test.Meta{
 			Author:  "msra",
-			Enabled: false,
+			Enabled: true,
 			Name:    "",
 		},
 		Tests: []*test.Test{
@@ -33,7 +33,7 @@ func DefaultStage() *test.Stage {
 			Port:       80,
 			Protocol:   "http",
 			Uri:        "/",
-			Version:    "HTTP/1.1",
+			Version:    "HTTP/1.0",
 			Headers:    map[string]string{},
 		},
 		Output: &test.Output{
