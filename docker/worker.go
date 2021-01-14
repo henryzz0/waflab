@@ -126,12 +126,13 @@ func MakeWorker(master *Master, cli *client.Client, ctx context.Context, port st
 	fmt.Println(port)
 
 	containerName := fmt.Sprintf("wafbench-%s", port)
-	hasContainer, err := checkContainerWithNameExist(cli, ctx, containerName)
+	containerID, err := getContainerByName(ctx, cli, containerName)
 	if err != nil {
 		return nil, err
 	}
-	if !hasContainer {
-		// create and start container
+
+	if containerID == "" {
+		// create a new container if there is not one already
 		resp, err := cli.ContainerCreate(ctx, &container.Config{
 			Image:      "olament/wafbench",
 			WorkingDir: "/WAFBench/ftw_compatible_tool",
@@ -158,14 +159,15 @@ func MakeWorker(master *Master, cli *client.Client, ctx context.Context, port st
 		if err != nil {
 			return nil, err
 		}
-
-		err = cli.ContainerStart(ctx, resp.ID, types.ContainerStartOptions{})
-		if err != nil {
-			return nil, err
-		}
-
-		time.Sleep(time.Second * 2) // TODO: wait gunicorn start
+		containerID = resp.ID
 	}
+
+	err = cli.ContainerStart(ctx, containerID, types.ContainerStartOptions{})
+	if err != nil {
+		return nil, err
+	}
+
+	time.Sleep(time.Second * 2) // TODO: wait gunicorn start
 
 	// http client
 	httpClient := http.Client{}
@@ -186,17 +188,19 @@ func MakeWorker(master *Master, cli *client.Client, ctx context.Context, port st
 	return &w, nil
 }
 
-func checkContainerWithNameExist(client *client.Client, ctx context.Context, name string) (bool, error) {
-	containerList, err := client.ContainerList(ctx, types.ContainerListOptions{})
+func getContainerByName(ctx context.Context, client *client.Client, name string) (string, error) {
+	containerList, err := client.ContainerList(ctx, types.ContainerListOptions{
+		All: true,
+	})
 	if err != nil {
-		return false, err
+		return "", err
 	}
 	for _, instance := range containerList {
 		for _, partialName := range instance.Names {
 			if strings.Contains(partialName, name) {
-				return true, nil
+				return instance.ID, nil
 			}
 		}
 	}
-	return false, nil
+	return "", nil
 }
