@@ -1,6 +1,7 @@
 package docker
 
 import (
+	"bufio"
 	"bytes"
 	"context"
 	"encoding/json"
@@ -10,6 +11,7 @@ import (
 	"mime/multipart"
 	"net/http"
 	"os"
+	"strconv"
 	"strings"
 	"sync"
 	"time"
@@ -131,8 +133,8 @@ func MakeWorker(master *Master, cli *client.Client, ctx context.Context, port st
 		return nil, err
 	}
 
+	// create a new container if there is not one already
 	if containerID == "" {
-		// create a new container if there is not one already
 		resp, err := cli.ContainerCreate(ctx, &container.Config{
 			Image:      "olament/wafbench",
 			WorkingDir: "/WAFBench/ftw_compatible_tool",
@@ -162,12 +164,28 @@ func MakeWorker(master *Master, cli *client.Client, ctx context.Context, port st
 		containerID = resp.ID
 	}
 
-	err = cli.ContainerStart(ctx, containerID, types.ContainerStartOptions{})
+	// restart the container
+	zeroDuration := time.Since(time.Now())
+	cli.ContainerRestart(ctx, containerID, &zeroDuration)
 	if err != nil {
 		return nil, err
 	}
 
-	time.Sleep(time.Second * 2) // TODO: wait gunicorn start
+	// wait for gunicorn to start
+	out, err := cli.ContainerLogs(ctx, containerID, types.ContainerLogsOptions{
+		ShowStdout: true,
+		Follow:     true,
+		Since:      strconv.Itoa(int(time.Now().UTC().Unix())),
+	})
+	if err != nil {
+		return nil, err
+	}
+	scanner := bufio.NewScanner(out)
+	for scanner.Scan() { // blocking until gunicorn start
+		if strings.Contains(scanner.Text(), "Booting worker") {
+			break
+		}
+	}
 
 	// http client
 	httpClient := http.Client{}
