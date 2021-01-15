@@ -51,8 +51,8 @@ func ParseRuleDataToList(text string) []*parser.RuleDirective {
 		//var res parser.Directive
 		d := directive
 		rd, ok := (d).(*parser.RuleDirective)
-		if ok {
-			//println(d)
+		if !ok {
+			continue
 		}
 
 		res = append(res, rd)
