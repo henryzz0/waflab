@@ -32,16 +32,16 @@ func composeHeader(payload *test.Input, key string, value string) {
 	payload.Headers[key] = value
 }
 
-func composeFile(payload *test.Input, name string, value string) {
+func composeFile(payload *test.Input, name, filename, content string) {
 	composeHeader(payload, "Content-Type", "multipart/form-data; boundary=----abc")
 	composeHeader(payload, "Cache-Control", "no-cache")
 	payload.Method = "POST"
 	payload.Data = []string{
 		"------abc",
-		fmt.Sprintf("Content-Disposition: form-data; name=\"%s\"; filename=\"%s\"", name, value),
+		fmt.Sprintf("Content-Disposition: form-data; name=\"%s\"; filename=\"%s\"", name, filename),
 		"Content-Type: text/plain",
 		"",
-		"Content ",
+		content,
 		"",
 		"------abc--",
 	}
@@ -79,12 +79,21 @@ func addExtendedJSON(value, index string, payload *test.Input) error {
 }
 
 func addFilesNames(value, index string, payload *test.Input) error {
-	composeFile(payload, value, "1")
+	composeFile(payload, value, "1", "Content")
 	return nil
 }
 
 func addFiles(value, index string, payload *test.Input) error {
-	composeFile(payload, "files[]", value)
+	composeFile(payload, "files[]", value, "Content")
+	return nil
+}
+
+func addFilesCombinedSize(value, index string, payload *test.Input) error {
+	num, err := strconv.Atoi(value)
+	if err != nil {
+		return err
+	}
+	composeFile(payload, "file", "file.txt", utils.RandomString(num))
 	return nil
 }
 

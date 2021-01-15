@@ -17,6 +17,7 @@ var converterFactory = map[int]payloadConverter{
 	parser.TkVarExtendedJSON:        addExtendedJSON,
 	parser.TkVarFiles:               addFiles,
 	parser.TkVarFilesNames:          addFilesNames,
+	parser.TkVarFilesCombinedSize:   addFilesCombinedSize,
 	parser.TkVarQueryString:         addQueryString,
 	parser.TkVarRequestBasename:     addFilesNames, // equivalent to FILES_NAMES
 	parser.TkVarRequestBody:         addRequestBody,
