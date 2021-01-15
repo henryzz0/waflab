@@ -1,6 +1,7 @@
 package payload
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/url"
 	"strconv"
@@ -63,6 +64,17 @@ func addArgCombinedSize(value, index string, payload *test.Input) error {
 
 func addArgNames(value, index string, payload *test.Input) error {
 	composeQueryString(payload, value, utils.RandomString(randomStringLength))
+	return nil
+}
+
+func addExtendedJSON(value, index string, payload *test.Input) error {
+	v, err := json.Marshal(map[string]string{utils.RandomString(10): value})
+	if err != nil {
+		return err
+	}
+	payload.Data = strings.Split(string(v), "\n")
+	payload.Method = "POST"
+	composeHeader(payload, "Content-Type", "application/json")
 	return nil
 }
 
