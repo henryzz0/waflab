@@ -146,6 +146,6 @@ func addRequestProtocol(value, index string, payload *test.Input) error {
 }
 
 func addRequestURI(value, index string, payload *test.Input) error {
-	payload.Uri = value
+	payload.Uri = fmt.Sprintf("/%s", url.QueryEscape(value))
 	return nil
 }
