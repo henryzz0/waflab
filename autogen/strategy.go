@@ -57,7 +57,7 @@ func ProcessIndependentRule(ruleString string) (YAMLs []*test.Testfile) {
 					},
 				})
 			}
-			v.Tests[i].TestTitle = fmt.Sprintf("%s-%s", strconv.Itoa(rule.Actions.Id), strconv.Itoa(i))
+			v.Tests[i].TestTitle = fmt.Sprintf("%s-%s", strconv.Itoa(rule.Actions.Id), strconv.Itoa(i+1))
 			payload.AddVariable(variable, reversed, v.Tests[i].Stages[0].Stage.Input)
 			v.Tests[i].Stages[0].Stage.Output.Status = []int{statusCode}
 		}
