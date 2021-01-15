@@ -18,9 +18,17 @@ func ProcessIndependentRule(ruleString string) (YAMLs []*test.Testfile) {
 	rules := rule.ParseRuleDataToList(ruleString)
 	for _, rule := range rules {
 		v := yaml.DefaultYAML()
+
+		// set meta information
+		v.Meta.Author = "Microsoft Research Asia"
+		v.Meta.Name = fmt.Sprintf("%d.yaml", rule.Actions.Id)
+		v.Meta.Description = "This YAML file is automatically generated using AutoGen"
+
+		// reverse generate operator and transformation
 		reversed, _ := operator.ReverseOperator(rule.Operator)
 		reversed = transformer.ReverseTransform(rule.Actions.Trans, reversed)
 
+		// set status code
 		var statusCode int
 		for _, action := range rule.Actions.Action {
 			switch action.Tk {
