@@ -31,6 +31,8 @@ var reverserFactory = map[int]operationReverser{
 	// miscellaneous operator
 	parser.TkOpIpMatch:         reverseIPMatch,
 	parser.TkOpIpMatchFromFile: reverseIPMatchFromFile,
+	parser.TkOpDetectSqli:      reverseDetectSQLi,
+	parser.TkOpDetectXss:       reverseDetectXSS,
 }
 
 // ReverseOperator generate a string by reversing the given ModSecurity Operator.

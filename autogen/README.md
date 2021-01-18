@@ -31,8 +31,8 @@ AutoGen automatically generate test cases in FTW YAML format from Mod Security r
 | @validateSchema       	|        	|                  	|
 | @validateUrlEncoding  	|    ✅    	|         ✅         |
 | @validateUtf8Encoding 	|    ✅   	|         ✅         |
-| @detectSQLi           	|        	|         ✅         |
-| @detectXSS            	|        	|         ✅         |
+| @detectSQLi           	|    ✅    	|         ✅         |
+| @detectXSS            	|    ✅    	|         ✅         |
 | @fuzzyHash            	|        	|                  	|
 | @geoLookup            	|        	|                  	|
 | @gsbLookup            	|    ⛔    	|                  	|
