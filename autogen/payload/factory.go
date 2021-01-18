@@ -1,6 +1,8 @@
 package payload
 
 import (
+	"fmt"
+
 	"github.com/waflab/waflab/test"
 
 	"github.com/hsluoyz/modsecurity-go/seclang/parser"
@@ -23,6 +25,7 @@ var converterFactory = map[int]payloadConverter{
 	parser.TkVarRequestBody:         addRequestBody,
 	parser.TkVarRequestCookies:      addRequestCookies,
 	parser.TkVarRequestCookiesNames: addRequestCookiesName,
+	parser.TkVarRequestFilename:     addRequestURI,
 	parser.TkVarRequestHeaders:      addRequestHeaders,
 	parser.TkVarRequestHeadersNames: addRequestHeadersNames,
 	parser.TkVarRequestLine:         addRequestLine,
@@ -35,10 +38,7 @@ var converterFactory = map[int]payloadConverter{
 func AddVariable(v *parser.Variable, value string, payload *test.Input) error {
 	if f, ok := converterFactory[v.Tk]; ok {
 		err := f(value, v.Index, payload)
-		if err != nil {
-			return err
-		}
-		return nil
+		return err
 	}
-	panic("not supported operator!")
+	return fmt.Errorf("%s not supported", parser.VariableNameMap[v.Tk])
 }

@@ -1,8 +1,6 @@
 package transformer
 
 import (
-	"log"
-
 	"github.com/hsluoyz/modsecurity-go/seclang/parser"
 )
 
@@ -39,7 +37,8 @@ func ReverseTransform(transformers []*parser.Trans, variable string) string {
 		if f, ok := reverserFactory[transformers[i].Tk]; ok {
 			variable = f(variable)
 		} else {
-			log.Fatalf("Unsupported transformation %s", parser.TransformationNameMap[transformers[i].Tk])
+			continue
+			// log.Fatalf("Unsupported transformation %s", parser.TransformationNameMap[transformers[i].Tk])
 		}
 	}
 	return variable

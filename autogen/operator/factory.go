@@ -35,11 +35,8 @@ var reverserFactory = map[int]operationReverser{
 
 // ReverseOperator generate a string by reversing the given ModSecurity Operator.
 func ReverseOperator(operator *parser.Operator) (string, error) {
-	if operator.Not {
-		fmt.Println("Not all operator support 'not', use with caution!")
-	}
 	if f, ok := reverserFactory[operator.Tk]; ok {
 		return f(operator.Argument, operator.Not)
 	}
-	panic("not supported operator!")
+	return "", fmt.Errorf("%s not supported", parser.OperatorNameMap[operator.Tk])
 }
