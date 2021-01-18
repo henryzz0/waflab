@@ -51,13 +51,13 @@ func processIndependentRule(rule *parser.RuleDirective) *test.Testfile {
 	reversed = transformer.ReverseTransform(rule.Actions.Trans, reversed)
 
 	// set status code
-	var statusCode int
+	var statusCode []int
 	for _, action := range rule.Actions.Action {
 		switch action.Tk {
 		case parser.TkActionAllow, parser.TkActionPass:
-			statusCode = 200
+			statusCode = []int{200, 404}
 		case parser.TkActionDeny, parser.TkActionBlock:
-			statusCode = 403
+			statusCode = []int{403}
 		default:
 		}
 	}
@@ -95,7 +95,7 @@ func processIndependentRule(rule *parser.RuleDirective) *test.Testfile {
 		v.Tests[current].TestTitle = fmt.Sprintf("%s-%s",
 			strconv.Itoa(rule.Actions.Id),
 			strconv.Itoa(current+1))
-		v.Tests[current].Stages[0].Stage.Output.Status = []int{statusCode}
+		v.Tests[current].Stages[0].Stage.Output.Status = statusCode
 
 		current++
 	}
