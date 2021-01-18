@@ -1,6 +1,7 @@
 package docker
 
 import (
+	"bufio"
 	"bytes"
 	"context"
 	"encoding/json"
@@ -10,8 +11,10 @@ import (
 	"mime/multipart"
 	"net/http"
 	"os"
+	"strconv"
 	"strings"
 	"sync"
+	"sync/atomic"
 	"time"
 
 	"github.com/docker/docker/api/types"
@@ -31,14 +34,14 @@ type Worker struct {
 	httpClient   *http.Client
 	context      context.Context
 	port         string
-	numJob       *safeCounter // number of ongoing jobs for this worker
-	jobCapacity  int          // max number of jobs
+	numJob       uint64 // number of ongoing jobs for this worker
+	jobCapacity  uint64 // max number of jobs
 }
 
 func (w *Worker) Run() {
 	for {
-		if w.numJob.Value() < w.jobCapacity {
-			fmt.Printf("%s start find job with %v ongoing jobs\n", w.port, w.numJob.Value())
+		if w.numJob < w.jobCapacity {
+			fmt.Printf("%s start find job with %v ongoing jobs\n", w.port, w.numJob)
 			task := w.master.getTask()
 			fmt.Printf("%s get job %s\n", w.port, task.ID)
 			go w.doTask(task)
@@ -49,8 +52,8 @@ func (w *Worker) Run() {
 
 func (w *Worker) doTask(task *Task) {
 	fmt.Printf("Start task %s on %s\n", task.ID, w.port)
-	w.numJob.Increment()
-	defer w.numJob.Decrement()
+	atomic.AddUint64(&w.numJob, 1)
+	defer atomic.AddUint64(&w.numJob, ^uint64(0)) // decremnt by one
 
 	resp, err := sendRequest(w.httpClient,
 		fmt.Sprintf("http://127.0.0.1:%s", w.port),
@@ -126,12 +129,13 @@ func MakeWorker(master *Master, cli *client.Client, ctx context.Context, port st
 	fmt.Println(port)
 
 	containerName := fmt.Sprintf("wafbench-%s", port)
-	hasContainer, err := checkContainerWithNameExist(cli, ctx, containerName)
+	containerID, err := getContainerByName(ctx, cli, containerName)
 	if err != nil {
 		return nil, err
 	}
-	if !hasContainer {
-		// create and start container
+
+	// create a new container if there is not one already
+	if containerID == "" {
 		resp, err := cli.ContainerCreate(ctx, &container.Config{
 			Image:      "olament/wafbench",
 			WorkingDir: "/WAFBench/ftw_compatible_tool",
@@ -158,45 +162,59 @@ func MakeWorker(master *Master, cli *client.Client, ctx context.Context, port st
 		if err != nil {
 			return nil, err
 		}
+		containerID = resp.ID
+	}
 
-		err = cli.ContainerStart(ctx, resp.ID, types.ContainerStartOptions{})
-		if err != nil {
-			return nil, err
+	// restart the container
+	zeroDuration := time.Since(time.Now())
+	cli.ContainerRestart(ctx, containerID, &zeroDuration)
+	if err != nil {
+		return nil, err
+	}
+
+	// wait for gunicorn to start
+	out, err := cli.ContainerLogs(ctx, containerID, types.ContainerLogsOptions{
+		ShowStdout: true,
+		Follow:     true,
+		Since:      strconv.Itoa(int(time.Now().UTC().Unix())),
+	})
+	if err != nil {
+		return nil, err
+	}
+	scanner := bufio.NewScanner(out)
+	for scanner.Scan() { // blocking until gunicorn start
+		if strings.Contains(scanner.Text(), "Booting worker") {
+			break
 		}
-
-		time.Sleep(time.Second * 2) // TODO: wait gunicorn start
 	}
 
 	// http client
 	httpClient := http.Client{}
-
-	// counter
-	numJob := safeCounter{
-		value: 0,
-	}
 
 	w.master = master
 	w.dockerClient = cli
 	w.httpClient = &httpClient
 	w.context = ctx
 	w.port = port
-	w.numJob = &numJob
+	w.numJob = 0
 	w.jobCapacity = MaxJobPerWorker
 
 	return &w, nil
 }
 
-func checkContainerWithNameExist(client *client.Client, ctx context.Context, name string) (bool, error) {
-	containerList, err := client.ContainerList(ctx, types.ContainerListOptions{})
+func getContainerByName(ctx context.Context, client *client.Client, name string) (string, error) {
+	containerList, err := client.ContainerList(ctx, types.ContainerListOptions{
+		All: true,
+	})
 	if err != nil {
-		return false, err
+		return "", err
 	}
 	for _, instance := range containerList {
 		for _, partialName := range instance.Names {
 			if strings.Contains(partialName, name) {
-				return true, nil
+				return instance.ID, nil
 			}
 		}
 	}
-	return false, nil
+	return "", nil
 }

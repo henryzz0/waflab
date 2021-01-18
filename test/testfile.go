@@ -1,5 +1,10 @@
 package test
 
+import (
+	"errors"
+	"strings"
+)
+
 type Testfile struct {
 	Meta  *Meta   `yaml:"meta"`
 	Tests []*Test `yaml:"tests"`
@@ -27,6 +32,27 @@ type Stage struct {
 	Output *Output `yaml:"output"`
 }
 
+// DataSlice is a customized type for 'data' entry in the Input YAML file
+type DataSlice []string
+
+// UnmarshalYAML is a customized parser that parse both YAML list or string into DataSlice
+// since both of them are valid type for 'data' entry per ftw YAML file definition
+func (data *DataSlice) UnmarshalYAML(unmarshal func(interface{}) error) error {
+	var str string
+	if err := unmarshal(&str); err == nil {
+		*data = strings.Split(str, "\n")
+		return nil
+	}
+
+	slice := make([]string, 0)
+	if err := unmarshal(&slice); err == nil {
+		*data = slice
+		return nil
+	}
+
+	return errors.New("failed to unmarshal into DataSlice")
+}
+
 type Input struct {
 	SaveCookie     bool              `yaml:"save_cookie,omitempty"`
 	DestAddr       string            `yaml:"dest_addr"`
@@ -36,7 +62,7 @@ type Input struct {
 	Uri            string            `yaml:"uri"`
 	Version        string            `yaml:"version"`
 	Headers        map[string]string `yaml:"headers,omitempty"`
-	Data           []string          `yaml:"data,omitempty"`
+	Data           DataSlice         `yaml:"data,omitempty"`
 	EncodedRequest string            `yaml:"encoded_request,omitempty"`
 	RawRequest     string            `yaml:"raw_request,omitempty"`
 }
