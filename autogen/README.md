@@ -1,6 +1,24 @@
 # AutoGen
 AutoGen automatically generate test cases in FTW YAML format from Mod Security rule
 
+## Testing Progress
+
+| TYPE                                	| Total Rule 	| Supported Rule 	| Passed Rule 	|
+|-------------------------------------	|------------	|----------------	|-------------	|
+| METHOD-ENFORCEMENT                  	| 1          	| 0              	| 0           	|
+| SCANNER_DETECTION                   	| 5          	| 5              	| 5           	|
+| PROTOCOL-ENFORCEMENT                	| 39         	| 19             	| 10          	|
+| PROTOCOL-ATTACK                     	| 7          	|                	|             	|
+| APPLICATION-ATTACK-LFI              	| 4          	|                	|             	|
+| APPLICATION-ATTACK-RFI              	| 4          	|                	|             	|
+| APPLICATION-ATTACK-RCE              	| 20         	|                	|             	|
+| APPLICATION-ATTACK-PHP              	| 14         	|                	|             	|
+| APPLICATION-ATTACK-NODEJS           	| 1          	|                	|             	|
+| APPLICATION-ATTACK-XSS              	| 30         	|                	|             	|
+| APPLICATION-ATTACK-SQLi             	| 41         	|                	|             	|
+| APPLICATION-ATTACK-SESSION-FIXATION 	| 3          	|                	|             	|
+| APPLICATION-ATTACK-JAVA             	| 3          	|                	|             	|
+
 ## Status Tracker
 ```✅``` indicates that such function is implemented and ```⛔```️ means that we have no plan to support such function
 
