@@ -40,12 +40,12 @@ func GenerateTests(ruleString string, maxRetry int) (YAMLs []*test.Testfile) {
 // the actual number of test generated will likely lower than the max number since there may be
 // duplicated test case
 func processIndependentRule(rule *parser.RuleDirective, maxRetry int) *test.Testfile {
-	v := yaml.DefaultYAML()
+	res := yaml.DefaultYAML()
 
 	// set meta information
-	v.Meta.Author = "Microsoft Research Asia"
-	v.Meta.Name = fmt.Sprintf("%d.yaml", rule.Actions.Id)
-	v.Meta.Description = "This YAML file is automatically generated using AutoGen"
+	res.Meta.Author = "Microsoft Research Asia"
+	res.Meta.Name = fmt.Sprintf("%d.yaml", rule.Actions.Id)
+	res.Meta.Description = "This YAML file is automatically generated using AutoGen"
 
 	// set status code
 	var statusCode []int
@@ -87,8 +87,8 @@ func processIndependentRule(rule *parser.RuleDirective, maxRetry int) *test.Test
 
 		for _, variable := range rule.Variable {
 			// expand the tests slice if necessary
-			if current >= len(v.Tests) {
-				v.Tests = append(v.Tests, &test.Test{
+			if current >= len(res.Tests) {
+				res.Tests = append(res.Tests, &test.Test{
 					Stages: []*test.StageWrapper{
 						{
 							Stage: yaml.DefaultStage(),
@@ -97,7 +97,7 @@ func processIndependentRule(rule *parser.RuleDirective, maxRetry int) *test.Test
 				})
 			}
 			// add variable
-			err = payload.AddVariable(variable, reversed, v.Tests[current].Stages[0].Stage.Input)
+			err = payload.AddVariable(variable, reversed, res.Tests[current].Stages[0].Stage.Input)
 			if err != nil {
 				log.Printf("Rule %d: skip %s, %v\n",
 					rule.Actions.Id,
@@ -106,11 +106,9 @@ func processIndependentRule(rule *parser.RuleDirective, maxRetry int) *test.Test
 				continue
 			}
 			// add title, status, and description
-			v.Tests[current].TestTitle = fmt.Sprintf("%s-%s",
-				strconv.Itoa(rule.Actions.Id),
-				strconv.Itoa(current+1))
-			v.Tests[current].Stages[0].Stage.Output.Status = statusCode
-			v.Tests[current].Desc = parser.VariableNameMap[variable.Tk]
+			res.Tests[current].TestTitle = fmt.Sprintf("%s-%s", strconv.Itoa(rule.Actions.Id), strconv.Itoa(current+1))
+			res.Tests[current].Stages[0].Stage.Output.Status = statusCode
+			res.Tests[current].Desc = parser.VariableNameMap[variable.Tk]
 
 			current++
 		}
@@ -123,5 +121,5 @@ func processIndependentRule(rule *parser.RuleDirective, maxRetry int) *test.Test
 		return nil
 	}
 
-	return v
+	return res
 }
