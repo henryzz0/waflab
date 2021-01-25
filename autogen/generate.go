@@ -34,7 +34,7 @@ func GenerateTestFromDirectory(dirPath, output string) {
 			// generate testfiles from rules
 			var tests []*test.Testfile
 			for _, rs := range ruleStrings {
-				tests = append(tests, GenerateTests(rs)...)
+				tests = append(tests, GenerateTests(rs, 10)...)
 			}
 
 			// write generated tests into files
