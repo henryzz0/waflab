@@ -120,6 +120,11 @@ func addRequestCookiesName(value, index string, payload *test.Input) error {
 	return nil
 }
 
+func addRequestFileName(value, index string, payload *test.Input) error {
+	payload.Uri = fmt.Sprintf("/%s", value)
+	return nil
+}
+
 func addRequestHeaders(value, index string, payload *test.Input) error {
 	composeHeader(payload, index, value)
 	return nil

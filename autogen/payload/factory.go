@@ -25,7 +25,7 @@ var converterFactory = map[int]payloadConverter{
 	parser.TkVarRequestBody:         addRequestBody,
 	parser.TkVarRequestCookies:      addRequestCookies,
 	parser.TkVarRequestCookiesNames: addRequestCookiesName,
-	parser.TkVarRequestFilename:     addRequestURI,
+	parser.TkVarRequestFilename:     addRequestFileName,
 	parser.TkVarRequestHeaders:      addRequestHeaders,
 	parser.TkVarRequestHeadersNames: addRequestHeadersNames,
 	parser.TkVarRequestLine:         addRequestLine,
