@@ -74,10 +74,10 @@ func readRuleStringFromConf(path string) ([]string, error) {
 
 	// Match SecRule only
 	var rules []string
-	for _, s := range strings.Split(str, "\r\n\r\n") {
+	str = strings.ReplaceAll(str, "\r\n", "\n") // CRLF to LF
+	for _, s := range strings.Split(str, "\n\n") {
 		s = strings.TrimSpace(s)
 		if strings.HasPrefix(s, "SecRule") {
-			s = strings.ReplaceAll(s, "\r\n", "\n") // CRLF to LF
 			rules = append(rules, s)
 		}
 	}
