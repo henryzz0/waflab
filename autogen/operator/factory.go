@@ -40,5 +40,5 @@ func ReverseOperator(operator *parser.Operator) (string, error) {
 	if f, ok := reverserFactory[operator.Tk]; ok {
 		return f(operator.Argument, operator.Not)
 	}
-	return "", fmt.Errorf("%s not supported", parser.OperatorNameMap[operator.Tk])
+	return "", fmt.Errorf("Operator: %s not supported", parser.OperatorNameMap[operator.Tk])
 }

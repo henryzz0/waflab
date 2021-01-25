@@ -40,5 +40,5 @@ func AddVariable(v *parser.Variable, value string, payload *test.Input) error {
 		err := f(value, v.Index, payload)
 		return err
 	}
-	return fmt.Errorf("%s not supported", parser.VariableNameMap[v.Tk])
+	return fmt.Errorf("Vaiable: %s not supported", parser.VariableNameMap[v.Tk])
 }
