@@ -145,7 +145,3 @@ AutoGen automatically generate test cases in FTW YAML format from Mod Security r
 | t:urlDecodeUni       	|    ✅   	|         ✅         |
 | t:urlEncode          	|        	|                  	|
 | t:utf8toUnicode      	|    ✅    	|         ✅         |
-
-## Acknowledge
-
-```Generic-SQLi.txt``` and ```XSS-BruteLogic.txt``` is obtained from Daniel Miessler's [SecLists](https://github.com/danielmiessler/SecLists).
