@@ -31,15 +31,14 @@ var reverserFactory = map[int]operationReverser{
 	// miscellaneous operator
 	parser.TkOpIpMatch:         reverseIPMatch,
 	parser.TkOpIpMatchFromFile: reverseIPMatchFromFile,
+	parser.TkOpDetectSqli:      reverseDetectSQLi,
+	parser.TkOpDetectXss:       reverseDetectXSS,
 }
 
 // ReverseOperator generate a string by reversing the given ModSecurity Operator.
 func ReverseOperator(operator *parser.Operator) (string, error) {
-	if operator.Not {
-		fmt.Println("Not all operator support 'not', use with caution!")
-	}
 	if f, ok := reverserFactory[operator.Tk]; ok {
 		return f(operator.Argument, operator.Not)
 	}
-	panic("not supported operator!")
+	return "", fmt.Errorf("Operator: %s not supported", parser.OperatorNameMap[operator.Tk])
 }
