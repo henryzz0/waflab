@@ -4,9 +4,6 @@
   "private": true,
   "dependencies": {
     "@ant-design/icons": "4.2.2",
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
     "antd": "4.8.0",
     "codemirror": "^5.58.2",
     "moment": "^2.29.1",
