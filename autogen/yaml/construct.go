@@ -28,6 +28,7 @@ func DefaultStage() *test.Stage {
 	v := &test.Stage{
 		Input: &test.Input{
 			SaveCookie: false,
+			StopMagic:  true,
 			DestAddr:   "127.0.0.1",
 			Method:     "GET",
 			Port:       80,
