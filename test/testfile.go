@@ -58,6 +58,7 @@ func (data *DataSlice) UnmarshalYAML(unmarshal func(interface{}) error) error {
 
 type Input struct {
 	SaveCookie     bool              `yaml:"save_cookie,omitempty"`
+	StopMagic      bool              `yaml:"stop_magic,omitempty"`
 	DestAddr       string            `yaml:"dest_addr"`
 	Method         string            `yaml:"method"`
 	Port           int               `yaml:"port"`
