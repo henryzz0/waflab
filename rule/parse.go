@@ -23,7 +23,7 @@ func (rf *Rulefile) loadRules(text string) {
 	}
 
 	for i, ruleData := range ruleDataList {
-		if ruleData.Actions.Id == 0 {
+		if ruleData.Actions == nil || ruleData.Actions.Id == 0 { // sub rule of chained rule
 			rf.Rules[len(rf.Rules)-1].addChainRule(lines[i], ruleData)
 		} else {
 			r := newRule(len(rf.Rules), lines[i], ruleData)
