@@ -3,12 +3,12 @@ package main
 import (
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/plugins/cors"
-
 	"github.com/waflab/waflab/object"
 	"github.com/waflab/waflab/routers"
 )
 
 func main() {
+	object.InitMaster()
 	object.InitOrmManager()
 
 	beego.InsertFilter("*", beego.BeforeRouter, cors.Allow(&cors.Options{

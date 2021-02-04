@@ -7,36 +7,35 @@ import (
 	"github.com/hsluoyz/modsecurity-go/seclang/parser"
 )
 
-var reComment *regexp.Regexp
-var reOtherDirective *regexp.Regexp
-var reOtherDirective2 *regexp.Regexp
+var commentRegexp *regexp.Regexp
+var changeLineRegexp *regexp.Regexp
 
 func init() {
-	reComment, _ = regexp.Compile("(?:^|\n)#.*")
-	reOtherDirective, _ = regexp.Compile("(SecMarker|SecComponentSignature).*")
-	reOtherDirective2, _ = regexp.Compile("SecAction(?U:[\\s\\S]*)\n\n")
+	commentRegexp, _ = regexp.Compile("(?:^|\n)#.*")
+	changeLineRegexp, _ = regexp.Compile(`\n{3,}`)
 }
 
-func removeComment(s string) string {
-	s = reComment.ReplaceAllString(s, "")
-	s = strings.ReplaceAll(s, "\n\n", "\n")
+// FilterSecRule remove any non-SecRule Rule Directive (such as SecMarker and SecAction)
+// from input text string
+func FilterSecRule(text string) string {
+	text = strings.ReplaceAll(text, "\r\n", "\n")   // CRLF to LF, sanity check
+	text = commentRegexp.ReplaceAllString(text, "") // remove all comments
+	text = strings.TrimSpace(text)
+	text = changeLineRegexp.ReplaceAllString(text, "\n\n")
 
-	s = reOtherDirective.ReplaceAllString(s, "")
-
-	s = reOtherDirective2.ReplaceAllString(s, "")
-	return s
-}
-
-func parseRulesToLines(text string) []string {
-	text = strings.ReplaceAll(text, "\\\n", "")
-	lines := strings.Split(text, "\n")
-	res := []string{}
-	for _, line := range lines {
-		if line != "" {
-			res = append(res, line)
+	var builder strings.Builder
+	lines := strings.Split(text, "\n\n")
+	for index, r := range lines {
+		r = strings.TrimSpace(r)
+		if strings.HasPrefix(r, "SecRule") {
+			if index < len(lines)-1 {
+				builder.WriteString(r + "\n\n")
+			} else {
+				builder.WriteString(r)
+			}
 		}
 	}
-	return res
+	return builder.String()
 }
 
 func ParseRuleDataToList(text string) ([]*parser.RuleDirective, error) {

@@ -11,7 +11,7 @@ import (
 
 var master *docker.Master
 
-func init() {
+func InitMaster() {
 	master = docker.MakeMaster(5)
 }
 

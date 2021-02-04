@@ -5,10 +5,8 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
-	"regexp"
-	"strings"
 
-	"github.com/waflab/waflab/test"
+	"github.com/waflab/waflab/rule"
 	y "gopkg.in/yaml.v2"
 )
 
@@ -32,10 +30,7 @@ func GenerateTestFromDirectory(dirPath, output string) {
 			}
 
 			// generate testfiles from rules
-			var tests []*test.Testfile
-			for _, rs := range ruleStrings {
-				tests = append(tests, GenerateTests(rs, 10)...)
-			}
+			tests := GenerateTests(ruleStrings, 1)
 
 			// write generated tests into files
 			testDir := filepath.Join(filepath.Dir(output), info.Name())
@@ -62,24 +57,11 @@ func GenerateTestFromDirectory(dirPath, output string) {
 
 // readRuleStringFromConf read rule string from config and
 // remove any additional comments
-func readRuleStringFromConf(path string) ([]string, error) {
+func readRuleStringFromConf(path string) (string, error) {
 	content, err := ioutil.ReadFile(path)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 
-	// replace all comments
-	commentRegexp, _ := regexp.Compile("(?:^|\n)#.*")
-	str := commentRegexp.ReplaceAllString(string(content), "")
-
-	// Match SecRule only
-	var rules []string
-	str = strings.ReplaceAll(str, "\r\n", "\n") // CRLF to LF
-	for _, s := range strings.Split(str, "\n\n") {
-		s = strings.TrimSpace(s)
-		if strings.HasPrefix(s, "SecRule") {
-			rules = append(rules, s)
-		}
-	}
-	return rules, nil
+	return rule.FilterSecRule(string(content)), nil
 }
