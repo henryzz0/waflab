@@ -111,7 +111,7 @@ func getStatus(tf *test.Testfile) [][]int {
 	return res
 }
 
-func syncTestfile(tf *test.Testfile, text string) {
+func SyncTestfile(tf *test.Testfile, text string, testsetName string) {
 	testcase := object.Testcase{
 		Name:        tf.Meta.Name,
 		CreatedTime: util.GetCurrentTime(),
@@ -131,7 +131,7 @@ func syncTestfile(tf *test.Testfile, text string) {
 	}
 	object.AddTestcase(&testcase)
 
-	testset := object.GetTestset("regression-test")
+	testset := object.GetTestset(testsetName)
 	if !util.StringListContains(testset.Testcases, tf.Meta.Name) {
 		testset.Testcases = append(testset.Testcases, tf.Meta.Name)
 	}
@@ -163,7 +163,7 @@ func (rf *Rulefile) loadTestsets() {
 
 		text := util.ReadStringFromPath(path)
 		tf := test.LoadTestfileFromString(text)
-		//syncTestfile(tf, text)
+		//SyncTestfile(tf, text)
 
 		r.RegressionTestCount = len(tf.Tests)
 	}

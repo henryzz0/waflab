@@ -1,22 +1,15 @@
-package autogen_test
+package autogen
 
-import (
-	"fmt"
+import "testing"
 
-	"github.com/waflab/waflab/autogen"
-
-	y "gopkg.in/yaml.v2"
-)
-
-func ExampleProcessIndependentRule() {
+func TestProcessIndependentRule(t *testing.T) {
 	ruleString := `SecRule ARGS '@rx (?i)<script[^>]*>' \
                         "id:123,\
                          phase:2,\
                          t:lowercase,\
                          deny"`
-	v := autogen.ProcessIndependentRule(ruleString)
-	d, _ := y.Marshal(v)
-	fmt.Printf("%s\n", string(d))
-	//Output:
-	//TODO
+	testfiles := GenerateTests(ruleString, 10)
+	for _, testfile := range testfiles {
+		println(testfile)
+	}
 }
