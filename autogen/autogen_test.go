@@ -6,6 +6,7 @@ import (
 
 	"github.com/waflab/waflab/object"
 	"github.com/waflab/waflab/rule"
+	"gopkg.in/yaml.v2"
 )
 
 func TestSyncAutoGen(t *testing.T) {
@@ -27,7 +28,11 @@ func TestSyncAutoGen(t *testing.T) {
 			}
 
 			singleTestFile := testfiles[0]
-			rule.SyncTestfile(singleTestFile, "", "autogen-test")
+			content, err := yaml.Marshal(singleTestFile)
+			if err != nil {
+				panic(err)
+			}
+			rule.SyncTestfile(singleTestFile, string(content), "autogen-test")
 		}
 	}
 }

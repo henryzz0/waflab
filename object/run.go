@@ -2,7 +2,6 @@ package object
 
 import (
 	"fmt"
-	"path/filepath"
 	"strings"
 
 	"github.com/waflab/waflab/docker"
@@ -18,10 +17,8 @@ func InitMaster() {
 func getWafBenchResult(testset *Testset, testcase *Testcase) *Result {
 	url := testset.TargetUrl
 
-	folder := docker.WriteTestcaseToFile(testcase.Name, testcase.RawData)
 	statuses := make([]int, 0)
-	yamlPath := filepath.Join(folder, testcase.Name)
-	responses, err := master.InsertTask(url, yamlPath)
+	responses, err := master.InsertTask(url, testcase.RawData)
 	if err != nil {
 		panic(err)
 	}

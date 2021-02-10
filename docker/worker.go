@@ -10,7 +10,6 @@ import (
 	"io/ioutil"
 	"mime/multipart"
 	"net/http"
-	"os"
 	"strconv"
 	"strings"
 	"sync"
@@ -57,7 +56,8 @@ func (w *Worker) doTask(task *Task) {
 
 	resp, err := sendRequest(w.httpClient,
 		fmt.Sprintf("http://127.0.0.1:%s", w.port),
-		task.Hostname, task.YAMLPath)
+		task.Hostname,
+		task.YAMLFile)
 	if err != nil {
 		w.master.reportTask(task, false, nil, err)
 		return
@@ -76,16 +76,12 @@ func (w *Worker) doTask(task *Task) {
 }
 
 // https://stackoverflow.com/questions/20205796/post-data-using-the-content-type-multipart-form-data
-func sendRequest(client *http.Client, url string, target string, filename string) (res *http.Response, err error) {
+func sendRequest(client *http.Client, url string, target string, file string) (res *http.Response, err error) {
 	var b bytes.Buffer
 	w := multipart.NewWriter(&b)
 
-	file, err := os.Open(filename)
-	if err != nil {
-		return nil, err
-	}
 	values := map[string]io.Reader{
-		"file":     file,
+		"file":     strings.NewReader(file),
 		"hostname": strings.NewReader(target),
 	}
 
@@ -94,9 +90,8 @@ func sendRequest(client *http.Client, url string, target string, filename string
 		if x, ok := r.(io.Closer); ok {
 			defer x.Close()
 		}
-		// Add an image file
-		if x, ok := r.(*os.File); ok {
-			if fw, err = w.CreateFormFile(key, x.Name()); err != nil {
+		if key == "file" {
+			if fw, err = w.CreateFormFile(key, "temp.yaml"); err != nil {
 				return nil, err
 			}
 		} else {
