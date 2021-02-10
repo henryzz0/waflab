@@ -62,14 +62,14 @@ func (m *Master) reportTask(task *Task, isDone bool, res []Response, err error) 
 }
 
 // EXPOSED
-func (m *Master) InsertTask(hostname string, yamlPath string) ([]Response, error) {
+func (m *Master) InsertTask(hostname string, yamlFile string) ([]Response, error) {
 	resChan := make(chan []Response)
 	errChan := make(chan error)
 	id := strconv.FormatInt(time.Now().Unix(), 10)
 	task := Task{
 		ID:       id,
 		Hostname: hostname,
-		YAMLPath: yamlPath,
+		YAMLFile: yamlFile,
 		Res:      resChan,
 		Err:      errChan,
 	}
