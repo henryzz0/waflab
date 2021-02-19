@@ -36,6 +36,7 @@ var converterFactory = map[int]payloadConverter{
 	parser.TkVarRequestProtocol:     addRequestProtocol,
 	parser.TkVarRequestUri:          addRequestURI,
 	parser.TkVarRequestUriRaw:       addRequestURI,
+	parser.TkVarXML:                 addXML,
 }
 
 func AddVariable(v *parser.Variable, value string, payload *test.Input) error {

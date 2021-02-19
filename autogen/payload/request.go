@@ -5,6 +5,7 @@ package payload
 
 import (
 	"encoding/json"
+	"encoding/xml"
 	"fmt"
 	"net/url"
 	"strconv"
@@ -155,5 +156,22 @@ func addRequestProtocol(value, index string, payload *test.Input) error {
 
 func addRequestURI(value, index string, payload *test.Input) error {
 	payload.Uri = fmt.Sprintf("/%s", url.QueryEscape(value))
+	return nil
+}
+
+func addXML(value, index string, payload *test.Input) error {
+	v := struct {
+		XMLName xml.Name `xml:"xml"`
+		Key     string   `xml:"key"`
+		Value   string   `xml:"value"`
+	}{
+		Key:   index,
+		Value: value,
+	}
+	content, err := xml.Marshal(v)
+	if err != nil {
+		return err
+	}
+	payload.Data = []string{xml.Header, string(content)}
 	return nil
 }
