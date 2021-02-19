@@ -18,7 +18,7 @@ func cssEncode(r rune) string {
 // https://www.w3.org/TR/REC-html40/charset.html#h-5.3
 // The syntax "&#D;", where D is a decimal number, refers to the ISO 10646 decimal character number D
 func htmlDecimalEncode(r rune) string {
-	return fmt.Sprintf("&#%03d", r) // &#DDD decimal number
+	return fmt.Sprintf("&#%03d;", r) // &#DDD decimal number
 }
 
 // https://www.w3.org/TR/REC-html40/charset.html#h-5.3
@@ -26,7 +26,7 @@ func htmlDecimalEncode(r rune) string {
 // refers to the ISO 10646 hexadecimal character number H.
 // Hexadecimal numbers in numeric character references are case-insensitive.
 func htmlHexEncode(r rune) string {
-	return fmt.Sprintf("&#x%2s", rune2HexString(r)) // &#xHH, hexadecimal
+	return fmt.Sprintf("&#x%2s;", rune2HexString(r)) // &#xHH, hexadecimal
 }
 
 func jsHexEncode(r rune) string {
