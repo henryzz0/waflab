@@ -244,5 +244,5 @@ func reverseUrlDecode(variable string) string {
 // since Golang does not support u percent format, we need to replace all %u with \u
 // and golang will automatically encode \uXXXX into corresponding Unicode character
 func reverseUtf8ToUnicode(variable string) string {
-	return fmt.Sprintf(strings.ReplaceAll(variable, "%u", "\\u"))
+	return strings.ReplaceAll(variable, "%u", "\\u")
 }
