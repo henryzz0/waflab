@@ -8,6 +8,7 @@ import (
 	"encoding/hex"
 	"fmt"
 	"net/url"
+	"regexp"
 	"strconv"
 	"strings"
 	"unicode"
@@ -244,5 +245,9 @@ func reverseUrlDecode(variable string) string {
 // since Golang does not support u percent format, we need to replace all %u with \u
 // and golang will automatically encode \uXXXX into corresponding Unicode character
 func reverseUtf8ToUnicode(variable string) string {
-	return strings.ReplaceAll(variable, "%u", "\\u")
+	re := regexp.MustCompile(`%u[[:alnum:]]{4}`)
+	return re.ReplaceAllStringFunc(variable, func(s string) string {
+		s, _ = strconv.Unquote(`"\u` + s[2:] + `"`)
+		return s
+	})
 }
