@@ -172,6 +172,11 @@ func addXML(value, index string, payload *test.Input) error {
 	if err != nil {
 		return err
 	}
-	payload.Data = []string{xml.Header, string(content)}
+
+	payload.Data = []string{string(content)}
+	payload.Method = "POST"
+	payload.Headers["Content-Type"] = "text/xml"
+	payload.Headers["Content-Length"] = strconv.Itoa(len(string(content)))
+
 	return nil
 }
