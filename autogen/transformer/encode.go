@@ -39,5 +39,8 @@ func jsHexEncode(r rune) string {
 // http://www.ecma-international.org/ecma-262/6.0/#sec-names-and-keywords
 // \OOO (where O is any octal number)
 func jsOctalEncode(r rune) string {
-	return fmt.Sprintf("\\%03d", r)
+	if int32(r) < 0 || int32(r) > 255 {
+		return string(r)
+	}
+	return fmt.Sprintf("\\%03o", r)
 }
