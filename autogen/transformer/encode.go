@@ -12,7 +12,7 @@ func rune2HexString(r rune) string {
 // https://www.w3.org/TR/CSS2/syndata.html#characters
 // Encode characters using CSS 2.x escape rules, Ex: '\000026' -> '&'
 func cssEncode(r rune) string {
-	return fmt.Sprintf("\\%06s", rune2HexString(r))
+	return fmt.Sprintf("\\%x", r)
 }
 
 // https://www.w3.org/TR/REC-html40/charset.html#h-5.3
