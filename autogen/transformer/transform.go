@@ -57,7 +57,7 @@ func reverseBase64Decode(variable string) string {
 func reverseCSSDecode(variable string) string {
 	var builder strings.Builder
 	for _, r := range variable {
-		if utils.RandomBiasedBool(reverseCSSDecodeProb) {
+		if utils.RandomBiasedBool(reverseCSSDecodeProb) || unicode.IsSpace(r) {
 			builder.WriteString(cssEncode(r))
 		} else {
 			builder.WriteRune(r)
@@ -208,6 +208,7 @@ func reverseReplaceComments(variable string) string {
 }
 
 func reverseRemoveNulls(variable string) string {
+	return variable
 	return randomStringsInsertion(variable, []string{"\x00"}, reverseNullProb)
 }
 
