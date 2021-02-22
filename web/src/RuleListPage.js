@@ -1,8 +1,11 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import React from "react";
-import {Button, Col, List, Row, Table, Tag, Typography} from "antd";
+import { Button, Col, List, Row, Table, Tag, Typography } from "antd";
 import * as Setting from "./Setting";
 
-const {Text} = Typography;
+const { Text } = Typography;
 
 class RuleListPage extends React.Component {
   constructor(props) {
@@ -26,10 +29,10 @@ class RuleListPage extends React.Component {
     })
       .then(res => res.json())
       .then((res) => {
-          this.setState({
-            rulefile: res,
-          });
-        }
+        this.setState({
+          rulefile: res,
+        });
+      }
       );
   }
 
@@ -75,7 +78,7 @@ class RuleListPage extends React.Component {
           if (record.regressionTestCount !== 0) {
             return (
               <div>
-                <Button style={{marginTop: '10px', marginBottom: '10px', marginRight: '10px'}} type="normal" onClick={() => Setting.openLink(`/testcases/${record.id}.yaml`)}>
+                <Button style={{ marginTop: '10px', marginBottom: '10px', marginRight: '10px' }} type="normal" onClick={() => Setting.openLink(`/testcases/${record.id}.yaml`)}>
                   {
                     `${record.regressionTestCount} Regression Tests`
                   }
@@ -93,34 +96,34 @@ class RuleListPage extends React.Component {
 
     return (
       <div>
-        <Table columns={columns} dataSource={rules} rowKey="text" size="middle" bordered pagination={{pageSize: 100}}
-               expandable={{
-                 defaultExpandAllRows: true,
-                 expandedRowRender: record => {
-                   return (
-                     <Row style={{width: "100%"}}>
-                       <Col span={6}>
-                       </Col>
-                       <Col span={18}>
-                         <List
-                           // bordered
-                           dataSource={record.chainRules}
-                           renderItem={(record, index) => (
-                             <List.Item>
-                               <Typography.Text mark>{`Chain rule - ${index}`}</Typography.Text>
-                               {record.text}
-                             </List.Item>
-                           )}
-                         />
-                       </Col>
-                     </Row>
-                   )
-                 },
-                 rowExpandable: record => record.chainRules !== null,
-               }}
-               title={() => <div><Text>Rules for: </Text><Tag color="#108ee9">{title}</Tag> => <Tag color="#108ee9">{title2}</Tag></div>}
-               rowClassName={(record, index) => { return plColors[record.paranoiaLevel - 1] }}
-               loading={rules === null}
+        <Table columns={columns} dataSource={rules} rowKey="text" size="middle" bordered pagination={{ pageSize: 100 }}
+          expandable={{
+            defaultExpandAllRows: true,
+            expandedRowRender: record => {
+              return (
+                <Row style={{ width: "100%" }}>
+                  <Col span={6}>
+                  </Col>
+                  <Col span={18}>
+                    <List
+                      // bordered
+                      dataSource={record.chainRules}
+                      renderItem={(record, index) => (
+                        <List.Item>
+                          <Typography.Text mark>{`Chain rule - ${index}`}</Typography.Text>
+                          {record.text}
+                        </List.Item>
+                      )}
+                    />
+                  </Col>
+                </Row>
+              )
+            },
+            rowExpandable: record => record.chainRules !== null,
+          }}
+          title={() => <div><Text>Rules for: </Text><Tag color="#108ee9">{title}</Tag> => <Tag color="#108ee9">{title2}</Tag></div>}
+          rowClassName={(record, index) => { return plColors[record.paranoiaLevel - 1] }}
+          loading={rules === null}
         />
       </div>
     );
@@ -129,7 +132,7 @@ class RuleListPage extends React.Component {
   render() {
     return (
       <div>
-        <Row style={{width: "100%"}}>
+        <Row style={{ width: "100%" }}>
           <Col span={1}>
           </Col>
           <Col span={22}>

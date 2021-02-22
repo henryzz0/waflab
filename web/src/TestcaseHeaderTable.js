@@ -1,6 +1,9 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import React from "react";
-import {DownOutlined, DeleteOutlined, UpOutlined} from '@ant-design/icons';
-import {Button, Col, Input, Popconfirm, Row, Table, Tooltip} from 'antd';
+import { DownOutlined, DeleteOutlined, UpOutlined } from '@ant-design/icons';
+import { Button, Col, Input, Popconfirm, Row, Table, Tooltip } from 'antd';
 import * as Setting from "./Setting";
 
 class TestcaseHeaderTable extends React.Component {
@@ -25,7 +28,7 @@ class TestcaseHeaderTable extends React.Component {
 
   addRow() {
     let table = this.props.table;
-    let row = {id: 1, key: "", value: ""};
+    let row = { id: 1, key: "", value: "" };
 
     if (table === undefined) {
       table = [];
@@ -93,10 +96,10 @@ class TestcaseHeaderTable extends React.Component {
           return (
             <div>
               <Tooltip placement="bottomLeft" title="Up">
-                <Button style={{marginRight: "5px"}} disabled={index === 0} icon={<UpOutlined />} size="small" onClick={() => this.upRow.bind(this)(index)} />
+                <Button style={{ marginRight: "5px" }} disabled={index === 0} icon={<UpOutlined />} size="small" onClick={() => this.upRow.bind(this)(index)} />
               </Tooltip>
               <Tooltip placement="topLeft" title="Down">
-                <Button style={{marginRight: "5px"}} disabled={index === table.length - 1} icon={<DownOutlined />} size="small" onClick={() => this.downRow.bind(this)(index)} />
+                <Button style={{ marginRight: "5px" }} disabled={index === table.length - 1} icon={<DownOutlined />} size="small" onClick={() => this.downRow.bind(this)(index)} />
               </Tooltip>
               <Tooltip placement="topLeft" title="Delete">
                 <Button icon={<DeleteOutlined />} size="small" onClick={() => this.deleteRow.bind(this)(index)} />
@@ -108,13 +111,13 @@ class TestcaseHeaderTable extends React.Component {
     ];
 
     return (
-      <Table columns={columns} dataSource={table} rowKey="id" size="middle" bordered pagination={{pageSize: 100}}
-             title={() => (
-               <div>
-                 {this.props.title}&nbsp;&nbsp;&nbsp;&nbsp;
-                 <Button type="primary" size="small" onClick={this.addRow.bind(this)}>Add</Button>
-               </div>
-             )}
+      <Table columns={columns} dataSource={table} rowKey="id" size="middle" bordered pagination={{ pageSize: 100 }}
+        title={() => (
+          <div>
+            {this.props.title}&nbsp;&nbsp;&nbsp;&nbsp;
+            <Button type="primary" size="small" onClick={this.addRow.bind(this)}>Add</Button>
+          </div>
+        )}
       />
     );
   }
@@ -122,7 +125,7 @@ class TestcaseHeaderTable extends React.Component {
   render() {
     return (
       <div>
-        <Row style={{marginTop: '20px'}} >
+        <Row style={{ marginTop: '20px' }} >
           <Col span={24}>
             {
               this.renderTable(this.props.template, this.props.table)

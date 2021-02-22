@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 package controllers
 
 import (
@@ -9,7 +12,6 @@ import (
 type ApiController struct {
 	beego.Controller
 }
-
 
 var rsm map[string]*rule.Ruleset
 

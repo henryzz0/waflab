@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 package yaml
 
 import "github.com/waflab/waflab/test"

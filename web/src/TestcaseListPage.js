@@ -1,5 +1,8 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import React from "react";
-import {Button, Col, Popconfirm, Row, Switch, Table} from 'antd';
+import { Button, Col, Popconfirm, Row, Switch, Table } from 'antd';
 import moment from "moment";
 import * as Setting from "./Setting";
 import * as TestcaseBackend from "./backend/TestcaseBackend";
@@ -42,11 +45,11 @@ class TestcaseListPage extends React.Component {
     const newTestcase = this.newTestcase();
     TestcaseBackend.addTestcase(newTestcase)
       .then((res) => {
-          Setting.showMessage("success", `Testcase added successfully`);
-          this.setState({
-            testcases: Setting.prependRow(this.state.testcases, newTestcase),
-          });
-        }
+        Setting.showMessage("success", `Testcase added successfully`);
+        this.setState({
+          testcases: Setting.prependRow(this.state.testcases, newTestcase),
+        });
+      }
       )
       .catch(error => {
         Setting.showMessage("error", `Testcase failed to add: ${error}`);
@@ -56,11 +59,11 @@ class TestcaseListPage extends React.Component {
   deleteTestcase(i) {
     TestcaseBackend.deleteTestcase(this.state.testcases[i])
       .then((res) => {
-          Setting.showMessage("success", `Testcase deleted successfully`);
-          this.setState({
-            testcases: Setting.deleteRow(this.state.testcases, i),
-          });
-        }
+        Setting.showMessage("success", `Testcase deleted successfully`);
+        this.setState({
+          testcases: Setting.deleteRow(this.state.testcases, i),
+        });
+      }
       )
       .catch(error => {
         Setting.showMessage("error", `Testcase failed to delete: ${error}`);
@@ -159,12 +162,12 @@ class TestcaseListPage extends React.Component {
         render: (text, record, index) => {
           return (
             <div>
-              <Button style={{marginTop: '10px', marginBottom: '10px', marginRight: '10px'}} type="primary" onClick={() => Setting.goToLink(`/testcases/${record.name}`)}>Edit</Button>
+              <Button style={{ marginTop: '10px', marginBottom: '10px', marginRight: '10px' }} type="primary" onClick={() => Setting.goToLink(`/testcases/${record.name}`)}>Edit</Button>
               <Popconfirm
                 title={`Sure to delete testcase: ${record.name} ?`}
                 onConfirm={() => this.deleteTestcase(index)}
               >
-                <Button style={{marginBottom: '10px'}} type="danger">Delete</Button>
+                <Button style={{ marginBottom: '10px' }} type="danger">Delete</Button>
               </Popconfirm>
             </div>
           )
@@ -174,14 +177,14 @@ class TestcaseListPage extends React.Component {
 
     return (
       <div>
-        <Table columns={columns} dataSource={testcases} rowKey="name" size="middle" bordered pagination={{pageSize: 100}}
-               title={() => (
-                 <div>
-                   Testcases&nbsp;&nbsp;&nbsp;&nbsp;
-                   <Button type="primary" size="small" onClick={this.addTestcase.bind(this)}>Add</Button>
-                 </div>
-               )}
-               loading={testcases === null}
+        <Table columns={columns} dataSource={testcases} rowKey="name" size="middle" bordered pagination={{ pageSize: 100 }}
+          title={() => (
+            <div>
+              Testcases&nbsp;&nbsp;&nbsp;&nbsp;
+              <Button type="primary" size="small" onClick={this.addTestcase.bind(this)}>Add</Button>
+            </div>
+          )}
+          loading={testcases === null}
         />
       </div>
     );
@@ -190,7 +193,7 @@ class TestcaseListPage extends React.Component {
   render() {
     return (
       <div>
-        <Row style={{width: "100%"}}>
+        <Row style={{ width: "100%" }}>
           <Col span={1}>
           </Col>
           <Col span={22}>

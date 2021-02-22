@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 package operator
 
 import (
@@ -10,6 +13,9 @@ import (
 
 	"github.com/waflab/waflab/autogen/utils"
 )
+
+// WorkingDirectory for pmFromFile operator
+var WorkingDirectory string
 
 func reverseRx(argument string, not bool) (string, error) {
 	str, err := GenerateStringFromRegex(argument, not)
@@ -64,6 +70,9 @@ func reversePm(argument string, not bool) (string, error) {
 }
 
 func reversePmFromFile(argument string, not bool) (string, error) {
+	if WorkingDirectory != "" {
+		os.Chdir(WorkingDirectory)
+	}
 	file, err := os.Open(argument)
 	if err != nil {
 		return "", err

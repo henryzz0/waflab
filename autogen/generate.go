@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 package autogen
 
 import (
@@ -6,6 +9,7 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/waflab/waflab/autogen/operator"
 	"github.com/waflab/waflab/rule"
 	y "gopkg.in/yaml.v2"
 )
@@ -30,6 +34,7 @@ func GenerateTestFromDirectory(dirPath, output string) {
 			}
 
 			// generate testfiles from rules
+			operator.WorkingDirectory = dirPath
 			tests := GenerateTests(ruleStrings, 1)
 
 			// write generated tests into files

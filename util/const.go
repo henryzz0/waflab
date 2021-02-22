@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 package util
 
 const CodeBaseDir = "F:/github_repos/"

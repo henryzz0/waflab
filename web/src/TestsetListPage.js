@@ -1,6 +1,9 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import React from "react";
-import {Button, Col, List, Popconfirm, Row, Table, Tooltip} from 'antd';
-import {EditOutlined} from "@ant-design/icons";
+import { Button, Col, List, Popconfirm, Row, Table, Tooltip } from 'antd';
+import { EditOutlined } from "@ant-design/icons";
 import moment from "moment";
 import * as Setting from "./Setting";
 import * as TestsetBackend from "./backend/TestsetBackend";
@@ -59,11 +62,11 @@ class TestsetListPage extends React.Component {
     const newTestset = this.newTestset();
     TestsetBackend.addTestset(newTestset)
       .then((res) => {
-          Setting.showMessage("success", `Testset added successfully`);
-          this.setState({
-            testsets: Setting.prependRow(this.state.testsets, newTestset),
-          });
-        }
+        Setting.showMessage("success", `Testset added successfully`);
+        this.setState({
+          testsets: Setting.prependRow(this.state.testsets, newTestset),
+        });
+      }
       )
       .catch(error => {
         Setting.showMessage("error", `Testset failed to add: ${error}`);
@@ -73,11 +76,11 @@ class TestsetListPage extends React.Component {
   deleteTestset(i) {
     TestsetBackend.deleteTestset(this.state.testsets[i])
       .then((res) => {
-          Setting.showMessage("success", `Testset deleted successfully`);
-          this.setState({
-            testsets: Setting.deleteRow(this.state.testsets, i),
-          });
-        }
+        Setting.showMessage("success", `Testset deleted successfully`);
+        this.setState({
+          testsets: Setting.deleteRow(this.state.testsets, i),
+        });
+      }
       )
       .catch(error => {
         Setting.showMessage("error", `Testset failed to delete: ${error}`);
@@ -156,9 +159,9 @@ class TestsetListPage extends React.Component {
                     renderItem={(row, i) => {
                       return (
                         <List.Item>
-                          <div style={{display: "inline"}}>
+                          <div style={{ display: "inline" }}>
                             <Tooltip placement="topLeft" title="Edit">
-                              <Button style={{marginRight: "5px"}} icon={<EditOutlined />} size="small" onClick={() => Setting.openLink(`/testcases/${row}`)} />
+                              <Button style={{ marginRight: "5px" }} icon={<EditOutlined />} size="small" onClick={() => Setting.openLink(`/testcases/${row}`)} />
                             </Tooltip>
                             {
                               this.renderTestcaseLink(record, i)
@@ -176,9 +179,9 @@ class TestsetListPage extends React.Component {
                     renderItem={(row, i) => {
                       return (
                         <List.Item>
-                          <div style={{display: "inline"}}>
+                          <div style={{ display: "inline" }}>
                             <Tooltip placement="topLeft" title="Edit">
-                              <Button style={{marginRight: "5px"}} icon={<EditOutlined />} size="small" onClick={() => Setting.openLink(`/testcases/${row}`)} />
+                              <Button style={{ marginRight: "5px" }} icon={<EditOutlined />} size="small" onClick={() => Setting.openLink(`/testcases/${row}`)} />
                             </Tooltip>
                             {
                               this.renderTestcaseLink(record, i + half)
@@ -202,13 +205,13 @@ class TestsetListPage extends React.Component {
         render: (text, record, index) => {
           return (
             <div>
-              <Button style={{marginTop: '10px', marginBottom: '10px', marginRight: '10px'}} onClick={() => Setting.goToLink(`/testsets/${record.name}/testcases`)}>Run</Button>
-              <Button style={{marginTop: '10px', marginBottom: '10px', marginRight: '10px'}} type="primary" onClick={() => Setting.goToLink(`/testsets/${record.name}`)}>Edit</Button>
+              <Button style={{ marginTop: '10px', marginBottom: '10px', marginRight: '10px' }} onClick={() => Setting.goToLink(`/testsets/${record.name}/testcases`)}>Run</Button>
+              <Button style={{ marginTop: '10px', marginBottom: '10px', marginRight: '10px' }} type="primary" onClick={() => Setting.goToLink(`/testsets/${record.name}`)}>Edit</Button>
               <Popconfirm
                 title={`Sure to delete testset: ${record.name} ?`}
                 onConfirm={() => this.deleteTestset(index)}
               >
-                <Button style={{marginBottom: '10px'}} type="danger">Delete</Button>
+                <Button style={{ marginBottom: '10px' }} type="danger">Delete</Button>
               </Popconfirm>
             </div>
           )
@@ -218,14 +221,14 @@ class TestsetListPage extends React.Component {
 
     return (
       <div>
-        <Table columns={columns} dataSource={testsets} rowKey="name" size="middle" bordered pagination={{pageSize: 100}}
-               title={() => (
-                 <div>
-                   Testsets&nbsp;&nbsp;&nbsp;&nbsp;
-                   <Button type="primary" size="small" onClick={this.addTestset.bind(this)}>Add</Button>
-                 </div>
-               )}
-               loading={testsets === null}
+        <Table columns={columns} dataSource={testsets} rowKey="name" size="middle" bordered pagination={{ pageSize: 100 }}
+          title={() => (
+            <div>
+              Testsets&nbsp;&nbsp;&nbsp;&nbsp;
+              <Button type="primary" size="small" onClick={this.addTestset.bind(this)}>Add</Button>
+            </div>
+          )}
+          loading={testsets === null}
         />
       </div>
     );
@@ -234,7 +237,7 @@ class TestsetListPage extends React.Component {
   render() {
     return (
       <div>
-        <Row style={{width: "100%"}}>
+        <Row style={{ width: "100%" }}>
           <Col span={1}>
           </Col>
           <Col span={22}>

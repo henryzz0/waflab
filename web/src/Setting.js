@@ -1,5 +1,8 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import React from "react";
-import {message, Tag} from "antd";
+import { message, Tag } from "antd";
 
 export let ServerUrl = '';
 
@@ -87,9 +90,9 @@ export function getMethodTag(tag) {
   const tags = tag.split(",");
   tags.forEach((tag, i) => {
     res.push(
-        <Tag color={getTagColor(tag)}>
-          {tag}
-        </Tag>
+      <Tag color={getTagColor(tag)}>
+        {tag}
+      </Tag>
     );
   });
   return res;

@@ -1,10 +1,13 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import React from "react";
-import {AutoComplete, Button, Card, Col, Input, Row, Select} from 'antd';
+import { AutoComplete, Button, Card, Col, Input, Row, Select } from 'antd';
 import * as TestcaseBackend from "./backend/TestcaseBackend";
 import * as Setting from "./Setting";
 import TestcaseHeaderTable from "./TestcaseHeaderTable";
 
-import {Controlled as CodeMirror} from 'react-codemirror2'
+import { Controlled as CodeMirror } from 'react-codemirror2'
 import "codemirror/lib/codemirror.css"
 require("codemirror/mode/javascript/javascript");
 
@@ -61,9 +64,9 @@ class TestcaseEditPage extends React.Component {
           Edit Testcase&nbsp;&nbsp;&nbsp;&nbsp;
           <Button type="primary" onClick={this.submitTestcaseEdit.bind(this)}>Save</Button>
         </div>
-      } style={{marginLeft: '5px'}} type="inner">
-        <Row style={{marginTop: '10px'}} >
-          <Col style={{marginTop: '5px'}} span={2}>
+      } style={{ marginLeft: '5px' }} type="inner">
+        <Row style={{ marginTop: '10px' }} >
+          <Col style={{ marginTop: '5px' }} span={2}>
             Name:
           </Col>
           <Col span={22} >
@@ -72,8 +75,8 @@ class TestcaseEditPage extends React.Component {
             }} />
           </Col>
         </Row>
-        <Row style={{marginTop: '20px'}} >
-          <Col style={{marginTop: '5px'}} span={2}>
+        <Row style={{ marginTop: '20px' }} >
+          <Col style={{ marginTop: '5px' }} span={2}>
             Description:
           </Col>
           <Col span={22} >
@@ -85,12 +88,12 @@ class TestcaseEditPage extends React.Component {
         {
           this.state.testcase?.data === null ? (
             <React.Fragment>
-              <Row style={{marginTop: '20px'}} >
-                <Col style={{marginTop: '5px'}} span={2}>
+              <Row style={{ marginTop: '20px' }} >
+                <Col style={{ marginTop: '5px' }} span={2}>
                   Method:
                 </Col>
                 <Col span={22} >
-                  <Select style={{width: '200px'}} value={this.state.testcase.method} onChange={(value => {this.updateTestcaseField('method', value);})}>
+                  <Select style={{ width: '200px' }} value={this.state.testcase.method} onChange={(value => { this.updateTestcaseField('method', value); })}>
                     {
                       [
                         "GET",
@@ -102,8 +105,8 @@ class TestcaseEditPage extends React.Component {
                   </Select>
                 </Col>
               </Row>
-              <Row style={{marginTop: '20px'}} >
-                <Col style={{marginTop: '5px'}} span={2}>
+              <Row style={{ marginTop: '20px' }} >
+                <Col style={{ marginTop: '5px' }} span={2}>
                   User-Agent:
                 </Col>
                 <Col span={22} >
@@ -112,24 +115,24 @@ class TestcaseEditPage extends React.Component {
                   }} />
                 </Col>
               </Row>
-              <Row style={{marginTop: '20px'}} >
-                <Col style={{marginTop: '5px'}} span={2}>
+              <Row style={{ marginTop: '20px' }} >
+                <Col style={{ marginTop: '5px' }} span={2}>
                   Query Strings:
                 </Col>
                 <Col span={22} >
                   <TestcaseHeaderTable
                     title="Query Strings"
                     table={this.state.testcase.queryStrings}
-                    onUpdateTable={(value) => { return this.onUpdateTestcaseField("queryStrings", value)}}
+                    onUpdateTable={(value) => { return this.onUpdateTestcaseField("queryStrings", value) }}
                   />
                 </Col>
               </Row>
-              <Row style={{marginTop: '20px'}} >
-                <Col style={{marginTop: '5px'}} span={2}>
+              <Row style={{ marginTop: '20px' }} >
+                <Col style={{ marginTop: '5px' }} span={2}>
                   Status:
                 </Col>
                 <Col span={22} >
-                  <Select style={{width: '200px'}} value={this.state.testcase.status} onChange={(value => {this.updateTestcaseField('status', value);})}>
+                  <Select style={{ width: '200px' }} value={this.state.testcase.status} onChange={(value => { this.updateTestcaseField('status', value); })}>
                     {
                       [
                         200,
@@ -141,19 +144,19 @@ class TestcaseEditPage extends React.Component {
               </Row>
             </React.Fragment>
           ) : (
-            <Row style={{marginTop: '20px'}} >
-              <Col style={{marginTop: '5px'}} span={2}>
-                Data:
+              <Row style={{ marginTop: '20px' }} >
+                <Col style={{ marginTop: '5px' }} span={2}>
+                  Data:
               </Col>
-              <Col span={22} >
-                <CodeMirror
-                  className="json-editor"
-                  value={JSON.stringify(this.state.testcase.data, null, 4)}
-                  options={{mode: 'javascript', theme: "default"}}
-                />
-              </Col>
-            </Row>
-          )
+                <Col span={22} >
+                  <CodeMirror
+                    className="json-editor"
+                    value={JSON.stringify(this.state.testcase.data, null, 4)}
+                    options={{ mode: 'javascript', theme: "default" }}
+                  />
+                </Col>
+              </Row>
+            )
         }
 
       </Card>
@@ -183,7 +186,7 @@ class TestcaseEditPage extends React.Component {
   render() {
     return (
       <div>
-        <Row style={{width: "100%"}}>
+        <Row style={{ width: "100%" }}>
           <Col span={1}>
           </Col>
           <Col span={22}>
@@ -194,7 +197,7 @@ class TestcaseEditPage extends React.Component {
           <Col span={1}>
           </Col>
         </Row>
-        <Row style={{margin: 10}}>
+        <Row style={{ margin: 10 }}>
           <Col span={2}>
           </Col>
           <Col span={18}>
