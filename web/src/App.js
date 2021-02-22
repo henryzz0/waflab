@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 import React, {Component} from 'react';
 import {Switch, Route, withRouter} from 'react-router-dom';
 import './App.css';

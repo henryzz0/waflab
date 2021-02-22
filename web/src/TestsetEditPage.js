@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 import React from "react";
 import {Button, Card, Col, Input, Row} from 'antd';
 import {LinkOutlined} from "@ant-design/icons";

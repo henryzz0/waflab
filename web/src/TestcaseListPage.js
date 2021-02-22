@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 import React from "react";
 import {Button, Col, Popconfirm, Row, Switch, Table} from 'antd';
 import moment from "moment";

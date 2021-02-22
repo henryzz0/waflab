@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 import React from "react";
 import {AutoComplete, Button, Card, Col, Input, Row, Select} from 'antd';
 import * as TestcaseBackend from "./backend/TestcaseBackend";

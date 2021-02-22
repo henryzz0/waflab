@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 package utils
 
 // RandomIntWithRange generate an integer by range [min, max)

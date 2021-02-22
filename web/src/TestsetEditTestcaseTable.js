@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 import React from "react";
 import {DownOutlined, EditOutlined, DeleteOutlined, UpOutlined} from '@ant-design/icons';
 import {Button, Col, Row, Select, Table, Tooltip} from 'antd';

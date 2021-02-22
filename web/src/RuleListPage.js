@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 import React from "react";
 import {Button, Col, List, Row, Table, Tag, Typography} from "antd";
 import * as Setting from "./Setting";
