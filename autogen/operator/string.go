@@ -14,6 +14,9 @@ import (
 	"github.com/waflab/waflab/autogen/utils"
 )
 
+// WorkingDirectory for pmFromFile operator
+var WorkingDirectory string
+
 func reverseRx(argument string, not bool) (string, error) {
 	str, err := GenerateStringFromRegex(argument, not)
 	if err != nil {
@@ -67,6 +70,9 @@ func reversePm(argument string, not bool) (string, error) {
 }
 
 func reversePmFromFile(argument string, not bool) (string, error) {
+	if WorkingDirectory != "" {
+		os.Chdir(WorkingDirectory)
+	}
 	file, err := os.Open(argument)
 	if err != nil {
 		return "", err
