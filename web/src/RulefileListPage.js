@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import React from "react";
-import {Button, Col, Row, Table, Tag, Typography} from "antd";
+import { Button, Col, Row, Table, Tag, Typography } from "antd";
 import * as Setting from "./Setting";
 
-const {Text} = Typography;
+const { Text } = Typography;
 
 class RulefileListPage extends React.Component {
   constructor(props) {
@@ -27,10 +28,10 @@ class RulefileListPage extends React.Component {
     })
       .then(res => res.json())
       .then((res) => {
-          this.setState({
-            ruleset: res,
-          });
-        }
+        this.setState({
+          ruleset: res,
+        });
+      }
       );
   }
 
@@ -97,7 +98,7 @@ class RulefileListPage extends React.Component {
         render: (text, record, index) => {
           return (
             <div>
-              <Button style={{marginTop: '10px', marginBottom: '10px', marginRight: '10px'}} type="primary" onClick={() => Setting.goToLink(`/rulesets/${this.state.rulesetId}/rulefiles/${record.id}/rules/`)}>View</Button>
+              <Button style={{ marginTop: '10px', marginBottom: '10px', marginRight: '10px' }} type="primary" onClick={() => Setting.goToLink(`/rulesets/${this.state.rulesetId}/rulefiles/${record.id}/rules/`)}>View</Button>
             </div>
           )
         }
@@ -106,9 +107,9 @@ class RulefileListPage extends React.Component {
 
     return (
       <div>
-        <Table columns={columns} dataSource={rulefiles} size="middle" bordered pagination={{pageSize: 100}}
-               title={() => <div><Text>Rulefiles for: </Text><Tag color="#108ee9">{title}</Tag></div>}
-               loading={rulefiles === null}
+        <Table columns={columns} dataSource={rulefiles} size="middle" bordered pagination={{ pageSize: 100 }}
+          title={() => <div><Text>Rulefiles for: </Text><Tag color="#108ee9">{title}</Tag></div>}
+          loading={rulefiles === null}
         />
       </div>
     );
@@ -117,7 +118,7 @@ class RulefileListPage extends React.Component {
   render() {
     return (
       <div>
-        <Row style={{width: "100%"}}>
+        <Row style={{ width: "100%" }}>
           <Col span={1}>
           </Col>
           <Col span={22}>

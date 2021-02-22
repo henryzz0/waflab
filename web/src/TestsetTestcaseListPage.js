@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import React from "react";
-import {Button, Col, Progress, Row, Switch, Table, Tag} from 'antd';
+import { Button, Col, Progress, Row, Switch, Table, Tag } from 'antd';
 import * as Setting from "./Setting";
 import * as TestsetBackend from "./backend/TestsetBackend";
 import * as TestcaseBackend from "./backend/TestcaseBackend";
@@ -206,8 +207,8 @@ class TestsetTestcaseListPage extends React.Component {
         render: (text, record, index) => {
           return (
             <div>
-              <Button style={{marginTop: '10px', marginBottom: '10px', marginRight: '10px'}}
-                      loading={record.state === "ongoing"} type="primary" onClick={() => this.getResult(record, index)}>Run</Button>
+              <Button style={{ marginTop: '10px', marginBottom: '10px', marginRight: '10px' }}
+                loading={record.state === "ongoing"} type="primary" onClick={() => this.getResult(record, index)}>Run</Button>
             </div>
           )
         }
@@ -216,13 +217,13 @@ class TestsetTestcaseListPage extends React.Component {
 
     return (
       <div>
-        <Table columns={columns} dataSource={testcases} rowKey="name" size="middle" bordered pagination={{pageSize: 100}}
-               title={() => (
-                 <div>
-                   <Tag color="#108ee9">{this.state.testset === null ? "" : this.state.testset.name}</Tag> Testcases&nbsp;&nbsp;&nbsp;&nbsp;
-                   <Button type="primary" size="small" onClick={this.getResults.bind(this)}>Run All</Button>
-                 </div>
-               )}
+        <Table columns={columns} dataSource={testcases} rowKey="name" size="middle" bordered pagination={{ pageSize: 100 }}
+          title={() => (
+            <div>
+              <Tag color="#108ee9">{this.state.testset === null ? "" : this.state.testset.name}</Tag> Testcases&nbsp;&nbsp;&nbsp;&nbsp;
+              <Button type="primary" size="small" onClick={this.getResults.bind(this)}>Run All</Button>
+            </div>
+          )}
         />
       </div>
     );
@@ -231,7 +232,7 @@ class TestsetTestcaseListPage extends React.Component {
   render() {
     return (
       <div>
-        <Row style={{width: "100%"}}>
+        <Row style={{ width: "100%" }}>
           <Col span={1}>
           </Col>
           <Col span={22}>

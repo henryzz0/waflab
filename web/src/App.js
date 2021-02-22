@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import React, {Component} from 'react';
-import {Switch, Route, withRouter} from 'react-router-dom';
+
+import React, { Component } from 'react';
+import { Switch, Route, withRouter } from 'react-router-dom';
 import './App.css';
-import {BackTop, Layout, Menu, Typography} from 'antd';
+import { BackTop, Layout, Menu, Typography } from 'antd';
 import * as Setting from "./Setting";
 import RulesetListPage from "./RulesetListPage";
 import RulefileListPage from "./RulefileListPage";
@@ -44,9 +45,9 @@ class App extends Component {
     } else if (uri.includes('rulefiles')) {
       this.setState({ selectedMenuKey: 1 });
     } else if (uri.includes('testsets')) {
-      this.setState({selectedMenuKey: 10});
+      this.setState({ selectedMenuKey: 10 });
     } else if (uri.includes('testcases')) {
-      this.setState({selectedMenuKey: 11});
+      this.setState({ selectedMenuKey: 11 });
     } else {
       this.setState({ selectedMenuKey: 0 });
     }
@@ -105,7 +106,7 @@ class App extends Component {
   renderContent() {
     return (
       <div>
-        <Header style={{ padding: '0', marginBottom: '2px'}}>
+        <Header style={{ padding: '0', marginBottom: '2px' }}>
           <a className="logo" href={"/"} />
           {/*<Text style={{marginRight: '30px'}}>WAF Lab</Text>*/}
           <Menu
@@ -123,14 +124,14 @@ class App extends Component {
           </Menu>
         </Header>
         <Switch>
-          <Route exact path="/" component={RulesetListPage}/>
-          <Route exact path="/rulesets/:rulesetId/rulefiles/" component={RulefileListPage}/>
-          <Route exact path="/rulesets/:rulesetId/rulefiles/:rulefileId/rules/" component={RuleListPage}/>
-          <Route exact path="/testsets/" component={TestsetListPage}/>
-          <Route exact path="/testsets/:testsetName" component={TestsetEditPage}/>
-          <Route exact path="/testsets/:testsetName/testcases/" component={TestsetTestcaseListPage}/>
-          <Route exact path="/testcases/" component={TestcaseListPage}/>
-          <Route exact path="/testcases/:testcaseName" component={TestcaseEditPage}/>
+          <Route exact path="/" component={RulesetListPage} />
+          <Route exact path="/rulesets/:rulesetId/rulefiles/" component={RulefileListPage} />
+          <Route exact path="/rulesets/:rulesetId/rulefiles/:rulefileId/rules/" component={RuleListPage} />
+          <Route exact path="/testsets/" component={TestsetListPage} />
+          <Route exact path="/testsets/:testsetName" component={TestsetEditPage} />
+          <Route exact path="/testsets/:testsetName/testcases/" component={TestsetTestcaseListPage} />
+          <Route exact path="/testcases/" component={TestcaseListPage} />
+          <Route exact path="/testcases/:testcaseName" component={TestcaseEditPage} />
         </Switch>
       </div>
     )
@@ -148,7 +149,7 @@ class App extends Component {
           textAlign: 'center',
         }
       }>
-        Made with <span style={{color: 'rgb(255, 255, 255)'}}>❤️</span> by <a style={{fontWeight: "bold", color: "black"}} target="_blank" href="https://microsoftapc.sharepoint.com/teams/BotDetection">WAFLab</a>
+        Made with <span style={{ color: 'rgb(255, 255, 255)' }}>❤️</span> by <a style={{ fontWeight: "bold", color: "black" }} target="_blank" href="https://microsoftapc.sharepoint.com/teams/BotDetection">WAFLab</a>
       </Footer>
     )
   }

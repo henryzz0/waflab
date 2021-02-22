@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import React from "react";
-import {Button, Col, Row, Table} from "antd";
+import { Button, Col, Row, Table } from "antd";
 import * as Setting from "./Setting";
 
 class RulesetListPage extends React.Component {
@@ -24,10 +25,10 @@ class RulesetListPage extends React.Component {
     })
       .then(res => res.json())
       .then((res) => {
-          this.setState({
-            rulesets: res,
-          });
-        }
+        this.setState({
+          rulesets: res,
+        });
+      }
       );
   }
 
@@ -70,7 +71,7 @@ class RulesetListPage extends React.Component {
         render: (text, record, index) => {
           return (
             <div>
-              <Button style={{marginTop: '10px', marginBottom: '10px', marginRight: '10px'}} type="primary" onClick={() => Setting.goToLink(`/rulesets/${record.id}/rulefiles/`)}>View</Button>
+              <Button style={{ marginTop: '10px', marginBottom: '10px', marginRight: '10px' }} type="primary" onClick={() => Setting.goToLink(`/rulesets/${record.id}/rulefiles/`)}>View</Button>
             </div>
           )
         }
@@ -79,9 +80,9 @@ class RulesetListPage extends React.Component {
 
     return (
       <div>
-        <Table columns={columns} dataSource={rulesets} size="middle" bordered pagination={{pageSize: 100}}
-               title={() => 'Rulesets'}
-               loading={rulesets === null}
+        <Table columns={columns} dataSource={rulesets} size="middle" bordered pagination={{ pageSize: 100 }}
+          title={() => 'Rulesets'}
+          loading={rulesets === null}
         />
       </div>
     );
@@ -90,7 +91,7 @@ class RulesetListPage extends React.Component {
   render() {
     return (
       <div>
-        <Row style={{width: "100%"}}>
+        <Row style={{ width: "100%" }}>
           <Col span={1}>
           </Col>
           <Col span={22}>

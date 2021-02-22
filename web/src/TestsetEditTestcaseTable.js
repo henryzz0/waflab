@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import React from "react";
-import {DownOutlined, EditOutlined, DeleteOutlined, UpOutlined} from '@ant-design/icons';
-import {Button, Col, Row, Select, Table, Tooltip} from 'antd';
+import { DownOutlined, EditOutlined, DeleteOutlined, UpOutlined } from '@ant-design/icons';
+import { Button, Col, Row, Select, Table, Tooltip } from 'antd';
 import * as Setting from "./Setting";
 
 const { Option } = Select;
@@ -60,7 +61,7 @@ class TestsetEditTestcaseTable extends React.Component {
   }
 
   isItemSelected(table, name) {
-    for (let i = 0; i < table.length; i ++) {
+    for (let i = 0; i < table.length; i++) {
       if (table[i] === name) {
         return true;
       }
@@ -85,7 +86,7 @@ class TestsetEditTestcaseTable extends React.Component {
         key: 'name',
         render: (text, record, index) => {
           return (
-            <Select style={{width: '100%'}} value={record} onChange={value => {this.updateField(index, 'name', value);}}>
+            <Select style={{ width: '100%' }} value={record} onChange={value => { this.updateField(index, 'name', value); }}>
               {
                 this.props.testcases?.filter((testcase) => !this.isItemSelected(table, testcase.name)).map((testcase, index) => <Option key={`${testcase.name} - ${index}`} value={testcase.name}>{testcase.name}</Option>)
               }
@@ -101,13 +102,13 @@ class TestsetEditTestcaseTable extends React.Component {
           return (
             <div>
               <Tooltip placement="topLeft" title="Edit">
-                <Button style={{marginRight: "5px"}} icon={<EditOutlined />} size="small" onClick={() => Setting.openLink(`/testcases/${record}`)} />
+                <Button style={{ marginRight: "5px" }} icon={<EditOutlined />} size="small" onClick={() => Setting.openLink(`/testcases/${record}`)} />
               </Tooltip>
               <Tooltip placement="bottomLeft" title="Up">
-                <Button style={{marginRight: "5px"}} disabled={index === 0} icon={<UpOutlined />} size="small" onClick={() => this.upRow.bind(this)(index)} />
+                <Button style={{ marginRight: "5px" }} disabled={index === 0} icon={<UpOutlined />} size="small" onClick={() => this.upRow.bind(this)(index)} />
               </Tooltip>
               <Tooltip placement="topLeft" title="Down">
-                <Button style={{marginRight: "5px"}} disabled={index === table.length - 1} icon={<DownOutlined />} size="small" onClick={() => this.downRow.bind(this)(index)} />
+                <Button style={{ marginRight: "5px" }} disabled={index === table.length - 1} icon={<DownOutlined />} size="small" onClick={() => this.downRow.bind(this)(index)} />
               </Tooltip>
               <Tooltip placement="topLeft" title="Delete">
                 <Button icon={<DeleteOutlined />} size="small" onClick={() => this.deleteRow.bind(this)(index)} />
@@ -119,13 +120,13 @@ class TestsetEditTestcaseTable extends React.Component {
     ];
 
     return (
-      <Table columns={columns} dataSource={table} rowKey="name" size="middle" bordered pagination={{pageSize: 100}}
-             title={() => (
-               <div>
-                 {this.props.title}&nbsp;&nbsp;&nbsp;&nbsp;
-                 <Button type="primary" size="small" onClick={this.addRow.bind(this)}>Add</Button>
-               </div>
-             )}
+      <Table columns={columns} dataSource={table} rowKey="name" size="middle" bordered pagination={{ pageSize: 100 }}
+        title={() => (
+          <div>
+            {this.props.title}&nbsp;&nbsp;&nbsp;&nbsp;
+            <Button type="primary" size="small" onClick={this.addRow.bind(this)}>Add</Button>
+          </div>
+        )}
       />
     );
   }
@@ -133,7 +134,7 @@ class TestsetEditTestcaseTable extends React.Component {
   render() {
     return (
       <div>
-        <Row style={{marginTop: '20px'}} >
+        <Row style={{ marginTop: '20px' }} >
           <Col span={24}>
             {
               this.renderTable(this.props.table)

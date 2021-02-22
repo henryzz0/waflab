@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import React from "react";
-import {Button, Card, Col, Input, Row} from 'antd';
-import {LinkOutlined} from "@ant-design/icons";
+import { Button, Card, Col, Input, Row } from 'antd';
+import { LinkOutlined } from "@ant-design/icons";
 import * as TestsetBackend from "./backend/TestsetBackend";
 import * as TestcaseBackend from "./backend/TestcaseBackend";
 import * as Setting from "./Setting";
@@ -70,9 +71,9 @@ class TestsetEditPage extends React.Component {
           Edit Testset&nbsp;&nbsp;&nbsp;&nbsp;
           <Button type="primary" onClick={this.submitTestsetEdit.bind(this)}>Save</Button>
         </div>
-      } style={{marginLeft: '5px'}} type="inner">
-        <Row style={{marginTop: '10px'}} >
-          <Col style={{marginTop: '5px'}} span={2}>
+      } style={{ marginLeft: '5px' }} type="inner">
+        <Row style={{ marginTop: '10px' }} >
+          <Col style={{ marginTop: '5px' }} span={2}>
             Name:
           </Col>
           <Col span={22} >
@@ -81,8 +82,8 @@ class TestsetEditPage extends React.Component {
             }} />
           </Col>
         </Row>
-        <Row style={{marginTop: '20px'}} >
-          <Col style={{marginTop: '5px'}} span={2}>
+        <Row style={{ marginTop: '20px' }} >
+          <Col style={{ marginTop: '5px' }} span={2}>
             Description:
           </Col>
           <Col span={22} >
@@ -91,18 +92,18 @@ class TestsetEditPage extends React.Component {
             }} />
           </Col>
         </Row>
-        <Row style={{marginTop: '20px'}} >
-          <Col style={{marginTop: '5px'}} span={2}>
+        <Row style={{ marginTop: '20px' }} >
+          <Col style={{ marginTop: '5px' }} span={2}>
             Target Url:
           </Col>
           <Col span={22} >
-            <Input prefix={<LinkOutlined/>} value={this.state.testset.targetUrl} onChange={e => {
+            <Input prefix={<LinkOutlined />} value={this.state.testset.targetUrl} onChange={e => {
               this.updateTestsetField('targetUrl', e.target.value);
             }} />
           </Col>
         </Row>
-        <Row style={{marginTop: '20px'}} >
-          <Col style={{marginTop: '5px'}} span={2}>
+        <Row style={{ marginTop: '20px' }} >
+          <Col style={{ marginTop: '5px' }} span={2}>
             Testcases:
           </Col>
           <Col span={14} >
@@ -110,7 +111,7 @@ class TestsetEditPage extends React.Component {
               title="Testcases"
               table={this.state.testset.testcases}
               testcases={this.state.testcases}
-              onUpdateTable={(value) => { return this.onUpdateTestsetField("testcases", value)}}
+              onUpdateTable={(value) => { return this.onUpdateTestsetField("testcases", value) }}
             />
           </Col>
         </Row>
@@ -141,7 +142,7 @@ class TestsetEditPage extends React.Component {
   render() {
     return (
       <div>
-        <Row style={{width: "100%"}}>
+        <Row style={{ width: "100%" }}>
           <Col span={1}>
           </Col>
           <Col span={22}>
@@ -152,7 +153,7 @@ class TestsetEditPage extends React.Component {
           <Col span={1}>
           </Col>
         </Row>
-        <Row style={{margin: 10}}>
+        <Row style={{ margin: 10 }}>
           <Col span={2}>
           </Col>
           <Col span={18}>
