@@ -8,6 +8,8 @@ import (
 	"encoding/hex"
 	"fmt"
 	"os"
+	"path"
+	"path/filepath"
 	"regexp"
 	"strings"
 
@@ -70,10 +72,11 @@ func reversePm(argument string, not bool) (string, error) {
 }
 
 func reversePmFromFile(argument string, not bool) (string, error) {
-	if WorkingDirectory != "" {
-		os.Chdir(WorkingDirectory)
+	pth := argument
+	if !filepath.IsAbs(argument) {
+		pth = path.Join(WorkingDirectory, pth)
 	}
-	file, err := os.Open(argument)
+	file, err := os.Open(pth)
 	if err != nil {
 		return "", err
 	}
