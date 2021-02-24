@@ -5,6 +5,7 @@ package object
 
 import (
 	"fmt"
+	"strconv"
 	"strings"
 
 	"github.com/waflab/waflab/docker"
@@ -26,7 +27,11 @@ func getWafBenchResult(testset *Testset, testcase *Testcase) *Result {
 		panic(err)
 	}
 	for _, resp := range responses {
-		statuses = append(statuses, resp.Status...)
+		status, err := strconv.Atoi(resp.Status)
+		if err != nil {
+			status = 0
+		}
+		statuses = append(statuses, status)
 	}
 	fmt.Printf("True HTTP statuses: %v\n", statuses)
 
