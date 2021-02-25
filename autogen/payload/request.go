@@ -102,7 +102,7 @@ func addFilesCombinedSize(value, index string, payload *test.Input) error {
 }
 
 func addQueryString(value, index string, payload *test.Input) error {
-	composeQueryString(payload, value, "")
+	payload.Uri = fmt.Sprintf("/?%s", value)
 	return nil
 }
 
