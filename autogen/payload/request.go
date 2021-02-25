@@ -140,6 +140,10 @@ func addRequestHeadersNames(value, index string, payload *test.Input) error {
 }
 
 func addRequestLine(value, index string, payload *test.Input) error {
+	// ensure value is a valid request url
+	if !strings.HasPrefix(value, "/?") {
+		value = "/?" + value
+	}
 	payload.RawRequest = value
 	return nil
 }
