@@ -163,6 +163,11 @@ func addRequestURI(value, index string, payload *test.Input) error {
 	return nil
 }
 
+func addRequestURIRaw(value, index string, payload *test.Input) error {
+	payload.Uri = fmt.Sprintf("/%s", value)
+	return nil
+}
+
 func addXML(value, index string, payload *test.Input) error {
 	v := struct {
 		XMLName xml.Name `xml:"xml"`
