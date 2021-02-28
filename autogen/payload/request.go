@@ -43,7 +43,9 @@ func composeFile(payload *test.Input, name, filename, content string) {
 	payload.Method = "POST"
 	payload.Data = []string{
 		"--X-BOUNDARY",
-		fmt.Sprintf("Content-Disposition: form-data; name=\"%s\"; filename=\"%s\"", name, filename),
+		fmt.Sprintf("Content-Disposition: form-data; name=\"%s\"; filename=\"%s\"",
+			httpRequestEscape(name),
+			httpRequestEscape(filename)),
 		"Content-Type: text/plain",
 		"",
 		content,
