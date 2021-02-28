@@ -37,18 +37,27 @@ func composeHeader(payload *test.Input, key string, value string) {
 }
 
 func composeFile(payload *test.Input, name, filename, content string) {
-	composeHeader(payload, "Content-Type", "multipart/form-data; boundary=----abc")
+	composeHeader(payload, "Content-Type", "multipart/form-data; boundary=X-BOUNDARY")
 	composeHeader(payload, "Cache-Control", "no-cache")
+	composeHeader(payload, "Host", "localhost")
 	payload.Method = "POST"
 	payload.Data = []string{
-		"------abc",
+		"--X-BOUNDARY",
 		fmt.Sprintf("Content-Disposition: form-data; name=\"%s\"; filename=\"%s\"", name, filename),
 		"Content-Type: text/plain",
 		"",
 		content,
 		"",
-		"------abc--",
+		"--X-BOUNDARY--",
+		"",
+		"",
 	}
+	// calculate Content-Length
+	length := 0
+	for _, d := range payload.Data {
+		length += len(d) + 2 // including /r/n
+	}
+	payload.Headers["Content-Length"] = strconv.Itoa(length - 4) // excluding trailing \r\n\r\n
 }
 
 func addArg(value, index string, payload *test.Input) error {
