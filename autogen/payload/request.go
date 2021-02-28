@@ -136,7 +136,7 @@ func addRequestCookiesName(value, index string, payload *test.Input) error {
 }
 
 func addRequestFileName(value, index string, payload *test.Input) error {
-	payload.Uri = fmt.Sprintf("/%s", value)
+	payload.Uri = fmt.Sprintf("/%s", url.QueryEscape(value))
 	return nil
 }
 
@@ -182,10 +182,8 @@ func addRequestURIRaw(value, index string, payload *test.Input) error {
 func addXML(value, index string, payload *test.Input) error {
 	v := struct {
 		XMLName xml.Name `xml:"xml"`
-		Key     string   `xml:"key"`
 		Value   string   `xml:"value"`
 	}{
-		Key:   index,
 		Value: value,
 	}
 	content, err := xml.Marshal(v)
