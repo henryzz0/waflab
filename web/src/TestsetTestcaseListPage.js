@@ -149,7 +149,7 @@ class TestsetTestcaseListPage extends React.Component {
         }
       },
       {
-        title: 'True Status',
+        title: 'Responded Status',
         dataIndex: 'trueStatuses',
         key: 'trueStatuses',
         width: '600px',
@@ -159,9 +159,8 @@ class TestsetTestcaseListPage extends React.Component {
           return Setting.getStatusTags(text);
         }
       },
-
       {
-        title: 'Response',
+        title: 'Result',
         dataIndex: 'response',
         key: 'response',
         width: '100px',
