@@ -221,7 +221,7 @@ class TestsetListPage extends React.Component {
 
     return (
       <div>
-        <Table columns={columns} dataSource={testsets} rowKey="name" size="middle" bordered pagination={{ pageSize: 100 }}
+        <Table columns={columns} dataSource={testsets} rowKey="name" size="middle" bordered pagination={{ pageSize: 1000 }}
           title={() => (
             <div>
               Testsets&nbsp;&nbsp;&nbsp;&nbsp;

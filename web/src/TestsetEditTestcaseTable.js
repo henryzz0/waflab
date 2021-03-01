@@ -120,7 +120,7 @@ class TestsetEditTestcaseTable extends React.Component {
     ];
 
     return (
-      <Table columns={columns} dataSource={table} rowKey="name" size="middle" bordered pagination={{ pageSize: 100 }}
+      <Table columns={columns} dataSource={table} rowKey="name" size="middle" bordered pagination={{ pageSize: 1000 }}
         title={() => (
           <div>
             {this.props.title}&nbsp;&nbsp;&nbsp;&nbsp;

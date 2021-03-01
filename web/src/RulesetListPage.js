@@ -80,7 +80,7 @@ class RulesetListPage extends React.Component {
 
     return (
       <div>
-        <Table columns={columns} dataSource={rulesets} size="middle" bordered pagination={{ pageSize: 100 }}
+        <Table columns={columns} dataSource={rulesets} size="middle" bordered pagination={{ pageSize: 1000 }}
           title={() => 'Rulesets'}
           loading={rulesets === null}
         />

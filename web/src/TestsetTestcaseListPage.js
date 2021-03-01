@@ -217,7 +217,7 @@ class TestsetTestcaseListPage extends React.Component {
 
     return (
       <div>
-        <Table columns={columns} dataSource={testcases} rowKey="name" size="middle" bordered pagination={{ pageSize: 100 }}
+        <Table columns={columns} dataSource={testcases} rowKey="name" size="middle" bordered pagination={{ pageSize: 1000 }}
           title={() => (
             <div>
               <Tag color="#108ee9">{this.state.testset === null ? "" : this.state.testset.name}</Tag> Testcases&nbsp;&nbsp;&nbsp;&nbsp;

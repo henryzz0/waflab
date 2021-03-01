@@ -96,7 +96,7 @@ class RuleListPage extends React.Component {
 
     return (
       <div>
-        <Table columns={columns} dataSource={rules} rowKey="text" size="middle" bordered pagination={{ pageSize: 100 }}
+        <Table columns={columns} dataSource={rules} rowKey="text" size="middle" bordered pagination={{ pageSize: 1000 }}
           expandable={{
             defaultExpandAllRows: true,
             expandedRowRender: record => {

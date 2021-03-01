@@ -107,7 +107,7 @@ class RulefileListPage extends React.Component {
 
     return (
       <div>
-        <Table columns={columns} dataSource={rulefiles} size="middle" bordered pagination={{ pageSize: 100 }}
+        <Table columns={columns} dataSource={rulefiles} size="middle" bordered pagination={{ pageSize: 1000 }}
           title={() => <div><Text>Rulefiles for: </Text><Tag color="#108ee9">{title}</Tag></div>}
           loading={rulefiles === null}
         />

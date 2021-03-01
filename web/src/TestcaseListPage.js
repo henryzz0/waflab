@@ -177,7 +177,7 @@ class TestcaseListPage extends React.Component {
 
     return (
       <div>
-        <Table columns={columns} dataSource={testcases} rowKey="name" size="middle" bordered pagination={{ pageSize: 100 }}
+        <Table columns={columns} dataSource={testcases} rowKey="name" size="middle" bordered pagination={{ pageSize: 1000 }}
           title={() => (
             <div>
               Testcases&nbsp;&nbsp;&nbsp;&nbsp;
