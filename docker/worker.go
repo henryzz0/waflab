@@ -156,6 +156,9 @@ func MakeWorker(master *Master, cli *client.Client, ctx context.Context, port st
 						},
 					},
 				},
+				ExtraHosts: []string{
+					"wafdefaultruleset20overrides.waftestdf.azfdtest.xyz:40.91.94.131",
+				},
 			}, nil, containerName)
 		if err != nil {
 			return nil, err
