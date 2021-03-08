@@ -6,7 +6,9 @@ package parse
 import (
 	"encoding/json"
 	"fmt"
+	"strings"
 
+	"github.com/waflab/waflab/object"
 	"github.com/waflab/waflab/util"
 )
 
@@ -43,6 +45,14 @@ type WafRule struct {
 }
 
 func parseEnabledRuleFile() {
+	testcases := object.GetFilteredTestcases("autogen-test")
+	testcaseMap := map[string]*object.Testcase{}
+	for _, testcase := range testcases {
+		name := strings.TrimLeft(testcase.Name, "autogen-")
+		name = strings.TrimRight(name, ".yaml")
+		testcaseMap[name] = testcase
+	}
+
 	s := util.ReadStringFromPath(util.EnabledRulePath)
 	rulesFile := WafRulesFile{}
 	err := json.Unmarshal([]byte(s), &rulesFile)
@@ -54,7 +64,14 @@ func parseEnabledRuleFile() {
 		ruleGroups := ruleSet.Properties.RuleGroups
 		for _, ruleGroup := range ruleGroups {
 			for _, rule := range ruleGroup.Rules {
-				fmt.Printf("ruleId: %s, defaultAction: %s, defaultState: %s\n", rule.RuleId, rule.DefaultAction, rule.DefaultState)
+				if testcase, ok := testcaseMap[rule.RuleId]; ok {
+					testcase.Action = rule.DefaultAction
+					testcase.State = rule.DefaultState
+					object.UpdateTestcase(testcase.Name, testcase)
+					fmt.Printf("ruleId: %s, defaultAction: %s, defaultState: %s, ok\n", rule.RuleId, rule.DefaultAction, rule.DefaultState)
+				} else {
+					fmt.Printf("ruleId: %s, defaultAction: %s, defaultState: %s, null\n", rule.RuleId, rule.DefaultAction, rule.DefaultState)
+				}
 			}
 		}
 	}

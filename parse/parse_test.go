@@ -3,8 +3,14 @@
 
 package parse
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/waflab/waflab/object"
+)
 
 func TestParseRule(t *testing.T) {
+	object.InitOrmManager()
+
 	parseEnabledRuleFile()
 }

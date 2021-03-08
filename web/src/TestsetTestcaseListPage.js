@@ -183,6 +183,20 @@ class TestsetTestcaseListPage extends React.Component {
         }
       },
       {
+        title: 'Default Action',
+        dataIndex: 'action',
+        key: 'action',
+        width: '100px',
+        sorter: (a, b) => a.action - b.action,
+      },
+      {
+        title: 'Default State',
+        dataIndex: 'state',
+        key: 'state',
+        width: '100px',
+        sorter: (a, b) => a.state - b.state,
+      },
+      {
         title: 'Progress',
         key: 'progress',
         width: '100px',
