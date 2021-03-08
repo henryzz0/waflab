@@ -52,17 +52,17 @@ class TestsetTestcaseListPage extends React.Component {
   }
 
   getResult(testcase, i) {
-    this.setTestcaseValue(i, "state", "ongoing");
+    this.setTestcaseValue(i, "progressState", "ongoing");
     ResultBackend.getResult(this.state.testset.name, testcase.name)
       .then((result) => {
         // Setting.showMessage("success", "Result: " + result.status);
-        this.setTestcaseValue(i, "state", "finished");
+        this.setTestcaseValue(i, "progressState", "finished");
         this.setTestcaseValue(i, "trueStatuses", result.statuses);
         this.setTestcaseValue(i, "response", result.response);
       })
       .catch(error => {
         Setting.showMessage("error", `failed to run: ${error}`);
-        this.setTestcaseValue(i, "state", "error");
+        this.setTestcaseValue(i, "progressState", "error");
       });
   }
 
@@ -202,15 +202,15 @@ class TestsetTestcaseListPage extends React.Component {
         width: '100px',
         // sorter: (a, b) => a.userAgent.localeCompare(b.userAgent),
         render: (text, record, index) => {
-          if (record.state === undefined) {
+          if (record.progressState === undefined) {
             return (
               <Progress percent={0} size="small" />
             )
-          } else if (record.state === "ongoing") {
+          } else if (record.progressState === "ongoing") {
             return (
               <Progress percent={50} size="small" />
             )
-          } else if (record.state === "error") {
+          } else if (record.progressState === "error") {
             return (
               <Progress percent={100} size="small" status="exception" />
             )
@@ -230,7 +230,7 @@ class TestsetTestcaseListPage extends React.Component {
           return (
             <div>
               <Button style={{ marginTop: '10px', marginBottom: '10px', marginRight: '10px' }}
-                loading={record.state === "ongoing"} type="primary" onClick={() => this.getResult(record, index)}>Run</Button>
+                loading={record.progressState === "ongoing"} type="primary" onClick={() => this.getResult(record, index)}>Run</Button>
             </div>
           )
         }
