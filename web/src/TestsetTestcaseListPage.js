@@ -16,6 +16,7 @@ class TestsetTestcaseListPage extends React.Component {
       testsetName: props.match.params.testsetName,
       testset: null,
       testcases: [],
+      selectedRowKeys: [],
     };
   }
 
@@ -66,9 +67,17 @@ class TestsetTestcaseListPage extends React.Component {
   }
 
   getResults() {
-    this.state.testcases.forEach((testcase, i) => {
-      this.getResult(testcase, i);
-    });
+    if (this.state.selectedRowKeys.length === 0) {
+      this.state.testcases.forEach((testcase, i) => {
+        this.getResult(testcase, i);
+      });
+    } else {
+      this.state.testcases.forEach((testcase, i) => {
+        if (this.state.selectedRowKeys.includes(testcase.name)) {
+          this.getResult(testcase, i);
+        }
+      });
+    }
   }
 
   renderTable(testcases) {
@@ -214,13 +223,23 @@ class TestsetTestcaseListPage extends React.Component {
       },
     ];
 
+    const onSelectChange = selectedRowKeys => {
+      this.setState({ selectedRowKeys });
+    };
+
+    const { selectedRowKeys } = this.state;
+    const rowSelection = {
+      selectedRowKeys,
+      onChange: onSelectChange,
+    };
+
     return (
       <div>
-        <Table columns={columns} dataSource={testcases} rowKey="name" size="middle" bordered pagination={{ pageSize: 1000 }}
+        <Table rowSelection={rowSelection} columns={columns} dataSource={testcases} rowKey="name" size="middle" bordered pagination={{ pageSize: 1000 }}
           title={() => (
             <div>
               <Tag color="#108ee9">{this.state.testset === null ? "" : this.state.testset.name}</Tag> Testcases&nbsp;&nbsp;&nbsp;&nbsp;
-              <Button type="primary" size="small" onClick={this.getResults.bind(this)}>Run All</Button>
+              <Button type="primary" size="small" onClick={this.getResults.bind(this)}>Run {this.state.selectedRowKeys.length === 0 ? "All" : "Selected"}</Button>
             </div>
           )}
         />
