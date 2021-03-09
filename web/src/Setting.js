@@ -101,7 +101,7 @@ export function getMethodTag(tag) {
 export function getStatusTagColor(s) {
   if (s.includes("200")) {
     return "success";
-  } else if (s.includes("405")) {
+  } else if (s.includes("400") || s.includes("405")) {
     return "processing";
   }
   else {

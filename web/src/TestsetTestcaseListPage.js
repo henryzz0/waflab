@@ -187,14 +187,14 @@ class TestsetTestcaseListPage extends React.Component {
         dataIndex: 'action',
         key: 'action',
         width: '100px',
-        sorter: (a, b) => a.action - b.action,
+        sorter: (a, b) => a.action.localeCompare(b.action),
       },
       {
         title: 'Default State',
         dataIndex: 'state',
         key: 'state',
         width: '100px',
-        sorter: (a, b) => a.state - b.state,
+        sorter: (a, b) => a.state.localeCompare(b.state),
       },
       {
         title: 'Progress',
@@ -250,12 +250,19 @@ class TestsetTestcaseListPage extends React.Component {
     return (
       <div>
         <Table rowSelection={rowSelection} columns={columns} dataSource={testcases} rowKey="name" size="middle" bordered pagination={{ pageSize: 1000 }}
-          title={() => (
-            <div>
-              <Tag color="#108ee9">{this.state.testset === null ? "" : this.state.testset.name}</Tag> Testcases&nbsp;&nbsp;&nbsp;&nbsp;
-              <Button type="primary" size="small" onClick={this.getResults.bind(this)}>Run {this.state.selectedRowKeys.length === 0 ? "All" : "Selected"}</Button>
-            </div>
-          )}
+               title={() => (
+                 <div>
+                   <Tag color="#108ee9">{this.state.testset === null ? "" : this.state.testset.name}</Tag> Testcases&nbsp;&nbsp;&nbsp;&nbsp;
+                   <Button type="primary" size="small" onClick={this.getResults.bind(this)}>Run {this.state.selectedRowKeys.length === 0 ? "All" : "Selected"}</Button>
+                 </div>
+               )}
+               rowClassName={(record, index) => {
+                 if (record.action === "Block" && record.state === "Enabled" && record.result !== "ok: ") {
+                   return "red-row";
+                 } else {
+                   return null;
+                 }
+               }}
         />
       </div>
     );

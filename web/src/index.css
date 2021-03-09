@@ -56,3 +56,15 @@ code {
 .CodeMirror {
   height: 100% !important;
 }
+
+.red-row {
+  background: #f9f0ff;
+}
+
+.yellow-row {
+  background: #fdea9b;
+}
+
+.green-row {
+  background: #c5eecd;
+}
