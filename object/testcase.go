@@ -23,7 +23,7 @@ type Testcase struct {
 	QueryStrings []Pair  `xorm:"mediumtext" json:"queryStrings"`
 	StatusLists  [][]int `json:"statusLists"`
 	TrueStatuses []int   `json:"trueStatuses"`
-	Response     string  `xorm:"mediumtext" json:"response"`
+	Result       string  `xorm:"mediumtext" json:"result"`
 	Action       string  `xorm:"varchar(100)" json:"action"`
 	State        string  `xorm:"varchar(100)" json:"state"`
 

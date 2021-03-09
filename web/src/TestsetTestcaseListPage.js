@@ -170,10 +170,10 @@ class TestsetTestcaseListPage extends React.Component {
       },
       {
         title: 'Result',
-        dataIndex: 'response',
-        key: 'response',
+        dataIndex: 'result',
+        key: 'result',
         width: '100px',
-        sorter: (a, b) => a.response.localeCompare(b.response),
+        sorter: (a, b) => a.result.localeCompare(b.result),
         render: (text, record, index) => {
           if (record.trueStatus > 0 && text === "") {
             return "(Empty)";
