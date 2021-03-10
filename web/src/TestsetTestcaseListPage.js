@@ -8,6 +8,33 @@ import * as TestsetBackend from "./backend/TestsetBackend";
 import * as TestcaseBackend from "./backend/TestcaseBackend";
 import * as ResultBackend from "./backend/ResultBackend";
 
+const ruleFileMap = {
+  "905": "REQUEST-905-COMMON-EXCEPTIONS",
+  "910": "REQUEST-910-IP-REPUTATION",
+  "911": "REQUEST-911-METHOD-ENFORCEMENT",
+  "912": "REQUEST-912-DOS-PROTECTION",
+  "913": "REQUEST-913-SCANNER-DETECTION",
+  "920": "REQUEST-920-PROTOCOL-ENFORCEMENT",
+  "921": "REQUEST-921-PROTOCOL-ATTACK",
+  "930": "REQUEST-930-APPLICATION-ATTACK-LFI",
+  "931": "REQUEST-931-APPLICATION-ATTACK-RFI",
+  "932": "REQUEST-932-APPLICATION-ATTACK-RCE",
+  "933": "REQUEST-933-APPLICATION-ATTACK-PHP",
+  "934": "REQUEST-934-APPLICATION-ATTACK-NODEJS",
+  "941": "REQUEST-941-APPLICATION-ATTACK-XSS",
+  "942": "REQUEST-942-APPLICATION-ATTACK-SQLI",
+  "943": "REQUEST-943-APPLICATION-ATTACK-SESSION-FIXATION",
+  "944": "REQUEST-944-APPLICATION-ATTACK-JAVA",
+  "949": "REQUEST-949-BLOCKING-EVALUATION",
+  "950": "RESPONSE-950-DATA-LEAKAGES",
+  "951": "RESPONSE-951-DATA-LEAKAGES-SQL",
+  "952": "RESPONSE-952-DATA-LEAKAGES-JAVA",
+  "953": "RESPONSE-953-DATA-LEAKAGES-PHP",
+  "954": "RESPONSE-954-DATA-LEAKAGES-IIS",
+  "959": "RESPONSE-959-BLOCKING-EVALUATION",
+  "980": "RESPONSE-980-CORRELATION",
+};
+
 class TestsetTestcaseListPage extends React.Component {
   constructor(props) {
     super(props);
@@ -90,7 +117,7 @@ class TestsetTestcaseListPage extends React.Component {
         sorter: (a, b) => a.name.localeCompare(b.name),
         render: (text, record, index) => {
           return (
-            <a href={`/testcases/${text}`}>{text}</a>
+            <a target="_blank" href={`/testcases/${text}`}>{text}</a>
           )
         }
       },
@@ -101,6 +128,24 @@ class TestsetTestcaseListPage extends React.Component {
       //   width: '250px',
       //   sorter: (a, b) => a.desc.localeCompare(b.desc),
       // },
+      {
+        title: 'Rule',
+        dataIndex: 'rule',
+        key: 'rule',
+        width: '80px',
+        render: (text, record, index) => {
+          const start = record.name.indexOf("-");
+          const end = record.name.indexOf(".");
+          const ruleId = record.name.substring(start + 1, end);
+          const ruleFile = ruleFileMap[ruleId.substring(0, 3)];
+
+          return (
+            <Button onClick={() => Setting.openLink(`/rulesets/crs-3.2/rulefiles/${ruleFile}/rules/`)}>
+              {ruleId}
+            </Button>
+          )
+        }
+      },
       {
         title: 'Enabled',
         dataIndex: 'enabled',
