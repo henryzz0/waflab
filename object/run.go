@@ -15,7 +15,7 @@ import (
 var master *docker.Master
 
 func InitMaster() {
-	master = docker.MakeMaster(1)
+	master = docker.MakeMaster(5)
 }
 
 func getWafBenchResult(testset *Testset, testcase *Testcase) *Result {
