@@ -14,7 +14,7 @@ import (
 
 type Result struct {
 	Statuses []int    `json:"statuses"`
-	HitRules []string `json:"hit_rules"`
+	HitRules []string `json:"hitRules"`
 	Response string   `json:"response"`
 }
 
