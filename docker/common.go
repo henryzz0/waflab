@@ -17,5 +17,5 @@ type Task struct {
 type Response struct {
 	Title   string `json:"title"`
 	Status  string `json:"result"`
-	HitRule string `json:"hit_rule"`
+	HitRule string `json:"hitRule"`
 }
