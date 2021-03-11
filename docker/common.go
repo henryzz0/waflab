@@ -15,6 +15,7 @@ type Task struct {
 }
 
 type Response struct {
-	Title  string `json:"title"`
-	Status string `json:"result"`
+	Title   string `json:"title"`
+	Status  string `json:"result"`
+	HitRule string `json:"hit_rule"`
 }

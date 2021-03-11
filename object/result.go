@@ -13,8 +13,9 @@ import (
 )
 
 type Result struct {
-	Statuses []int  `json:"statuses"`
-	Response string `json:"response"`
+	Statuses []int    `json:"statuses"`
+	HitRules []string `json:"hitRules"`
+	Response string   `json:"response"`
 }
 
 func getResult(testset *Testset, testcase *Testcase) *Result {

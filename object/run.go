@@ -22,6 +22,7 @@ func getWafBenchResult(testset *Testset, testcase *Testcase) *Result {
 	url := testset.TargetUrl
 
 	statuses := make([]int, 0)
+	hitrules := make([]string, 0)
 	responses, err := master.InsertTask(url, testcase.RawData)
 	if err != nil {
 		panic(err)
@@ -32,11 +33,13 @@ func getWafBenchResult(testset *Testset, testcase *Testcase) *Result {
 			status = 0
 		}
 		statuses = append(statuses, status)
+		hitrules = append(hitrules, resp.HitRule)
 	}
 	fmt.Printf("True HTTP statuses: %v\n", statuses)
 
 	res := &Result{}
 	res.Statuses = statuses
+	res.HitRules = hitrules
 
 	isCorrect := true
 	reasons := []string{}
