@@ -57,11 +57,7 @@ func reverseBase64Decode(variable string) string {
 func reverseCSSDecode(variable string) string {
 	var builder strings.Builder
 	for _, r := range variable {
-		if utils.RandomBiasedBool(reverseCSSDecodeProb) || unicode.IsSpace(r) {
-			builder.WriteString(cssEncode(r))
-		} else {
-			builder.WriteRune(r)
-		}
+		builder.WriteString(cssEncode(r))
 	}
 	return builder.String()
 }
@@ -129,14 +125,10 @@ func reverseHTMLEntityDecode(variable string) string {
 func reverseJSDecode(variable string) string {
 	var builder strings.Builder
 	for _, r := range variable {
-		if utils.RandomBiasedBool(reverseJSDecodeProb) {
-			if utils.RandomBiasedBool(0.50) {
-				builder.WriteString(jsHexEncode(r))
-			} else {
-				builder.WriteString(jsOctalEncode(r))
-			}
+		if utils.RandomBiasedBool(0.50) {
+			builder.WriteString(jsHexEncode(r))
 		} else {
-			builder.WriteRune(r)
+			builder.WriteString(jsOctalEncode(r))
 		}
 	}
 	return builder.String()
