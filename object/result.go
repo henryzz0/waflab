@@ -82,6 +82,7 @@ func GetResult(testsetId string, testcaseId string) *Result {
 	result := getResult(testset, testcase)
 	testcase.TrueStatuses = result.Statuses
 	testcase.Result = result.Response
+	testcase.HitRules = result.HitRules
 	UpdateTestcase(testcaseId, testcase)
 	return result
 }

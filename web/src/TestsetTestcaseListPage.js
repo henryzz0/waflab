@@ -146,17 +146,17 @@ class TestsetTestcaseListPage extends React.Component {
           )
         }
       },
-      {
-        title: 'Enabled',
-        dataIndex: 'enabled',
-        key: 'enabled',
-        width: '80px',
-        render: (text, record, index) => {
-          return (
-            <Switch disabled checked={text} />
-          )
-        }
-      },
+      // {
+      //   title: 'Enabled',
+      //   dataIndex: 'enabled',
+      //   key: 'enabled',
+      //   width: '80px',
+      //   render: (text, record, index) => {
+      //     return (
+      //       <Switch disabled checked={text} />
+      //     )
+      //   }
+      // },
       {
         title: '#Test',
         dataIndex: 'testCount',
@@ -225,6 +225,15 @@ class TestsetTestcaseListPage extends React.Component {
           } else {
             return text;
           }
+        }
+      },
+      {
+        title: 'Hit Rules',
+        dataIndex: 'hitRules',
+        key: 'hitRules',
+        width: '100px',
+        render: (text, record, index) => {
+          return Setting.getStatusTags(text);
         }
       },
       {
