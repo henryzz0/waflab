@@ -5,6 +5,7 @@ package payload
 
 import (
 	"encoding/json"
+	"encoding/xml"
 	"fmt"
 	"net/url"
 	"strconv"
@@ -36,18 +37,29 @@ func composeHeader(payload *test.Input, key string, value string) {
 }
 
 func composeFile(payload *test.Input, name, filename, content string) {
-	composeHeader(payload, "Content-Type", "multipart/form-data; boundary=----abc")
+	composeHeader(payload, "Content-Type", "multipart/form-data; boundary=X-BOUNDARY")
 	composeHeader(payload, "Cache-Control", "no-cache")
+	composeHeader(payload, "Host", "localhost")
 	payload.Method = "POST"
 	payload.Data = []string{
-		"------abc",
-		fmt.Sprintf("Content-Disposition: form-data; name=\"%s\"; filename=\"%s\"", name, filename),
+		"--X-BOUNDARY",
+		fmt.Sprintf("Content-Disposition: form-data; name=\"%s\"; filename=\"%s\"",
+			httpRequestEscape(name),
+			httpRequestEscape(filename)),
 		"Content-Type: text/plain",
 		"",
 		content,
 		"",
-		"------abc--",
+		"--X-BOUNDARY--",
+		"",
+		"",
 	}
+	// calculate Content-Length
+	length := 0
+	for _, d := range payload.Data {
+		length += len(d) + 2 // including /r/n
+	}
+	payload.Headers["Content-Length"] = strconv.Itoa(length - 4) // excluding trailing \r\n\r\n
 }
 
 func addArg(value, index string, payload *test.Input) error {
@@ -101,7 +113,7 @@ func addFilesCombinedSize(value, index string, payload *test.Input) error {
 }
 
 func addQueryString(value, index string, payload *test.Input) error {
-	composeQueryString(payload, value, "")
+	payload.Uri = fmt.Sprintf("/?%s", value)
 	return nil
 }
 
@@ -124,7 +136,7 @@ func addRequestCookiesName(value, index string, payload *test.Input) error {
 }
 
 func addRequestFileName(value, index string, payload *test.Input) error {
-	payload.Uri = fmt.Sprintf("/%s", value)
+	payload.Uri = fmt.Sprintf("/%s", url.QueryEscape(value))
 	return nil
 }
 
@@ -155,5 +167,30 @@ func addRequestProtocol(value, index string, payload *test.Input) error {
 
 func addRequestURI(value, index string, payload *test.Input) error {
 	payload.Uri = fmt.Sprintf("/%s", url.QueryEscape(value))
+	return nil
+}
+
+func addRequestURIRaw(value, index string, payload *test.Input) error {
+	payload.Uri = fmt.Sprintf("/%s", value)
+	return nil
+}
+
+func addXML(value, index string, payload *test.Input) error {
+	v := struct {
+		XMLName xml.Name `xml:"xml"`
+		Value   string   `xml:"value"`
+	}{
+		Value: value,
+	}
+	content, err := xml.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	payload.Data = []string{string(content)}
+	payload.Method = "POST"
+	payload.Headers["Content-Type"] = "text/xml"
+	payload.Headers["Content-Length"] = strconv.Itoa(len(string(content)))
+
 	return nil
 }

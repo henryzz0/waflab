@@ -86,9 +86,9 @@ func pickRandomLineFromFile(path string) (string, error) {
 }
 
 func reverseDetectSQLi(argument string, not bool) (string, error) {
-	return pickRandomLineFromFile(path.Join("data", "Generic-SQLi.txt"))
+	return pickRandomLineFromFile(path.Join("autogen", "operator", "data", "Generic-SQLi.txt"))
 }
 
 func reverseDetectXSS(argument string, not bool) (string, error) {
-	return pickRandomLineFromFile(path.Join("data", "XSS-BruteLogic"))
+	return pickRandomLineFromFile(path.Join("autogen", "operator", "data", "XSS-BruteLogic.txt"))
 }

@@ -35,12 +35,19 @@ func processIndexExclusion(variables []*parser.Variable) ([]*parser.Variable, er
 				// attempt to generate index
 				var index string
 				if v.Index == "" {
+					// no index specified, give a random index
 					index = utils.RandomString(10)
 				} else {
-					var err error
-					index, err = operator.GenerateStringFromRegex(v.Index, false)
-					if err != nil {
-						return nil, err
+					if isRegexIndex(v.Index) {
+						// specified a regex index
+						var err error
+						index, err = operator.GenerateStringFromRegex(v.Index, false)
+						if err != nil {
+							return nil, err
+						}
+					} else {
+						// specified a literal index
+						index = v.Index
 					}
 				}
 				// check if index is valid
@@ -62,4 +69,11 @@ func processIndexExclusion(variables []*parser.Variable) ([]*parser.Variable, er
 	}
 
 	return newVariables, nil
+}
+
+// isRegexIndex checks if the index is a regex index
+// Ex: for variable ARGS:abc, abc is not a regex index
+//     however, ARGS:/ab*c/, /ab*c/ is a regex index
+func isRegexIndex(index string) bool {
+	return strings.HasPrefix(index, "/") && strings.HasSuffix(index, "/")
 }

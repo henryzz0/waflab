@@ -29,7 +29,7 @@ func GenerateTests(ruleString string, maxRetry int) (YAMLs []*test.Testfile) {
 	for _, rule := range rules {
 		if rule.Actions.Chain { // Chained rule
 			log.Printf("Err chain rule %d not supported\n", rule.Actions.Id)
-			return nil
+			continue
 		}
 		if t := processIndependentRule(rule, maxRetry); t != nil {
 			YAMLs = append(YAMLs, t)

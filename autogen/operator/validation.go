@@ -15,11 +15,6 @@ const (
 	byteRangeStringLength = 10
 )
 
-type byteRange struct {
-	lower byte
-	upper byte
-}
-
 /*
 This function assume that argument follows the format: <number>, <range>, <number>.
 In addition to that, the function assume that the range are non-overlapping. Having an overlapping range
@@ -27,7 +22,7 @@ in the argument will cause the the function yield a byte string where overlapped
 to show up.
 */
 func reverseValidateByteRange(argument string, not bool) (string, error) {
-	var byteRanges []byteRange
+	byteRanges := []int{}
 	size := 0 // number of byte in byteRanges
 
 	// construct byteRanges
@@ -42,7 +37,7 @@ func reverseValidateByteRange(argument string, not bool) (string, error) {
 			if err != nil {
 				return "", err
 			}
-			byteRanges = append(byteRanges, byteRange{byte(lower), byte(upper)})
+			byteRanges = append(byteRanges, lower, upper)
 			size = size + (upper - lower + 1)
 		} else {
 			// a number: Ex: 1
@@ -50,20 +45,29 @@ func reverseValidateByteRange(argument string, not bool) (string, error) {
 			if err != nil {
 				return "", err
 			}
-			byteRanges = append(byteRanges, byteRange{byte(num), byte(num)})
+			byteRanges = append(byteRanges, num, num)
 			size = size + 1
 		}
 	}
 
-	// build string from byte range
+	// build a string that compose of byte b that is
+	// 1. b not in byteRanges
+	// 2. b within [0-255]
 	var build strings.Builder
+	byteRanges = append(byteRanges, 256) // sentinel value
+	byteRanges = append([]int{-1}, byteRanges...)
 	for i := 0; i < byteRangeStringLength; i++ {
-		num := utils.RandomIntWithRange(0, size)
-		for _, r := range byteRanges {
-			if (r.upper - r.lower) < byte(num) {
+		num := utils.RandomIntWithRange(0, 256-size)
+		for j := 0; j < len(byteRanges); j += 2 {
+			diff := (byteRanges[j+1] - 1) - (byteRanges[j] + 1)
+			if diff < 0 { // invalid range
 				continue
 			}
-			build.WriteByte(r.lower + byte(num))
+			if num <= diff {
+				build.WriteByte(byte(byteRanges[j] + num))
+				break
+			}
+			num -= (diff + 1)
 		}
 	}
 

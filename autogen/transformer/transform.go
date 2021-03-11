@@ -8,6 +8,7 @@ import (
 	"encoding/hex"
 	"fmt"
 	"net/url"
+	"regexp"
 	"strconv"
 	"strings"
 	"unicode"
@@ -56,11 +57,7 @@ func reverseBase64Decode(variable string) string {
 func reverseCSSDecode(variable string) string {
 	var builder strings.Builder
 	for _, r := range variable {
-		if utils.RandomBiasedBool(reverseCSSDecodeProb) {
-			builder.WriteString(cssEncode(r))
-		} else {
-			builder.WriteRune(r)
-		}
+		builder.WriteString(cssEncode(r))
 	}
 	return builder.String()
 }
@@ -128,14 +125,10 @@ func reverseHTMLEntityDecode(variable string) string {
 func reverseJSDecode(variable string) string {
 	var builder strings.Builder
 	for _, r := range variable {
-		if utils.RandomBiasedBool(reverseJSDecodeProb) {
-			if utils.RandomBiasedBool(0.50) {
-				builder.WriteString(jsHexEncode(r))
-			} else {
-				builder.WriteString(jsOctalEncode(r))
-			}
+		if utils.RandomBiasedBool(0.50) {
+			builder.WriteString(jsHexEncode(r))
 		} else {
-			builder.WriteRune(r)
+			builder.WriteString(jsOctalEncode(r))
 		}
 	}
 	return builder.String()
@@ -207,6 +200,7 @@ func reverseReplaceComments(variable string) string {
 }
 
 func reverseRemoveNulls(variable string) string {
+	return variable
 	return randomStringsInsertion(variable, []string{"\x00"}, reverseNullProb)
 }
 
@@ -244,5 +238,9 @@ func reverseUrlDecode(variable string) string {
 // since Golang does not support u percent format, we need to replace all %u with \u
 // and golang will automatically encode \uXXXX into corresponding Unicode character
 func reverseUtf8ToUnicode(variable string) string {
-	return fmt.Sprintf(strings.ReplaceAll(variable, "%u", "\\u"))
+	re := regexp.MustCompile(`%u[[:alnum:]]{4}`)
+	return re.ReplaceAllStringFunc(variable, func(s string) string {
+		s, _ = strconv.Unquote(`"\u` + s[2:] + `"`)
+		return s
+	})
 }
