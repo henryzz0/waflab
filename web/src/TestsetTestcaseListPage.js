@@ -251,10 +251,23 @@ class TestsetTestcaseListPage extends React.Component {
               res = res.substring(i + 1);
               return res;
             });
-            hitRule = tokens.join(", ");
+            if (hitRule === "") {
+              hitRule = "(empty)";
+            } else {
+              hitRule = tokens.join(", ");
+            }
+
+            let color;
+            if (hitRule === "(empty)") {
+              color = "400";
+            } else if (hitRule.includes(ruleId)) {
+              color = "200";
+            } else {
+              color = "403";
+            }
 
             return (
-              <Tag color={getStatusTagColor(hitRule.includes(ruleId) ? "200" : "400")}>
+              <Tag color={getStatusTagColor(color)}>
                 {hitRule}
               </Tag>
             )
