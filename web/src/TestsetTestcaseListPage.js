@@ -114,6 +114,36 @@ class TestsetTestcaseListPage extends React.Component {
     return record.name.substring(start + 1, end);
   }
 
+  parseHitRules(record) {
+    const ruleId = this.getRuleId(record);
+
+    const res = record.hitRules.map(hitRule => {
+      const tokens = hitRule.split(",").map(token => {
+        let res = token.trim(" ");
+        const i = res.lastIndexOf("-");
+        res = res.substring(i + 1);
+        return res;
+      });
+      if (hitRule === "") {
+        hitRule = "(empty)";
+      } else {
+        hitRule = tokens.join(", ");
+      }
+
+      let color;
+      if (hitRule === "(empty)") {
+        color = "400";
+      } else if (hitRule.includes(ruleId)) {
+        color = "200";
+      } else {
+        color = "403";
+      }
+
+      return {hitRule: hitRule, color: color};
+    })
+    return res;
+  }
+
   renderTable(testcases) {
     const columns = [
       {
@@ -242,37 +272,14 @@ class TestsetTestcaseListPage extends React.Component {
             return "(Empty)";
           }
 
-          const ruleId = this.getRuleId(record);
-
-          const res = text.map(hitRule => {
-            const tokens = hitRule.split(",").map(token => {
-              let res = token.trim(" ");
-              const i = res.lastIndexOf("-");
-              res = res.substring(i + 1);
-              return res;
-            });
-            if (hitRule === "") {
-              hitRule = "(empty)";
-            } else {
-              hitRule = tokens.join(", ");
-            }
-
-            let color;
-            if (hitRule === "(empty)") {
-              color = "400";
-            } else if (hitRule.includes(ruleId)) {
-              color = "200";
-            } else {
-              color = "403";
-            }
-
+          const objs = this.parseHitRules(record);
+          return objs.map(obj => {
             return (
-              <Tag color={getStatusTagColor(color)}>
-                {hitRule}
+              <Tag color={getStatusTagColor(obj.color)}>
+                {obj.hitRule}
               </Tag>
-            )
+            );
           })
-          return res;
         }
       },
       {
@@ -351,6 +358,8 @@ class TestsetTestcaseListPage extends React.Component {
                )}
                rowClassName={(record, index) => {
                  if (record.action === "Block" && record.state === "Enabled" && record.result !== "ok: ") {
+                   return "red-row";
+                 } else if (record.action === "AnomalyScoring" && record.state === "Enabled" && this.parseHitRules(record).some(pair => pair.color === "403")) {
                    return "red-row";
                  } else {
                    return null;
