@@ -2,8 +2,9 @@
 // Licensed under the MIT License.
 
 import React from "react";
-import { Button, Col, Progress, Row, Switch, Table, Tag } from 'antd';
+import {Button, Col, Progress, Row, Table, Tag} from 'antd';
 import * as Setting from "./Setting";
+import {getStatusTagColor} from "./Setting";
 import * as TestsetBackend from "./backend/TestsetBackend";
 import * as TestcaseBackend from "./backend/TestcaseBackend";
 import * as ResultBackend from "./backend/ResultBackend";
@@ -107,6 +108,12 @@ class TestsetTestcaseListPage extends React.Component {
     }
   }
 
+  getRuleId(record) {
+    const start = record.name.indexOf("-");
+    const end = record.name.indexOf(".");
+    return record.name.substring(start + 1, end);
+  }
+
   renderTable(testcases) {
     const columns = [
       {
@@ -134,9 +141,7 @@ class TestsetTestcaseListPage extends React.Component {
         key: 'rule',
         width: '80px',
         render: (text, record, index) => {
-          const start = record.name.indexOf("-");
-          const end = record.name.indexOf(".");
-          const ruleId = record.name.substring(start + 1, end);
+          const ruleId = this.getRuleId(record);
           const ruleFile = ruleFileMap[ruleId.substring(0, 3)];
 
           return (
@@ -233,7 +238,28 @@ class TestsetTestcaseListPage extends React.Component {
         key: 'hitRules',
         width: '100px',
         render: (text, record, index) => {
-          return Setting.getStatusTags(text);
+          if (text === null) {
+            return "(Empty)";
+          }
+
+          const ruleId = this.getRuleId(record);
+
+          const res = text.map(hitRule => {
+            const tokens = hitRule.split(",").map(token => {
+              let res = token.trim(" ");
+              const i = res.lastIndexOf("-");
+              res = res.substring(i + 1);
+              return res;
+            });
+            hitRule = tokens.join(", ");
+
+            return (
+              <Tag color={getStatusTagColor(hitRule.includes(ruleId) ? "200" : "400")}>
+                {hitRule}
+              </Tag>
+            )
+          })
+          return res;
         }
       },
       {
