@@ -61,6 +61,10 @@ func parseEnabledRuleFile() {
 	}
 
 	for _, ruleSet := range rulesFile.RuleSets {
+		if !strings.Contains(ruleSet.Name, "DefaultRuleSet_2.0") {
+			continue
+		}
+
 		ruleGroups := ruleSet.Properties.RuleGroups
 		for _, ruleGroup := range ruleGroups {
 			for _, rule := range ruleGroup.Rules {
