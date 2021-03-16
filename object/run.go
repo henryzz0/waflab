@@ -18,8 +18,8 @@ func InitMaster() {
 	master = docker.MakeMaster(5)
 }
 
-func getWafBenchResult(testset *Testset, testcase *Testcase) *Result {
-	url := testset.TargetUrl
+func getWafBenchResult(testset *Testset, testcase *Testcase, typ string) *Result {
+	url := getTestUrl(testset, typ)
 
 	statuses := make([]int, 0)
 	hitrules := make([]string, 0)

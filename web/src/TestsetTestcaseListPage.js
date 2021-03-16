@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import React from "react";
-import {Button, Col, Progress, Row, Table, Tag} from 'antd';
+import {Button, Col, Progress, Row, Switch, Table, Tag} from 'antd';
 import * as Setting from "./Setting";
 import {getStatusTagColor} from "./Setting";
 import * as TestsetBackend from "./backend/TestsetBackend";
@@ -45,6 +45,7 @@ class TestsetTestcaseListPage extends React.Component {
       testset: null,
       testcases: [],
       selectedRowKeys: [],
+      isTarget: true,
     };
   }
 
@@ -81,7 +82,7 @@ class TestsetTestcaseListPage extends React.Component {
 
   getResult(testcase, i) {
     this.setTestcaseValue(i, "progressState", "ongoing");
-    ResultBackend.getResult(this.state.testset.name, testcase.name)
+    ResultBackend.getResult(this.state.testset.name, testcase.name, this.state.isTarget ? "target" : "baseline")
       .then((result) => {
         // Setting.showMessage("success", "Result: " + result.status);
         this.setTestcaseValue(i, "progressState", "finished");
@@ -227,7 +228,7 @@ class TestsetTestcaseListPage extends React.Component {
       //   sorter: (a, b) => a.userAgent.localeCompare(b.userAgent),
       // },
       {
-        title: 'Expected Status',
+        title: 'Expected',
         dataIndex: 'statusLists',
         key: 'statusLists',
         width: '600px',
@@ -238,7 +239,18 @@ class TestsetTestcaseListPage extends React.Component {
         }
       },
       {
-        title: 'Responded Status',
+        title: 'Baseline',
+        dataIndex: 'baselineStatuses',
+        key: 'baselineStatuses',
+        width: '600px',
+        // ellipsis: true,
+        // sorter: (a, b) => a.trueStatuses - b.trueStatuses,
+        render: (text, record, index) => {
+          return Setting.getStatusTags(text);
+        }
+      },
+      {
+        title: 'Target',
         dataIndex: 'trueStatuses',
         key: 'trueStatuses',
         width: '600px',
@@ -353,7 +365,13 @@ class TestsetTestcaseListPage extends React.Component {
                title={() => (
                  <div>
                    <Tag color="#108ee9">{this.state.testset === null ? "" : this.state.testset.name}</Tag> Testcases&nbsp;&nbsp;&nbsp;&nbsp;
-                   <Button type="primary" size="small" onClick={this.getResults.bind(this)}>Run {this.state.selectedRowKeys.length === 0 ? "All" : "Selected"}</Button>
+                   <Button type="primary" size="small" onClick={this.getResults.bind(this)}>Run {this.state.selectedRowKeys.length === 0 ? "All" : "Selected"}</Button>&nbsp;&nbsp;&nbsp;&nbsp;
+                   Target or Baseline ?&nbsp;&nbsp;
+                   <Switch checked={this.state.isTarget} onChange={(checked, e) => {
+                     this.setState({
+                       isTarget: checked,
+                     });
+                   }} />
                  </div>
                )}
                rowClassName={(record, index) => {

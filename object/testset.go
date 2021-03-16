@@ -68,3 +68,13 @@ func DeleteTestset(testset *Testset) bool {
 
 	return affected != 0
 }
+
+func getTestUrl(testset *Testset, typ string) string {
+	if typ == "baseline" {
+		return testset.BaselineUrl
+	} else if typ == "target" {
+		return testset.TargetUrl
+	} else {
+		return ""
+	}
+}

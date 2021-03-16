@@ -15,7 +15,7 @@ import (
 func testRunTestcase(t *testing.T, testset *Testset, testcase *Testcase) {
 	t.Helper()
 
-	res := getResult(testset, testcase)
+	res := getResult(testset, testcase, "target")
 	for i, statusList := range testcase.StatusLists {
 		response := res.Response
 		if response == "" {

@@ -18,12 +18,12 @@ type Result struct {
 	Response string   `json:"response"`
 }
 
-func getResult(testset *Testset, testcase *Testcase) *Result {
+func getResult(testset *Testset, testcase *Testcase, typ string) *Result {
 	if testcase.Data == nil {
-		return getFingerprintingResult(testset, testcase)
+		return getFingerprintingResult(testset, testcase, typ)
 	} else {
 		//return getWafResult(testset, testcase)
-		return getWafBenchResult(testset, testcase)
+		return getWafBenchResult(testset, testcase, typ)
 	}
 }
 
@@ -43,9 +43,9 @@ func getQuery(testcase *Testcase) string {
 	return query
 }
 
-func getFingerprintingResult(testset *Testset, testcase *Testcase) *Result {
+func getFingerprintingResult(testset *Testset, testcase *Testcase, typ string) *Result {
 	method := testcase.Method
-	host := testset.TargetUrl
+	host := getTestUrl(testset, typ)
 	uri := ""
 	query := getQuery(testcase)
 	userAgent := testcase.UserAgent
@@ -75,14 +75,20 @@ func getFingerprintingResult(testset *Testset, testcase *Testcase) *Result {
 	return res
 }
 
-func GetResult(testsetId string, testcaseId string) *Result {
+func GetResult(testsetId string, testcaseId string, typ string) *Result {
 	testset := GetTestset(testsetId)
 	testcase := GetTestcase(testcaseId)
 
-	result := getResult(testset, testcase)
-	testcase.TrueStatuses = result.Statuses
-	testcase.Result = result.Response
-	testcase.HitRules = result.HitRules
+	result := getResult(testset, testcase, typ)
+
+	if typ == "baseline" {
+		testcase.BaselineStatuses = result.Statuses
+	} else if typ == "target" {
+		testcase.TrueStatuses = result.Statuses
+		testcase.Result = result.Response
+		testcase.HitRules = result.HitRules
+	}
+
 	UpdateTestcase(testcaseId, testcase)
 	return result
 }
