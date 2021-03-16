@@ -94,6 +94,16 @@ class TestsetEditPage extends React.Component {
         </Row>
         <Row style={{ marginTop: '20px' }} >
           <Col style={{ marginTop: '5px' }} span={2}>
+            Baseline Url:
+          </Col>
+          <Col span={22} >
+            <Input prefix={<LinkOutlined />} value={this.state.testset.baselineUrl} onChange={e => {
+              this.updateTestsetField('baselineUrl', e.target.value);
+            }} />
+          </Col>
+        </Row>
+        <Row style={{ marginTop: '20px' }} >
+          <Col style={{ marginTop: '5px' }} span={2}>
             Target Url:
           </Col>
           <Col span={22} >

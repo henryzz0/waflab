@@ -106,13 +106,13 @@ class TestsetListPage extends React.Component {
           )
         }
       },
-      {
-        title: 'Description',
-        dataIndex: 'desc',
-        key: 'desc',
-        width: '220px',
-        sorter: (a, b) => a.desc.localeCompare(b.desc),
-      },
+      // {
+      //   title: 'Description',
+      //   dataIndex: 'desc',
+      //   key: 'desc',
+      //   width: '220px',
+      //   sorter: (a, b) => a.desc.localeCompare(b.desc),
+      // },
       // {
       //   title: 'Created Time',
       //   dataIndex: 'createdTime',
@@ -123,6 +123,19 @@ class TestsetListPage extends React.Component {
       //     return Setting.getFormattedDate(text);
       //   }
       // },
+      {
+        title: 'Baseline Url',
+        dataIndex: 'baselineUrl',
+        key: 'baselineUrl',
+        width: '250px',
+        ellipsis: true,
+        sorter: (a, b) => a.baselineUrl.localeCompare(b.baselineUrl),
+        render: (text, record, index) => {
+          return (
+            <a target="_blank" href={text}>{text}</a>
+          )
+        }
+      },
       {
         title: 'Target Url',
         dataIndex: 'targetUrl',

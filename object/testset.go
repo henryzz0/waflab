@@ -7,9 +7,10 @@ type Testset struct {
 	Name        string `xorm:"varchar(100) notnull pk" json:"name"`
 	CreatedTime string `xorm:"varchar(100)" json:"createdTime"`
 
-	Desc      string   `xorm:"varchar(100)" json:"desc"`
-	TargetUrl string   `xorm:"varchar(100)" json:"targetUrl"`
-	Testcases []string `xorm:"mediumtext" json:"testcases"`
+	Desc        string   `xorm:"varchar(100)" json:"desc"`
+	BaselineUrl string   `xorm:"varchar(100)" json:"baselineUrl"`
+	TargetUrl   string   `xorm:"varchar(100)" json:"targetUrl"`
+	Testcases   []string `xorm:"mediumtext" json:"testcases"`
 }
 
 func GetTestsets() []*Testset {
