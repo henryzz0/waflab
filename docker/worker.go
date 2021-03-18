@@ -142,6 +142,7 @@ func MakeWorker(master *Master, cli *client.Client, ctx context.Context, port st
 			},
 			Cmd: []string{
 				"gunicorn",
+				"--timeout", "600",
 				"--bind", "0.0.0.0:5000",
 				"web_interface:app",
 			},
@@ -167,7 +168,8 @@ func MakeWorker(master *Master, cli *client.Client, ctx context.Context, port st
 	}
 
 	// restart the container
-	zeroDuration := time.Since(time.Now())
+	restartTime := time.Now()
+	zeroDuration := time.Since(restartTime)
 	cli.ContainerRestart(ctx, containerID, &zeroDuration)
 	if err != nil {
 		return nil, err
@@ -177,7 +179,7 @@ func MakeWorker(master *Master, cli *client.Client, ctx context.Context, port st
 	out, err := cli.ContainerLogs(ctx, containerID, types.ContainerLogsOptions{
 		ShowStdout: true,
 		Follow:     true,
-		Since:      strconv.Itoa(int(time.Now().UTC().Unix())),
+		Since:      strconv.Itoa(int(restartTime.UTC().Unix())),
 	})
 	if err != nil {
 		return nil, err
