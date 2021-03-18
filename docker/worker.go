@@ -142,6 +142,7 @@ func MakeWorker(master *Master, cli *client.Client, ctx context.Context, port st
 			},
 			Cmd: []string{
 				"gunicorn",
+				"--timeout", "600",
 				"--bind", "0.0.0.0:5000",
 				"web_interface:app",
 			},
