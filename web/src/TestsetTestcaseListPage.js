@@ -115,10 +115,10 @@ class TestsetTestcaseListPage extends React.Component {
     return record.name.substring(start + 1, end);
   }
 
-  parseHitRules(record) {
+  parseHitRules(record, hitRules) {
     const ruleId = this.getRuleId(record);
 
-    const res = record.hitRules.map(hitRule => {
+    const res = hitRules.map(hitRule => {
       const tokens = hitRule.split(",").map(token => {
         let res = token.trim(" ");
         const i = res.lastIndexOf("-");
@@ -275,6 +275,26 @@ class TestsetTestcaseListPage extends React.Component {
         }
       },
       {
+        title: 'Baseline Hit Rules',
+        dataIndex: 'baseHitRules',
+        key: 'baseHitRules',
+        width: '100px',
+        render: (text, record, index) => {
+          if (text === null) {
+            return "(Empty)";
+          }
+
+          const objs = this.parseHitRules(record, record.hitRules);
+          return objs.map(obj => {
+            return (
+              <Tag color={getStatusTagColor(obj.color)}>
+                {obj.hitRule}
+              </Tag>
+            );
+          })
+        }
+      },
+      {
         title: 'Hit Rules',
         dataIndex: 'hitRules',
         key: 'hitRules',
@@ -284,7 +304,7 @@ class TestsetTestcaseListPage extends React.Component {
             return "(Empty)";
           }
 
-          const objs = this.parseHitRules(record);
+          const objs = this.parseHitRules(record, record.hitRules);
           return objs.map(obj => {
             return (
               <Tag color={getStatusTagColor(obj.color)}>
@@ -377,7 +397,7 @@ class TestsetTestcaseListPage extends React.Component {
                rowClassName={(record, index) => {
                  if (record.action === "Block" && record.state === "Enabled" && record.result !== "ok: ") {
                    return "red-row";
-                 } else if (record.action === "AnomalyScoring" && record.state === "Enabled" && this.parseHitRules(record).some(pair => pair.color === "403")) {
+                 } else if (record.action === "AnomalyScoring" && record.state === "Enabled" && this.parseHitRules(record, record.hitRules).some(pair => pair.color === "403")) {
                    return "red-row";
                  } else {
                    return null;

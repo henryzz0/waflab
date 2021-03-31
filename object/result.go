@@ -83,6 +83,7 @@ func GetResult(testsetId string, testcaseId string, typ string) *Result {
 
 	if typ == "baseline" {
 		testcase.BaselineStatuses = result.Statuses
+		testcase.BaselineHitRules = result.HitRules
 	} else if typ == "target" {
 		testcase.TrueStatuses = result.Statuses
 		testcase.Result = result.Response

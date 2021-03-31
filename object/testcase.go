@@ -25,6 +25,7 @@ type Testcase struct {
 	BaselineStatuses []int    `json:"baselineStatuses"`
 	TrueStatuses     []int    `json:"trueStatuses"`
 	Result           string   `xorm:"mediumtext" json:"result"`
+	BaselineHitRules []string `xorm:"mediumtext" json:"baselineHitRules"`
 	HitRules         []string `xorm:"mediumtext" json:"hitRules"`
 	Action           string   `xorm:"varchar(100)" json:"action"`
 	State            string   `xorm:"varchar(100)" json:"state"`
