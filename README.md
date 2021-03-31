@@ -50,4 +50,3 @@ This project is licensed under the [MIT license](LICENSE).
 
 If you have any issues or feature requests, please contact us. PR is welcomed.
 - https://github.com/microsoft/waflab/issues
-- https://github.com/microsoft/waflab/issues

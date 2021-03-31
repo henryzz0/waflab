@@ -118,6 +118,9 @@ class TestsetTestcaseListPage extends React.Component {
   parseHitRules(record, hitRules) {
     const ruleId = this.getRuleId(record);
 
+    if (hitRules === null) {
+      hitRules = [];
+    }
     const res = hitRules.map(hitRule => {
       const tokens = hitRule.split(",").map(token => {
         let res = token.trim(" ");
@@ -284,7 +287,7 @@ class TestsetTestcaseListPage extends React.Component {
             return "(Empty)";
           }
 
-          const objs = this.parseHitRules(record, record.hitRules);
+          const objs = this.parseHitRules(record, record.baselineHitRules);
           return objs.map(obj => {
             return (
               <Tag color={getStatusTagColor(obj.color)}>
