@@ -291,7 +291,7 @@ class TestsetTestcaseListPage extends React.Component {
           return objs.map(obj => {
             return (
               <Tag color={getStatusTagColor(obj.color)}>
-                {obj.hitRule}
+                {Setting.getHighlightedText(obj.hitRule, this.getRuleId(record))}
               </Tag>
             );
           })
@@ -311,7 +311,7 @@ class TestsetTestcaseListPage extends React.Component {
           return objs.map(obj => {
             return (
               <Tag color={getStatusTagColor(obj.color)}>
-                {obj.hitRule}
+                {Setting.getHighlightedText(obj.hitRule, this.getRuleId(record))}
               </Tag>
             );
           })

@@ -3,6 +3,7 @@
 
 import React from "react";
 import { message, Tag } from "antd";
+import Highlighter from "react-highlight-words";
 
 export let ServerUrl = '';
 
@@ -133,4 +134,15 @@ export function getStatusTags(statusLists) {
     );
   });
   return res;
+}
+
+export function getHighlightedText(text, target) {
+  return (
+    <Highlighter
+      highlightClassName="YourHighlightClass"
+      searchWords={[target]}
+      autoEscape={true}
+      textToHighlight={text}
+    />
+  )
 }
